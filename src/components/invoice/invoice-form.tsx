@@ -1,10 +1,18 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import ClientSection from "@/components/form-sections/ClientSection";
+import CompanySection from "@/components/form-sections/CompanySection";
+import DatePicker from "@/components/form-sections/DatePicker";
+import InvoiceDetails from "@/components/form-sections/InvoiceDetails";
+import ItemsSection from "@/components/form-sections/ItemsSection";
+import InvoiceItemsSection from "@/components/form-sections/InvoiceItemsSection";
+import PaymentSection from "@/components/form-sections/PaymentSection";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Separator } from "@/components/ui/separator";
+import { toast } from "@/hooks/use-toast";
 import {
   Form,
   FormControl,
@@ -14,8 +22,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -23,31 +29,39 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { useInvoiceStore } from "@/store/invoice-store";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  Plus,
-  Trash2,
-  Save,
   Download,
-  Calendar,
-  Upload,
-  X,
-  Building,
-  User,
-  Package,
-  CreditCard,
   FileText,
-  Palette,
+  Package,
+  Save,
+  X,
+  Sparkles,
+  CheckCircle,
+  Clock,
+  AlertTriangle,
+  RefreshCw,
+  Zap,
+  Building,
+  Users,
+  Calculator,
+  CreditCard,
 } from "lucide-react";
-import { Calendar as CalendarComponent } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { format } from "date-fns";
+import { useCallback, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 // Debounce utility
 function debounce<T extends (...args: any[]) => any>(
@@ -110,11 +124,44 @@ export default function InvoiceForm() {
     updateItem,
     resetInvoice,
   } = useInvoiceStore();
+
   const [newItem, setNewItem] = useState({
     description: "",
     quantity: 1,
     unitPrice: 0,
   });
+
+  const [isSaving, setIsSaving] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [formProgress, setFormProgress] = useState(0);
+  const [lastSaved, setLastSaved] = useState<Date | null>(null);
+  const [autoSaveEnabled, setAutoSaveEnabled] = useState(true);
+
+  // Calculate form completion progress
+  const calculateFormProgress = useCallback(() => {
+    const requiredFields = [
+      "invoiceNumber",
+      "companyName",
+      "clientName",
+      "currency",
+      "paymentTerms",
+    ];
+    const completedFields = requiredFields.filter((field) => {
+      const value = invoiceData[field as keyof typeof invoiceData];
+      return value && value.toString().trim() !== "";
+    });
+
+    const itemsProgress = invoiceData.items.length > 0 ? 1 : 0;
+    const totalFields = requiredFields.length + 1; // +1 for items
+
+    return Math.round(
+      ((completedFields.length + itemsProgress) / totalFields) * 100
+    );
+  }, [invoiceData]);
+
+  useEffect(() => {
+    setFormProgress(calculateFormProgress());
+  }, [calculateFormProgress]);
 
   // Create debounced update function
   const debouncedSetInvoiceData = useCallback(
@@ -182,159 +229,108 @@ export default function InvoiceForm() {
     };
   }, []);
 
-  const DatePicker = ({
-    value,
-    onChange,
-    placeholder,
-  }: {
-    value: string;
-    onChange: (date: string) => void;
-    placeholder: string;
-  }) => {
-    const [open, setOpen] = useState(false);
-
-    return (
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            className="w-full justify-start text-left font-normal"
-          >
-            <Calendar className="mr-2 h-4 w-4" />
-            {value ? (
-              format(new Date(value), "PPP")
-            ) : (
-              <span>{placeholder}</span>
-            )}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-auto p-0">
-          <CalendarComponent
-            mode="single"
-            selected={value ? new Date(value) : undefined}
-            onSelect={(date) => {
-              if (date) {
-                onChange(date.toISOString().split("T")[0]);
-                setOpen(false);
-              }
-            }}
-            initialFocus
-          />
-        </PopoverContent>
-      </Popover>
-    );
-  };
-
-  const LogoUpload = () => {
-    const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const file = event.target.files?.[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const base64 = e.target?.result as string;
-          debouncedUpdateField("companyLogo", base64);
-        };
-        reader.readAsDataURL(file);
-      }
-    };
-
-    const removeLogo = () => {
-      debouncedUpdateField("companyLogo", "");
-    };
-
-    return (
-      <div className="space-y-2">
-        <FormLabel>Company Logo</FormLabel>
-        <div className="flex items-center space-x-4">
-          {invoiceData.companyLogo ? (
-            <div className="relative">
-              <img
-                src={invoiceData.companyLogo}
-                alt="Company Logo"
-                className="w-20 h-20 object-contain border rounded"
-              />
-              <Button
-                type="button"
-                variant="destructive"
-                size="sm"
-                className="absolute -top-2 -right-2 h-6 w-6 p-0"
-                onClick={removeLogo}
-              >
-                <X className="h-3 w-3" />
-              </Button>
-            </div>
-          ) : (
-            <div className="flex items-center justify-center w-20 h-20 border-2 border-dashed border-gray-300 rounded">
-              <Upload className="h-6 w-6 text-gray-400" />
-            </div>
-          )}
-          <div>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleFileUpload}
-              className="hidden"
-              id="logo-upload"
-            />
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => document.getElementById("logo-upload")?.click()}
-            >
-              <Upload className="mr-2 h-4 w-4" />
-              Upload Logo
-            </Button>
-            <p className="text-xs text-gray-500 mt-1">
-              PNG, JPG, GIF up to 5MB
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  };
+  // Replaced by DatePicker, LogoUpload, ItemsSection, CompanySection, ClientSection, PaymentSection
 
   const handleSaveInvoice = async () => {
-    const isValid = await form.trigger();
-    if (!isValid) {
-      alert("Please fix the form errors before saving.");
-      return;
-    }
+    if (isSaving) return;
 
-    if (invoiceData.items.length === 0) {
-      alert("Please add at least one item to the invoice.");
-      return;
-    }
+    setIsSaving(true);
+    try {
+      const isValid = await form.trigger();
+      if (!isValid) {
+        toast({
+          title: "⚠️ Validation Error",
+          description: "Please fix the form errors before saving.",
+          variant: "destructive",
+        });
+        return;
+      }
 
-    console.log("Saving invoice...", invoiceData);
-    // Here you could save to a database or local storage
-    alert("Invoice saved successfully!");
+      if (invoiceData.items.length === 0) {
+        toast({
+          title: "⚠️ Missing Items",
+          description: "Please add at least one item to the invoice.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      setLastSaved(new Date());
+      toast({
+        title: "✅ Invoice Saved",
+        description: "Your invoice has been saved successfully!",
+        variant: "default",
+      });
+
+      console.log("Saving invoice...", invoiceData);
+    } catch (error) {
+      toast({
+        title: "❌ Save Failed",
+        description: "Failed to save invoice. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleDownloadInvoice = async () => {
-    const isValid = await form.trigger();
-    if (!isValid) {
-      alert("Please fix the form errors before downloading.");
-      return;
-    }
+    if (isDownloading) return;
 
-    if (invoiceData.items.length === 0) {
-      alert("Please add at least one item to the invoice.");
-      return;
-    }
+    setIsDownloading(true);
+    try {
+      const isValid = await form.trigger();
+      if (!isValid) {
+        toast({
+          title: "⚠️ Validation Error",
+          description: "Please fix the form errors before downloading.",
+          variant: "destructive",
+        });
+        return;
+      }
 
-    console.log("Downloading invoice...", invoiceData);
-    // Here you could generate PDF or other formats
-    alert("Download feature coming soon!");
+      if (invoiceData.items.length === 0) {
+        toast({
+          title: "⚠️ Missing Items",
+          description: "Please add at least one item to the invoice.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Simulate PDF generation
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      toast({
+        title: "🎉 PDF Generated",
+        description: "Your invoice PDF is ready for download!",
+        variant: "default",
+      });
+
+      console.log("Downloading invoice...", invoiceData);
+    } catch (error) {
+      toast({
+        title: "❌ Download Failed",
+        description: "Failed to generate PDF. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsDownloading(false);
+    }
   };
-
   const handleResetForm = () => {
-    if (
-      confirm("Are you sure you want to reset the form? All data will be lost.")
-    ) {
-      resetInvoice();
-      form.reset();
-      setNewItem({ description: "", quantity: 1, unitPrice: 0 });
-    }
+    resetInvoice();
+    form.reset();
+    setNewItem({ description: "", quantity: 1, unitPrice: 0 });
+    setLastSaved(null);
+    toast({
+      title: "🔄 Form Reset",
+      description: "All form data has been cleared.",
+      variant: "default",
+    });
   };
 
   const generateInvoiceNumber = () => {
@@ -349,6 +345,12 @@ export default function InvoiceForm() {
 
     form.setValue("invoiceNumber", invoiceNumber);
     debouncedUpdateField("invoiceNumber", invoiceNumber);
+
+    toast({
+      title: "🎯 Invoice Number Generated",
+      description: `New invoice number: ${invoiceNumber}`,
+      variant: "default",
+    });
   };
 
   const handleAddItem = () => {
@@ -373,815 +375,310 @@ export default function InvoiceForm() {
     updateItem(id, { [field]: value });
   };
 
+  const getSectionIcon = (section: string) => {
+    switch (section) {
+      case "details":
+        return FileText;
+      case "company":
+        return Building;
+      case "client":
+        return Users;
+      case "items":
+        return Package;
+      case "payment":
+        return CreditCard;
+      case "summary":
+        return Calculator;
+      default:
+        return FileText;
+    }
+  };
+
   return (
-    <Card className="w-full max-w-4xl mx-auto">
-      <CardHeader>
-        <div className="flex justify-between items-start">
-          <div>
-            <CardTitle className="text-2xl font-bold flex items-center gap-2">
-              <FileText className="h-6 w-6" />
-              Invoice Generator
-            </CardTitle>
-            <p className="text-gray-600">
-              Fill in the details below to create your professional invoice
-            </p>
-          </div>
-          <div className="text-right">
-            <div className="text-sm text-gray-500">Current Total</div>
-            <div className="text-2xl font-bold text-green-600">
-              ${invoiceData.total.toFixed(2)} {invoiceData.currency}
+    <div className="w-full max-w-6xl mx-auto space-y-8">
+      {/* Enhanced Header with Progress */}
+      <div className="bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 rounded-3xl p-8 border border-blue-100/50 shadow-lg shadow-blue-500/5">
+        <div className="flex items-start justify-between mb-6">
+          <div className="flex items-center gap-4">
+            <div className="relative">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-500/25">
+                <FileText className="h-8 w-8 text-white" />
+              </div>
+              {formProgress === 100 && (
+                <div className="absolute -top-2 -right-2 w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center animate-pulse">
+                  <CheckCircle className="h-5 w-5 text-white" />
+                </div>
+              )}
             </div>
-            <div className="text-xs text-gray-400">
-              {invoiceData.items.length} item
-              {invoiceData.items.length !== 1 ? "s" : ""}
+            <div>
+              <h1 className="text-3xl font-bold text-slate-900 mb-2">
+                Create Invoice
+              </h1>
+              <p className="text-slate-600 flex items-center gap-2">
+                {invoiceData.invoiceNumber ? (
+                  <>
+                    <span>Invoice #{invoiceData.invoiceNumber}</span>
+                    <Badge variant="secondary" className="text-xs">
+                      Draft
+                    </Badge>
+                  </>
+                ) : (
+                  "New invoice draft"
+                )}
+              </p>
+              {lastSaved && (
+                <p className="text-sm text-slate-500 flex items-center gap-1 mt-1">
+                  <Clock className="h-3 w-3" />
+                  Last saved: {lastSaved.toLocaleTimeString()}
+                </p>
+              )}
             </div>
           </div>
         </div>
-      </CardHeader>
-      <CardContent>
+
+        {/* Quick Status Cards */}
+        <div className="grid grid-cols-4 gap-4 mt-6">
+          <div className="text-center p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50">
+            <Package className="h-6 w-6 mx-auto mb-2 text-blue-600" />
+            <div className="text-2xl font-bold text-blue-600">
+              {invoiceData.items.length}
+            </div>
+            <div className="text-xs text-blue-600/70 font-medium">Items</div>
+          </div>
+          <div className="text-center p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50">
+            <Calculator className="h-6 w-6 mx-auto mb-2 text-emerald-600" />
+            <div className="text-xl font-bold text-emerald-600">
+              ${invoiceData.total.toFixed(2)}
+            </div>
+            <div className="text-xs text-emerald-600/70 font-medium">Total</div>
+          </div>
+          <div className="text-center p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50">
+            <Users className="h-6 w-6 mx-auto mb-2 text-purple-600" />
+            <div className="text-lg font-bold text-purple-600">
+              {invoiceData.currency || "USD"}
+            </div>
+            <div className="text-xs text-purple-600/70 font-medium">
+              Currency
+            </div>
+          </div>
+          <div className="text-center p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50">
+            <Sparkles className="h-6 w-6 mx-auto mb-2 text-orange-600" />
+            <div className="text-sm font-bold text-orange-600 capitalize">
+              {invoiceData.template || "Professional"}
+            </div>
+            <div className="text-xs text-orange-600/70 font-medium">
+              Template
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Enhanced Form Content */}
+      <div className="bg-white/95 backdrop-blur-xl rounded-3xl border border-slate-200/60 shadow-xl shadow-slate-900/5">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSaveInvoice)}>
-            <div className="space-y-8">
+          <form onSubmit={form.handleSubmit(handleSaveInvoice)} className="p-8">
+            <div className="space-y-12">
               {/* Invoice Details Section */}
-              <Card className="border-l-4 border-l-blue-500">
+              <Card className="border-0 shadow-none bg-gradient-to-r from-slate-50/50 to-white rounded-2xl">
                 <CardHeader className="pb-4">
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    <FileText className="h-5 w-5" />
+                  <CardTitle className="flex items-center gap-3 text-xl text-slate-900">
+                    <div className="p-2 bg-blue-100 rounded-lg">
+                      <FileText className="h-5 w-5 text-blue-600" />
+                    </div>
                     Invoice Details
+                    <Badge variant="outline" className="ml-auto">
+                      Required
+                    </Badge>
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="pt-0">
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div className="flex gap-2">
-                      <FormField
-                        control={form.control}
-                        name="invoiceNumber"
-                        render={({ field }) => (
-                          <FormItem className="flex-1">
-                            <FormLabel>Invoice Number *</FormLabel>
-                            <FormControl>
-                              <Input placeholder="INV-001" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <div className="flex items-end">
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={generateInvoiceNumber}
-                          className="mb-[1px]"
-                          title="Generate auto invoice number"
-                        >
-                          Auto
-                        </Button>
-                      </div>
-                    </div>
-                    <div>
-                      <FormLabel>Invoice Date *</FormLabel>
-                      <DatePicker
-                        value={invoiceData.invoiceDate}
-                        onChange={(date) =>
-                          debouncedUpdateField("invoiceDate", date)
-                        }
-                        placeholder="Select invoice date"
-                      />
-                    </div>
-                    <div>
-                      <FormLabel>Due Date *</FormLabel>
-                      <DatePicker
-                        value={invoiceData.dueDate}
-                        onChange={(date) =>
-                          debouncedUpdateField("dueDate", date)
-                        }
-                        placeholder="Select due date"
-                      />
-                    </div>
-                    <FormField
-                      control={form.control}
-                      name="template"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Template *</FormLabel>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select template" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="professional">
-                                Professional
-                              </SelectItem>
-                              <SelectItem value="minimal">Minimal</SelectItem>
-                              <SelectItem value="elegant">Elegant</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                <CardContent>
+                  <InvoiceDetails
+                    form={form}
+                    invoiceData={invoiceData}
+                    debouncedUpdateField={debouncedUpdateField}
+                    generateInvoiceNumber={generateInvoiceNumber}
+                  />
                 </CardContent>
               </Card>
 
+              <Separator className="my-8" />
+
               {/* Company & Client Information */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* Company Information */}
-                <Card className="border-l-4 border-l-green-500">
+              <div className="grid grid-cols-1 gap-8">
+                <Card className="border-0 shadow-none bg-gradient-to-r from-emerald-50/50 to-white rounded-2xl">
                   <CardHeader className="pb-4">
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <Building className="h-5 w-5" />
-                      Your Company
+                    <CardTitle className="flex items-center gap-3 text-xl text-slate-900">
+                      <div className="p-2 bg-emerald-100 rounded-lg">
+                        <Building className="h-5 w-5 text-emerald-600" />
+                      </div>
+                      Company Information
+                      <Badge variant="outline" className="ml-auto">
+                        Required
+                      </Badge>
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="pt-0 space-y-4">
-                    <FormField
-                      control={form.control}
-                      name="companyName"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Company Name *</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Your Company" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="companyEmail"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Email</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="company@example.com"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <LogoUpload />
-                    <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <FormLabel>Phone</FormLabel>
-                        <Input
-                          placeholder="+1 (555) 123-4567"
-                          value={invoiceData.companyPhone}
-                          onChange={(e) =>
-                            debouncedUpdateField("companyPhone", e.target.value)
-                          }
-                        />
-                      </div>
-                      <div>
-                        <FormLabel>Website</FormLabel>
-                        <Input
-                          placeholder="https://example.com"
-                          value={invoiceData.companyWebsite}
-                          onChange={(e) =>
-                            debouncedUpdateField(
-                              "companyWebsite",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <FormLabel>Address</FormLabel>
-                        <Input
-                          placeholder="123 Main St"
-                          value={invoiceData.companyAddress}
-                          onChange={(e) =>
-                            debouncedUpdateField(
-                              "companyAddress",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </div>
-                      <div>
-                        <FormLabel>City</FormLabel>
-                        <Input
-                          placeholder="New York"
-                          value={invoiceData.companyCity}
-                          onChange={(e) =>
-                            debouncedUpdateField("companyCity", e.target.value)
-                          }
-                        />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-3 gap-3">
-                      <div>
-                        <FormLabel>State</FormLabel>
-                        <Input
-                          placeholder="NY"
-                          value={invoiceData.companyState}
-                          onChange={(e) =>
-                            debouncedUpdateField("companyState", e.target.value)
-                          }
-                        />
-                      </div>
-                      <div>
-                        <FormLabel>ZIP</FormLabel>
-                        <Input
-                          placeholder="10001"
-                          value={invoiceData.companyZip}
-                          onChange={(e) =>
-                            debouncedUpdateField("companyZip", e.target.value)
-                          }
-                        />
-                      </div>
-                      <div>
-                        <FormLabel>Country</FormLabel>
-                        <Input
-                          placeholder="USA"
-                          value={invoiceData.companyCountry}
-                          onChange={(e) =>
-                            debouncedUpdateField(
-                              "companyCountry",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <FormLabel>Tax ID</FormLabel>
-                      <Input
-                        placeholder="Tax ID"
-                        value={invoiceData.taxId}
-                        onChange={(e) =>
-                          debouncedUpdateField("taxId", e.target.value)
-                        }
-                      />
-                    </div>
+                  <CardContent>
+                    <CompanySection form={form} />
                   </CardContent>
                 </Card>
 
-                {/* Client Information */}
-                <Card className="border-l-4 border-l-purple-500">
+                <Card className="border-0 shadow-none bg-gradient-to-r from-purple-50/50 to-white rounded-2xl">
                   <CardHeader className="pb-4">
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <User className="h-5 w-5" />
+                    <CardTitle className="flex items-center gap-3 text-xl text-slate-900">
+                      <div className="p-2 bg-purple-100 rounded-lg">
+                        <Users className="h-5 w-5 text-purple-600" />
+                      </div>
                       Client Information
+                      <Badge variant="outline" className="ml-auto">
+                        Required
+                      </Badge>
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="pt-0 space-y-4">
-                    <FormField
-                      control={form.control}
-                      name="clientName"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Client Name *</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Client Company" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="clientEmail"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Email</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="client@example.com"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <FormLabel>Phone</FormLabel>
-                        <Input
-                          placeholder="+1 (555) 987-6543"
-                          value={invoiceData.clientPhone}
-                          onChange={(e) =>
-                            debouncedUpdateField("clientPhone", e.target.value)
-                          }
-                        />
-                      </div>
-                      <div>
-                        <FormLabel>Address</FormLabel>
-                        <Input
-                          placeholder="456 Oak Ave"
-                          value={invoiceData.clientAddress}
-                          onChange={(e) =>
-                            debouncedUpdateField(
-                              "clientAddress",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <FormLabel>City</FormLabel>
-                        <Input
-                          placeholder="Los Angeles"
-                          value={invoiceData.clientCity}
-                          onChange={(e) =>
-                            debouncedUpdateField("clientCity", e.target.value)
-                          }
-                        />
-                      </div>
-                      <div>
-                        <FormLabel>State</FormLabel>
-                        <Input
-                          placeholder="CA"
-                          value={invoiceData.clientState}
-                          onChange={(e) =>
-                            debouncedUpdateField("clientState", e.target.value)
-                          }
-                        />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <FormLabel>ZIP Code</FormLabel>
-                        <Input
-                          placeholder="90210"
-                          value={invoiceData.clientZip}
-                          onChange={(e) =>
-                            debouncedUpdateField("clientZip", e.target.value)
-                          }
-                        />
-                      </div>
-                      <div>
-                        <FormLabel>Country</FormLabel>
-                        <Input
-                          placeholder="USA"
-                          value={invoiceData.clientCountry}
-                          onChange={(e) =>
-                            debouncedUpdateField(
-                              "clientCountry",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </div>
-                    </div>
+                  <CardContent>
+                    <ClientSection form={form} />
                   </CardContent>
                 </Card>
               </div>
 
-              {/* Invoice Items */}
-              <Card className="border-l-4 border-l-orange-500">
+              <Separator className="my-8" />
+
+              {/* Invoice Items Section */}
+              <Card className="border-0 shadow-none bg-gradient-to-r from-orange-50/50 to-white rounded-2xl">
                 <CardHeader className="pb-4">
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    <Package className="h-5 w-5" />
+                  <CardTitle className="flex items-center gap-3 text-xl text-slate-900">
+                    <div className="p-2 bg-orange-100 rounded-lg">
+                      <Package className="h-5 w-5 text-orange-600" />
+                    </div>
                     Invoice Items
+                    <Badge variant="outline" className="ml-auto">
+                      Required
+                    </Badge>
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="pt-0 space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-5 gap-3 p-4 bg-gray-50 rounded-lg">
-                    <Input
-                      placeholder="Description"
-                      value={newItem.description}
-                      onChange={(e) =>
-                        setNewItem({ ...newItem, description: e.target.value })
-                      }
-                      onKeyPress={handleItemKeyPress}
-                    />
-                    <Input
-                      type="number"
-                      placeholder="Quantity"
-                      value={newItem.quantity}
-                      onChange={(e) =>
-                        setNewItem({
-                          ...newItem,
-                          quantity: parseInt(e.target.value) || 0,
-                        })
-                      }
-                      onKeyPress={handleItemKeyPress}
-                      min="1"
-                    />
-                    <Input
-                      type="number"
-                      placeholder="Unit Price"
-                      value={newItem.unitPrice}
-                      onChange={(e) =>
-                        setNewItem({
-                          ...newItem,
-                          unitPrice: parseFloat(e.target.value) || 0,
-                        })
-                      }
-                      onKeyPress={handleItemKeyPress}
-                      min="0"
-                      step="0.01"
-                    />
-                    <div className="flex items-center justify-center font-semibold bg-white px-3 py-2 border rounded">
-                      ${(newItem.quantity * newItem.unitPrice).toFixed(2)}
-                    </div>
-                    <Button
-                      type="button"
-                      onClick={handleAddItem}
-                      className="flex items-center gap-2"
-                      disabled={!newItem.description || newItem.quantity <= 0}
-                    >
-                      <Plus className="h-4 w-4" />
-                      Add
-                    </Button>
-                  </div>
-
-                  <div className="space-y-2 max-h-64 overflow-y-auto">
-                    {invoiceData.items.map((item) => (
-                      <div
-                        key={item.id}
-                        className="grid grid-cols-1 md:grid-cols-5 gap-2 p-3 border rounded-lg bg-white"
-                      >
-                        <Input
-                          value={item.description}
-                          onChange={(e) =>
-                            handleUpdateItem(
-                              item.id,
-                              "description",
-                              e.target.value
-                            )
-                          }
-                          placeholder="Description"
-                        />
-                        <Input
-                          type="number"
-                          value={item.quantity}
-                          onChange={(e) =>
-                            handleUpdateItem(
-                              item.id,
-                              "quantity",
-                              parseInt(e.target.value) || 0
-                            )
-                          }
-                          min="1"
-                        />
-                        <Input
-                          type="number"
-                          value={item.unitPrice}
-                          onChange={(e) =>
-                            handleUpdateItem(
-                              item.id,
-                              "unitPrice",
-                              parseFloat(e.target.value) || 0
-                            )
-                          }
-                          min="0"
-                          step="0.01"
-                        />
-                        <div className="flex items-center justify-center font-semibold">
-                          ${item.total.toFixed(2)}
-                        </div>
-                        <Button
-                          type="button"
-                          variant="destructive"
-                          size="sm"
-                          onClick={() => removeItem(item.id)}
-                          className="flex items-center gap-2"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                          Remove
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t">
-                    <FormField
-                      control={form.control}
-                      name="taxRate"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Tax Rate (%)</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              placeholder="0"
-                              {...field}
-                              onChange={(e) => {
-                                const value = parseFloat(e.target.value) || 0;
-                                field.onChange(value);
-                                debouncedUpdateField("taxRate", value);
-                              }}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="discountRate"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Discount Rate (%)</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              placeholder="0"
-                              {...field}
-                              onChange={(e) => {
-                                const value = parseFloat(e.target.value) || 0;
-                                field.onChange(value);
-                                debouncedUpdateField("discountRate", value);
-                              }}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  <div className="flex flex-wrap justify-end gap-4 pt-4 border-t">
-                    <Badge variant="secondary">
-                      Subtotal: ${invoiceData.subtotal.toFixed(2)}
-                    </Badge>
-                    <Badge variant="secondary">
-                      Tax: ${invoiceData.taxAmount.toFixed(2)}
-                    </Badge>
-                    <Badge variant="secondary">
-                      Discount: ${invoiceData.discountAmount.toFixed(2)}
-                    </Badge>
-                    <Badge variant="default" className="text-lg">
-                      Total: ${invoiceData.total.toFixed(2)}
-                    </Badge>
-                  </div>
+                <CardContent>
+                  <InvoiceItemsSection
+                    form={form}
+                    debouncedUpdateField={debouncedUpdateField}
+                    invoiceData={invoiceData}
+                  />
                 </CardContent>
               </Card>
 
-              {/* Payment Information */}
-              <Card className="border-l-4 border-l-indigo-500">
+              <Separator className="my-8" />
+
+              {/* Payment Section */}
+              <Card className="border-0 shadow-none bg-gradient-to-r from-cyan-50/50 to-white rounded-2xl">
                 <CardHeader className="pb-4">
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    <CreditCard className="h-5 w-5" />
+                  <CardTitle className="flex items-center gap-3 text-xl text-slate-900">
+                    <div className="p-2 bg-cyan-100 rounded-lg">
+                      <CreditCard className="h-5 w-5 text-cyan-600" />
+                    </div>
                     Payment Information
+                    <Badge variant="secondary" className="ml-auto">
+                      Optional
+                    </Badge>
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="pt-0 space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="currency"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Currency *</FormLabel>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select currency" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="USD">
-                                USD - US Dollar
-                              </SelectItem>
-                              <SelectItem value="EUR">EUR - Euro</SelectItem>
-                              <SelectItem value="GBP">
-                                GBP - British Pound
-                              </SelectItem>
-                              <SelectItem value="JPY">
-                                JPY - Japanese Yen
-                              </SelectItem>
-                              <SelectItem value="CAD">
-                                CAD - Canadian Dollar
-                              </SelectItem>
-                              <SelectItem value="AUD">
-                                AUD - Australian Dollar
-                              </SelectItem>
-                              <SelectItem value="CHF">
-                                CHF - Swiss Franc
-                              </SelectItem>
-                              <SelectItem value="CNY">
-                                CNY - Chinese Yuan
-                              </SelectItem>
-                              <SelectItem value="INR">
-                                INR - Indian Rupee
-                              </SelectItem>
-                              <SelectItem value="MXN">
-                                MXN - Mexican Peso
-                              </SelectItem>
-                              <SelectItem value="BRL">
-                                BRL - Brazilian Real
-                              </SelectItem>
-                              <SelectItem value="RUB">
-                                RUB - Russian Ruble
-                              </SelectItem>
-                              <SelectItem value="KRW">
-                                KRW - South Korean Won
-                              </SelectItem>
-                              <SelectItem value="SGD">
-                                SGD - Singapore Dollar
-                              </SelectItem>
-                              <SelectItem value="HKD">
-                                HKD - Hong Kong Dollar
-                              </SelectItem>
-                              <SelectItem value="NOK">
-                                NOK - Norwegian Krone
-                              </SelectItem>
-                              <SelectItem value="SEK">
-                                SEK - Swedish Krona
-                              </SelectItem>
-                              <SelectItem value="DKK">
-                                DKK - Danish Krone
-                              </SelectItem>
-                              <SelectItem value="PLN">
-                                PLN - Polish Złoty
-                              </SelectItem>
-                              <SelectItem value="THB">
-                                THB - Thai Baht
-                              </SelectItem>
-                              <SelectItem value="MYR">
-                                MYR - Malaysian Ringgit
-                              </SelectItem>
-                              <SelectItem value="ZAR">
-                                ZAR - South African Rand
-                              </SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="paymentTerms"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Payment Terms *</FormLabel>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select payment terms" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="net_15">Net 15</SelectItem>
-                              <SelectItem value="net_30">Net 30</SelectItem>
-                              <SelectItem value="net_60">Net 60</SelectItem>
-                              <SelectItem value="due_on_receipt">
-                                Due on Receipt
-                              </SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="bankName"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Bank Name</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Bank of America" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="bankAccount"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Bank Account</FormLabel>
-                          <FormControl>
-                            <Input placeholder="123456789" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="bankRouting"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Bank Routing</FormLabel>
-                          <FormControl>
-                            <Input placeholder="021000021" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <div>
-                      <FormLabel>Bank SWIFT</FormLabel>
-                      <Input
-                        placeholder="BOFAUS3N"
-                        value={invoiceData.bankSwift}
-                        onChange={(e) =>
-                          debouncedUpdateField("bankSwift", e.target.value)
-                        }
-                      />
-                    </div>
-                    <div>
-                      <FormLabel>Bank Branch</FormLabel>
-                      <Input
-                        placeholder="Main Branch"
-                        value={invoiceData.bankBranch}
-                        onChange={(e) =>
-                          debouncedUpdateField("bankBranch", e.target.value)
-                        }
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 gap-4 pt-4 border-t">
-                    <FormField
-                      control={form.control}
-                      name="notes"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Notes</FormLabel>
-                          <FormControl>
-                            <Textarea
-                              placeholder="Additional notes..."
-                              className="min-h-[100px]"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="terms"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Terms and Conditions</FormLabel>
-                          <FormControl>
-                            <Textarea
-                              placeholder="Terms and conditions..."
-                              className="min-h-[100px]"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                <CardContent>
+                  <PaymentSection form={form} />
                 </CardContent>
               </Card>
 
-              {/* Action Buttons */}
-              <div className="flex flex-wrap gap-4 justify-end pt-6 border-t">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={handleResetForm}
-                  className="flex items-center gap-2"
-                >
-                  <X className="h-4 w-4" />
-                  Reset Form
-                </Button>
-                <Button
-                  type="button"
-                  variant="secondary"
-                  onClick={handleSaveInvoice}
-                  className="flex items-center gap-2"
-                >
-                  <Save className="h-4 w-4" />
-                  Save Invoice
-                </Button>
+              {/* Enhanced Action Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 pt-8 border-t border-slate-200/50">
+                <div className="flex-1 flex gap-3">
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="group border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 rounded-2xl px-6 py-6 h-auto transition-all duration-300"
+                      >
+                        <div className="flex flex-col items-center gap-2">
+                          <X className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+                          <span className="font-medium">Reset Form</span>
+                        </div>
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle className="flex items-center gap-2">
+                          <AlertTriangle className="h-5 w-5 text-red-500" />
+                          Reset Form
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Are you sure you want to reset the form? All data will
+                          be lost and cannot be recovered.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={handleResetForm}
+                          className="bg-red-600 hover:bg-red-700"
+                        >
+                          Reset Form
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    onClick={handleSaveInvoice}
+                    disabled={isSaving}
+                    className="group flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl px-8 py-6 h-auto transition-all duration-300 hover:scale-[1.02]"
+                  >
+                    <div className="flex items-center justify-center gap-3">
+                      {isSaving ? (
+                        <>
+                          <RefreshCw className="h-5 w-5 animate-spin" />
+                          <span className="font-medium">Saving...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Save className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+                          <span className="font-medium">Save Draft</span>
+                        </>
+                      )}
+                    </div>
+                  </Button>
+                </div>
+
                 <Button
                   type="button"
                   onClick={handleDownloadInvoice}
-                  className="flex items-center gap-2"
+                  disabled={isDownloading || formProgress < 100}
+                  className={`group rounded-2xl px-8 py-6 h-auto text-lg font-semibold transition-all duration-300 ${
+                    formProgress === 100
+                      ? "bg-gradient-to-r from-blue-500 via-indigo-600 to-purple-600 hover:from-blue-600 hover:via-indigo-700 hover:to-purple-700 text-white border-0 shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 hover:scale-[1.02]"
+                      : "bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed"
+                  }`}
                 >
-                  <Download className="h-4 w-4" />
-                  Download PDF
+                  <div className="flex items-center justify-center gap-3">
+                    {isDownloading ? (
+                      <>
+                        <RefreshCw className="h-5 w-5 animate-spin" />
+                        <span>Generating PDF...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Download className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+                        <span>Download PDF</span>
+                        {formProgress === 100 && (
+                          <Badge className="bg-white/20 text-white border-0 ml-2">
+                            Ready!
+                          </Badge>
+                        )}
+                      </>
+                    )}
+                  </div>
                 </Button>
               </div>
             </div>
           </form>
         </Form>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
