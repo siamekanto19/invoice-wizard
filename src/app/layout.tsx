@@ -42,30 +42,111 @@ const fredoka = Fredoka({
 });
 
 export const metadata: Metadata = {
-  title: "Z.ai Code Scaffold - AI-Powered Development",
+  title: "Invoice Wizard - Free Online Invoice Generator & Maker",
   description:
-    "Modern Next.js scaffold optimized for AI-powered development with Z.ai. Built with TypeScript, Tailwind CSS, and shadcn/ui.",
+    "Create professional invoices instantly with Invoice Wizard. Free online invoice generator with customizable templates, PDF download, client management, and automated calculations. Perfect for freelancers, small businesses, and contractors.",
   keywords: [
-    "Z.ai",
-    "Next.js",
-    "TypeScript",
-    "Tailwind CSS",
-    "shadcn/ui",
-    "AI development",
-    "React",
+    "invoice generator",
+    "free invoice maker",
+    "online invoice creator",
+    "professional invoice template",
+    "PDF invoice generator",
+    "small business invoicing",
+    "freelance invoice tool",
+    "invoice software",
+    "billing generator",
+    "custom invoice design",
+    "invoice management",
+    "digital invoicing",
+    "business invoice maker",
+    "contractor invoice tool",
+    "automated invoice calculation",
+    "invoice tracking",
+    "client billing",
+    "invoice creator online",
+    "printable invoice generator",
+    "invoice template free",
   ],
-  authors: [{ name: "Z.ai Team" }],
+  authors: [{ name: "Invoice Wizard Team" }],
+  creator: "Invoice Wizard",
+  publisher: "Invoice Wizard",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL("https://invoice-wizard.app"),
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title: "Z.ai Code Scaffold",
-    description: "AI-powered development with modern React stack",
-    url: "https://chat.z.ai",
-    siteName: "Z.ai",
+    title: "Invoice Wizard - Free Professional Invoice Generator",
+    description:
+      "Create stunning professional invoices in minutes. Free online invoice maker with PDF export, custom templates, and automated calculations for freelancers and businesses.",
+    url: "https://invoice-wizard.app",
+    siteName: "Invoice Wizard",
     type: "website",
+    locale: "en_US",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Invoice Wizard - Professional Invoice Generator",
+        type: "image/png",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Z.ai Code Scaffold",
-    description: "AI-powered development with modern React stack",
+    title: "Invoice Wizard - Free Online Invoice Generator",
+    description:
+      "Create professional invoices instantly. Free invoice maker with PDF download, custom templates, and client management for freelancers and businesses.",
+    images: ["/twitter-image.png"],
+    creator: "@invoicewizard",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    google: "your-google-verification-code",
+    yandex: "your-yandex-verification-code",
+    yahoo: "your-yahoo-verification-code",
+  },
+  category: "Business Tools",
+  classification: "Invoice Generator",
+  referrer: "origin-when-cross-origin",
+  applicationName: "Invoice Wizard",
+  generator: "Invoice Wizard",
+  icons: {
+    icon: [
+      { url: "/logo.png", sizes: "16x16", type: "image/png" },
+      { url: "/logo.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [{ url: "/logo.png", sizes: "180x180", type: "image/png" }],
+    other: [
+      {
+        rel: "mask-icon",
+        url: "/logo.png",
+        color: "#3b82f6",
+      },
+    ],
+  },
+  other: {
+    "msapplication-TileColor": "#3b82f6",
+    "theme-color": "#ffffff",
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "default",
+    "apple-mobile-web-app-title": "Invoice Wizard",
+    "mobile-web-app-capable": "yes",
   },
 };
 
@@ -76,6 +157,51 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              name: "Invoice Wizard",
+              description:
+                "Free online invoice generator for creating professional invoices with PDF export and custom templates",
+              url: "https://invoice-wizard.app",
+              applicationCategory: "BusinessApplication",
+              operatingSystem: "Any",
+              offers: {
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "USD",
+                availability: "https://schema.org/InStock",
+              },
+              featureList: [
+                "Free invoice generation",
+                "PDF export",
+                "Custom templates",
+                "Client management",
+                "Automated calculations",
+                "Professional designs",
+              ],
+              author: {
+                "@type": "Organization",
+                name: "Invoice Wizard",
+              },
+              provider: {
+                "@type": "Organization",
+                name: "Invoice Wizard",
+              },
+            }),
+          }}
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body
         className={`${outfit.className} ${lato.style} ${playfair.style} ${nunito.style} ${fredoka.style} antialiased bg-background text-foreground`}
       >
