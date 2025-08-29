@@ -27,6 +27,70 @@ export default function InvoiceItemsSection({
   debouncedUpdateField: (field: string, value: any) => void;
   invoiceData: any;
 }) {
+  const currencySymbol =
+    {
+      USD: "$",
+      EUR: "€",
+      GBP: "£",
+      JPY: "¥",
+      CAD: "C$",
+      AUD: "A$",
+      INR: "₹",
+      BDT: "৳",
+      PKR: "₨",
+      CNY: "¥",
+      SGD: "S$",
+      MYR: "RM",
+      THB: "฿",
+      IDR: "Rp",
+      PHP: "₱",
+      VND: "₫",
+      KRW: "₩",
+      AED: "د.إ",
+      SAR: "﷼",
+      QAR: "ر.ق",
+      KWD: "د.ك",
+      BHD: "ب.د",
+      OMR: "ر.ع.",
+      TRY: "₺",
+      RUB: "₽",
+      BRL: "R$",
+      MXN: "$",
+      ARS: "$",
+      CLP: "$",
+      COP: "$",
+      PEN: "S/",
+      UYU: "$",
+      PYG: "₲",
+      BOB: "Bs.",
+      ZAR: "R",
+      NGN: "₦",
+      KES: "KSh",
+      GHS: "₵",
+      EGP: "£",
+      MAD: "د.م.",
+      TND: "د.ت",
+      DZD: "د.ج",
+      LBP: "ل.ل",
+      JOD: "د.ا",
+      ILS: "₪",
+      PLN: "zł",
+      CZK: "Kč",
+      HUF: "Ft",
+      RON: "lei",
+      BGN: "лв",
+      HRK: "kn",
+      RSD: "дин.",
+      BAM: "KM",
+      MKD: "ден.",
+      ALL: "L",
+      ISK: "kr",
+      NOK: "kr",
+      SEK: "kr",
+      DKK: "kr",
+      CHF: "Fr",
+    }[invoiceData.currency] || "$";
+
   return (
     <div className="space-y-8">
       {/* Items Section with Enhanced Styling */}
@@ -145,7 +209,8 @@ export default function InvoiceItemsSection({
                 Subtotal
               </span>
               <span className="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors duration-300">
-                ${invoiceData.subtotal.toFixed(2)}
+                {currencySymbol}
+                {invoiceData.subtotal.toFixed(2)}
               </span>
             </div>
           </div>
@@ -157,7 +222,8 @@ export default function InvoiceItemsSection({
                 Tax
               </span>
               <span className="text-lg font-bold text-emerald-700 group-hover:text-emerald-800 transition-colors duration-300">
-                ${invoiceData.taxAmount.toFixed(2)}
+                {currencySymbol}
+                {invoiceData.taxAmount.toFixed(2)}
               </span>
             </div>
           </div>
@@ -169,7 +235,8 @@ export default function InvoiceItemsSection({
                 Discount
               </span>
               <span className="text-lg font-bold text-orange-700 group-hover:text-orange-800 transition-colors duration-300">
-                ${invoiceData.discountAmount.toFixed(2)}
+                {currencySymbol}
+                {invoiceData.discountAmount.toFixed(2)}
               </span>
             </div>
           </div>
@@ -178,11 +245,11 @@ export default function InvoiceItemsSection({
           <div className="group p-4 bg-gradient-to-br from-blue-50 to-indigo-50 backdrop-blur-sm rounded-xl border-2 border-blue-200/50 hover:shadow-lg transition-all duration-300 hover:border-blue-300 hover:scale-105">
             <div className="flex flex-col">
               <span className="text-xs font-medium text-blue-600 uppercase tracking-wide mb-1 flex items-center gap-1">
-                <DollarSign className="h-3 w-3" />
                 Total
               </span>
               <span className="text-xl font-bold text-blue-700 group-hover:text-blue-800 transition-colors duration-300">
-                ${invoiceData.total.toFixed(2)}
+                {currencySymbol}
+                {invoiceData.total.toFixed(2)}
               </span>
             </div>
           </div>

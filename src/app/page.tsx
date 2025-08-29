@@ -11,15 +11,12 @@ import {
 import { Separator } from "@/components/ui/separator";
 import {
   FileText,
-  Plus,
   Download,
   Eye,
   Sparkles,
   Zap,
   Shield,
-  Clock,
   CheckCircle,
-  ArrowRight,
   Star,
   Users,
   Building,
@@ -32,23 +29,16 @@ import {
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-100 relative overflow-hidden">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-blue-200/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-40 right-32 w-96 h-96 bg-purple-200/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-indigo-200/20 rounded-full blur-3xl animate-pulse delay-500"></div>
-      </div>
-
       <div className="relative z-10 py-16 px-4">
         <div className="container mx-auto max-w-6xl">
           {/* Enhanced Hero Section */}
           <div className="text-center mb-20">
             <div className="flex justify-center mb-6">
               <div className="relative">
-                <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-600 flex items-center justify-center shadow-xl shadow-blue-500/25 animate-in zoom-in duration-700">
+                <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-600 flex items-center justify-center shadow-xl shadow-blue-500/25">
                   <FileText className="h-10 w-10 text-white" />
                 </div>
-                <div className="absolute -top-2 -right-2 w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center animate-bounce">
+                <div className="absolute -top-2 -right-2 w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center">
                   <Sparkles className="h-4 w-4 text-white" />
                 </div>
               </div>
@@ -56,33 +46,28 @@ export default function Home() {
 
             <Badge
               variant="secondary"
-              className="mb-6 text-sm px-4 py-2 bg-white/60 backdrop-blur-sm border border-white/50 animate-in fade-in slide-in-from-top duration-500 delay-200"
+              className="mb-6 text-sm px-4 py-2 bg-white/60 backdrop-blur-sm border border-white/50"
             >
               <Zap className="h-3 w-3 mr-1" />
               Professional Invoice Generator
             </Badge>
 
-            <h1 className="text-6xl md:text-7xl font-bold text-slate-900 mb-6 animate-in fade-in slide-in-from-bottom duration-700 delay-300">
+            <h1 className="text-6xl md:text-7xl font-bold text-slate-900 mb-6">
               Create Stunning
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600">
                 Invoices
               </span>
             </h1>
 
-            <p className="text-xl md:text-2xl text-slate-600 mb-10 max-w-3xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom duration-700 delay-500">
+            <p className="text-xl md:text-2xl text-slate-600 mb-10 max-w-3xl mx-auto leading-relaxed">
               Transform your billing process with our modern, intuitive invoice
               generator. Create professional invoices in minutes, not hours.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-in fade-in slide-in-from-bottom duration-700 delay-700">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link href="/generate">
-                <Button
-                  size="lg"
-                  className="group text-lg px-10 py-6 h-auto bg-gradient-to-r from-blue-500 via-indigo-600 to-purple-600 hover:from-blue-600 hover:via-indigo-700 hover:to-purple-700 text-white border-0 rounded-2xl shadow-xl shadow-blue-500/25 hover:shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 hover:scale-105"
-                >
-                  <Plus className="mr-3 h-6 w-6 group-hover:scale-110 transition-transform duration-300" />
+                <Button className="group text-base px-6 py-3 h-auto bg-gradient-to-r from-blue-500 via-indigo-600 to-purple-600 hover:from-blue-600 hover:via-indigo-700 hover:to-purple-700 text-white border-0 rounded-2xl shadow-xl shadow-blue-500/25 hover:shadow-2xl hover:shadow-blue-500/30">
                   Create New Invoice
-                  <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
                 </Button>
               </Link>
 
@@ -97,9 +82,9 @@ export default function Home() {
 
           {/* Enhanced Feature Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
-            <Card className="group border-0 bg-white/80 backdrop-blur-xl shadow-xl shadow-slate-900/5 rounded-3xl hover:shadow-2xl hover:shadow-slate-900/10 transition-all duration-500 hover:scale-[1.02] animate-in fade-in slide-in-from-left duration-700 delay-500">
+            <Card className="group border-0 bg-white/80 backdrop-blur-xl shadow-xl shadow-slate-900/5 rounded-3xl hover:shadow-2xl hover:shadow-slate-900/10">
               <CardHeader className="text-center pb-4">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-100 to-indigo-200 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-100 to-indigo-200 flex items-center justify-center mx-auto mb-4">
                   <FileText className="h-8 w-8 text-blue-600" />
                 </div>
                 <CardTitle className="text-xl text-slate-900">
@@ -114,9 +99,9 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="group border-0 bg-white/80 backdrop-blur-xl shadow-xl shadow-slate-900/5 rounded-3xl hover:shadow-2xl hover:shadow-slate-900/10 transition-all duration-500 hover:scale-[1.02] animate-in fade-in slide-in-from-bottom duration-700 delay-600">
+            <Card className="group border-0 bg-white/80 backdrop-blur-xl shadow-xl shadow-slate-900/5 rounded-3xl hover:shadow-2xl hover:shadow-slate-900/10">
               <CardHeader className="text-center pb-4">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-100 to-teal-200 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-100 to-teal-200 flex items-center justify-center mx-auto mb-4">
                   <Download className="h-8 w-8 text-emerald-600" />
                 </div>
                 <CardTitle className="text-xl text-slate-900">
@@ -131,9 +116,9 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="group border-0 bg-white/80 backdrop-blur-xl shadow-xl shadow-slate-900/5 rounded-3xl hover:shadow-2xl hover:shadow-slate-900/10 transition-all duration-500 hover:scale-[1.02] animate-in fade-in slide-in-from-right duration-700 delay-700">
+            <Card className="group border-0 bg-white/80 backdrop-blur-xl shadow-xl shadow-slate-900/5 rounded-3xl hover:shadow-2xl hover:shadow-slate-900/10">
               <CardHeader className="text-center pb-4">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-100 to-indigo-200 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-100 to-indigo-200 flex items-center justify-center mx-auto mb-4">
                   <Eye className="h-8 w-8 text-purple-600" />
                 </div>
                 <CardTitle className="text-xl text-slate-900">
@@ -151,13 +136,13 @@ export default function Home() {
 
           {/* Enhanced Statistics Section */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
-            <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50 animate-in fade-in slide-in-from-bottom duration-700 delay-800">
+            <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50">
               <div className="text-3xl font-bold text-blue-600 mb-2">100%</div>
               <div className="text-sm text-slate-600 font-medium">
                 Free to Use
               </div>
             </div>
-            <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50 animate-in fade-in slide-in-from-bottom duration-700 delay-900">
+            <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50">
               <div className="text-3xl font-bold text-emerald-600 mb-2">
                 2min
               </div>
@@ -165,13 +150,13 @@ export default function Home() {
                 Average Creation
               </div>
             </div>
-            <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50 animate-in fade-in slide-in-from-bottom duration-700 delay-1000">
-              <div className="text-3xl font-bold text-purple-600 mb-2">3</div>
+            <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50">
+              <div className="text-3xl font-bold text-purple-600 mb-2">4</div>
               <div className="text-sm text-slate-600 font-medium">
                 Beautiful Templates
               </div>
             </div>
-            <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50 animate-in fade-in slide-in-from-bottom duration-700 delay-1100">
+            <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50">
               <div className="text-3xl font-bold text-orange-600 mb-2">PDF</div>
               <div className="text-sm text-slate-600 font-medium">
                 Instant Export
@@ -180,7 +165,7 @@ export default function Home() {
           </div>
 
           {/* Enhanced Features Section */}
-          <Card className="border-0 bg-white/80 backdrop-blur-xl shadow-2xl shadow-slate-900/10 rounded-3xl mb-20 overflow-hidden animate-in fade-in slide-in-from-bottom duration-700 delay-1200">
+          <Card className="border-0 bg-white/80 backdrop-blur-xl shadow-2xl shadow-slate-900/10 rounded-3xl mb-20 overflow-hidden">
             <CardHeader className="bg-gradient-to-r from-slate-50 to-white pb-8">
               <div className="text-center">
                 <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center mx-auto mb-4">
@@ -278,7 +263,7 @@ export default function Home() {
           </Card>
 
           {/* Enhanced Template Showcase */}
-          <div className="text-center mb-20 animate-in fade-in slide-in-from-bottom duration-700 delay-1300">
+          <div className="text-center mb-20  duration-700 delay-1300">
             <h2 className="text-4xl font-bold text-slate-900 mb-4">
               Choose Your Style
             </h2>
@@ -288,7 +273,7 @@ export default function Home() {
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <Card className="group border-0 bg-white/80 backdrop-blur-xl shadow-xl rounded-3xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]">
+              <Card className="group border-0 bg-white/80 backdrop-blur-xl shadow-xl rounded-3xl hover:shadow-2xl">
                 <CardHeader className="pb-4">
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-100 to-indigo-200 flex items-center justify-center mx-auto mb-4">
                     <FileText className="h-6 w-6 text-blue-600" />
@@ -305,7 +290,7 @@ export default function Home() {
                 </CardContent>
               </Card>
 
-              <Card className="group border-0 bg-white/80 backdrop-blur-xl shadow-xl rounded-3xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]">
+              <Card className="group border-0 bg-white/80 backdrop-blur-xl shadow-xl rounded-3xl hover:shadow-2xl">
                 <CardHeader className="pb-4">
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-100 to-teal-200 flex items-center justify-center mx-auto mb-4">
                     <Palette className="h-6 w-6 text-emerald-600" />
@@ -322,7 +307,7 @@ export default function Home() {
                 </CardContent>
               </Card>
 
-              <Card className="group border-0 bg-white/80 backdrop-blur-xl shadow-xl rounded-3xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]">
+              <Card className="group border-0 bg-white/80 backdrop-blur-xl shadow-xl rounded-3xl hover:shadow-2xl">
                 <CardHeader className="pb-4">
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-100 to-indigo-200 flex items-center justify-center mx-auto mb-4">
                     <Star className="h-6 w-6 text-purple-600" />
@@ -341,7 +326,7 @@ export default function Home() {
           </div>
 
           {/* Enhanced Call to Action */}
-          <div className="text-center bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 rounded-3xl p-12 border border-white/50 animate-in fade-in slide-in-from-bottom duration-700 delay-1400">
+          <div className="text-center bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 rounded-3xl p-12 border border-white/50">
             <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center mx-auto mb-6 shadow-lg shadow-emerald-500/25">
               <Zap className="h-8 w-8 text-white" />
             </div>
@@ -359,12 +344,9 @@ export default function Home() {
               <Link href="/generate">
                 <Button
                   variant="default"
-                  size="lg"
-                  className="group text-lg px-10 py-6 h-auto bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white border-0 rounded-2xl shadow-xl shadow-emerald-500/25 hover:shadow-2xl hover:shadow-emerald-500/30 transition-all duration-300 hover:scale-105"
+                  className="group text-base px-6 py-3 h-auto bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white border-0 rounded-2xl shadow-xl shadow-emerald-500/25 hover:shadow-2xl hover:shadow-emerald-500/30"
                 >
-                  <Clock className="mr-3 h-5 w-5" />
                   Get Started Now
-                  <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
                 </Button>
               </Link>
 

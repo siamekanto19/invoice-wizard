@@ -1,5 +1,5 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 export interface InvoiceItem {
   id: string;
@@ -15,7 +15,7 @@ export interface InvoiceData {
   invoiceDate: string;
   dueDate: string;
   template: string;
-  
+
   // Company Information (Sender)
   companyName: string;
   companyAddress: string;
@@ -28,7 +28,7 @@ export interface InvoiceData {
   companyWebsite: string;
   taxId: string;
   companyLogo: string;
-  
+
   // Client Information (Recipient)
   clientName: string;
   clientAddress: string;
@@ -38,10 +38,10 @@ export interface InvoiceData {
   clientCountry: string;
   clientPhone: string;
   clientEmail: string;
-  
+
   // Invoice Items
   items: InvoiceItem[];
-  
+
   // Payment Details
   subtotal: number;
   taxRate: number;
@@ -49,7 +49,7 @@ export interface InvoiceData {
   discountRate: number;
   discountAmount: number;
   total: number;
-  
+
   // Payment Information
   paymentTerms: string;
   currency: string;
@@ -58,7 +58,7 @@ export interface InvoiceData {
   bankRouting: string;
   bankSwift: string;
   bankBranch: string;
-  
+
   // Notes
   notes: string;
   terms: string;
@@ -67,7 +67,7 @@ export interface InvoiceData {
 interface InvoiceStore {
   invoiceData: InvoiceData;
   setInvoiceData: (data: Partial<InvoiceData>) => void;
-  addItem: (item: Omit<InvoiceItem, 'id' | 'total'>) => void;
+  addItem: (item: Omit<InvoiceItem, "id" | "total">) => void;
   updateItem: (id: string, item: Partial<InvoiceItem>) => void;
   removeItem: (id: string) => void;
   calculateTotals: () => void;
@@ -75,65 +75,67 @@ interface InvoiceStore {
 }
 
 const defaultInvoiceData: InvoiceData = {
-  invoiceNumber: '',
-  invoiceDate: new Date().toISOString().split('T')[0],
-  dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-  template: 'professional',
-  
-  companyName: '',
-  companyAddress: '',
-  companyCity: '',
-  companyState: '',
-  companyZip: '',
-  companyCountry: '',
-  companyPhone: '',
-  companyEmail: '',
-  companyWebsite: '',
-  taxId: '',
-  companyLogo: '',
-  
-  clientName: '',
-  clientAddress: '',
-  clientCity: '',
-  clientState: '',
-  clientZip: '',
-  clientCountry: '',
-  clientPhone: '',
-  clientEmail: '',
-  
+  invoiceNumber: "",
+  invoiceDate: new Date().toISOString().split("T")[0],
+  dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+    .toISOString()
+    .split("T")[0],
+  template: "professional",
+
+  companyName: "",
+  companyAddress: "",
+  companyCity: "",
+  companyState: "",
+  companyZip: "",
+  companyCountry: "",
+  companyPhone: "",
+  companyEmail: "",
+  companyWebsite: "",
+  taxId: "",
+  companyLogo: "",
+
+  clientName: "",
+  clientAddress: "",
+  clientCity: "",
+  clientState: "",
+  clientZip: "",
+  clientCountry: "",
+  clientPhone: "",
+  clientEmail: "",
+
   items: [],
-  
+
   subtotal: 0,
   taxRate: 0,
   taxAmount: 0,
   discountRate: 0,
   discountAmount: 0,
   total: 0,
-  
-  paymentTerms: 'Net 30',
-  currency: 'USD',
-  bankName: '',
-  bankAccount: '',
-  bankRouting: '',
-  bankSwift: '',
-  bankBranch: '',
-  
-  notes: '',
-  terms: 'Payment is due within 30 days of the invoice date. Late payments are subject to a 1.5% monthly fee.',
+
+  paymentTerms: "Net 30",
+  currency: "USD",
+  bankName: "",
+  bankAccount: "",
+  bankRouting: "",
+  bankSwift: "",
+  bankBranch: "",
+
+  notes: "",
+  terms: "",
 };
 
 export const useInvoiceStore = create<InvoiceStore>()(
   persist(
     (set, get) => ({
       invoiceData: defaultInvoiceData,
-      
+
       setInvoiceData: (data) => {
         set((state) => ({
-          invoiceData: { ...state.invoiceData, ...data }
+          invoiceData: { ...state.invoiceData, ...data },
         }));
         get().calculateTotals();
       },
-      
+
       addItem: (item) => {
         const newItem: InvoiceItem = {
           id: crypto.randomUUID(),
@@ -142,16 +144,16 @@ export const useInvoiceStore = create<InvoiceStore>()(
           unitPrice: item.unitPrice,
           total: item.quantity * item.unitPrice,
         };
-        
+
         set((state) => ({
           invoiceData: {
             ...state.invoiceData,
-            items: [...state.invoiceData.items, newItem]
-          }
+            items: [...state.invoiceData.items, newItem],
+          },
         }));
         get().calculateTotals();
       },
-      
+
       updateItem: (id, item) => {
         set((state) => ({
           invoiceData: {
@@ -159,37 +161,41 @@ export const useInvoiceStore = create<InvoiceStore>()(
             items: state.invoiceData.items.map((existingItem) => {
               if (existingItem.id === id) {
                 const updatedItem = { ...existingItem, ...item };
-                if (item.quantity !== undefined || item.unitPrice !== undefined) {
-                  updatedItem.total = updatedItem.quantity * updatedItem.unitPrice;
+                if (
+                  item.quantity !== undefined ||
+                  item.unitPrice !== undefined
+                ) {
+                  updatedItem.total =
+                    updatedItem.quantity * updatedItem.unitPrice;
                 }
                 return updatedItem;
               }
               return existingItem;
-            })
-          }
+            }),
+          },
         }));
         get().calculateTotals();
       },
-      
+
       removeItem: (id) => {
         set((state) => ({
           invoiceData: {
             ...state.invoiceData,
-            items: state.invoiceData.items.filter((item) => item.id !== id)
-          }
+            items: state.invoiceData.items.filter((item) => item.id !== id),
+          },
         }));
         get().calculateTotals();
       },
-      
+
       calculateTotals: () => {
         const state = get();
         const { items, taxRate, discountRate } = state.invoiceData;
-        
+
         const subtotal = items.reduce((sum, item) => sum + item.total, 0);
         const taxAmount = subtotal * (taxRate / 100);
         const discountAmount = subtotal * (discountRate / 100);
         const total = subtotal + taxAmount - discountAmount;
-        
+
         set((state) => ({
           invoiceData: {
             ...state.invoiceData,
@@ -197,16 +203,16 @@ export const useInvoiceStore = create<InvoiceStore>()(
             taxAmount,
             discountAmount,
             total,
-          }
+          },
         }));
       },
-      
+
       resetInvoice: () => {
         set({ invoiceData: defaultInvoiceData });
       },
     }),
     {
-      name: 'invoice-storage',
+      name: "invoice-storage",
     }
   )
 );

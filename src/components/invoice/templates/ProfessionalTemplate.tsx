@@ -565,7 +565,7 @@ const InvoiceDocument = ({ data, previewMode = false }: Props) => {
         {/* Summary */}
         <div
           style={{
-            width: 150,
+            width: 140,
             marginLeft: "auto",
             paddingTop: 10,
             paddingBottom: 10,
@@ -756,7 +756,7 @@ const InvoiceDocument = ({ data, previewMode = false }: Props) => {
         {/* Summary */}
         <View
           style={{
-            width: 150,
+            width: 140,
             marginLeft: "auto",
             paddingTop: 10,
             paddingBottom: 10,

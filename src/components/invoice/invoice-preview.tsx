@@ -436,13 +436,13 @@ function InvoiceSummary() {
         </div>
 
         {/* Action Buttons */}
-        <div className="space-y-2 mb-4">
+        <div className="w-full grid grid-flow-row grid-cols-2 gap-4">
           {/* Preview Button */}
           <Sheet>
             <SheetTrigger asChild>
               <Button
                 variant="outline"
-                className="w-full border-blue-200 text-blue-700 hover:bg-blue-50 hover:border-blue-300 rounded-xl py-3 h-auto font-medium transition-all duration-200 flex items-center justify-center"
+                className="w-full border-blue-200 text-blue-700 hover:bg-blue-50 hover:border-blue-300 py-4 h-auto font-medium transition-all duration-200 flex items-center justify-center"
               >
                 <Eye className="h-4 w-4 mr-2" />
                 Preview Invoice
@@ -470,7 +470,7 @@ function InvoiceSummary() {
             <AlertDialogTrigger asChild>
               <Button
                 variant="outline"
-                className="w-full border-red-200 text-red-700 hover:bg-red-50 hover:border-red-300 rounded-xl py-3 h-auto font-medium transition-all duration-200"
+                className="w-full border-red-200 text-red-700 hover:bg-red-50 hover:border-red-300 py-4 h-auto font-medium transition-all duration-200"
               >
                 <X className="h-4 w-4 mr-2" />
                 Reset Form
@@ -504,7 +504,7 @@ function InvoiceSummary() {
             variant="outline"
             onClick={handleSaveInvoice}
             disabled={isSaving}
-            className="w-full border-amber-200 text-amber-700 hover:bg-amber-50 hover:border-amber-300 rounded-xl py-3 h-auto font-medium transition-all duration-200 disabled:opacity-50"
+            className="w-full border-amber-200 text-amber-700 hover:bg-amber-50 hover:border-amber-300 py-3 h-auto font-medium transition-all duration-200 disabled:opacity-50"
           >
             {isSaving ? (
               <>
@@ -523,7 +523,7 @@ function InvoiceSummary() {
           <Button
             onClick={handleDownloadPDF}
             disabled={!isReady || isDownloading}
-            className={`w-full rounded-xl py-3 h-auto font-medium transition-all duration-200 ${
+            className={`w-full py-4 h-auto font-medium transition-all duration-200 ${
               isReady
                 ? "bg-emerald-600 hover:bg-emerald-700 text-white border-0"
                 : "border-slate-200 text-slate-400 bg-slate-50 border cursor-not-allowed"
@@ -538,28 +538,10 @@ function InvoiceSummary() {
               <>
                 <Download className="h-4 w-4 mr-2" />
                 Download PDF
-                {isReady && (
-                  <span className="text-xs opacity-60 ml-auto">Ctrl+D</span>
-                )}
               </>
             )}
           </Button>
         </div>
-
-        {/* Compact Status Messages */}
-        {invoiceData.items.length === 0 && (
-          <div className="flex items-center gap-3 p-3 bg-amber-50 border border-amber-200 rounded-xl">
-            <Package className="h-5 w-5 text-amber-600" />
-            <div>
-              <p className="font-medium text-amber-800 text-sm">
-                Add invoice items
-              </p>
-              <p className="text-amber-600 text-xs">
-                At least one item required
-              </p>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

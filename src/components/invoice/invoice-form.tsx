@@ -2,46 +2,26 @@
 
 import ClientSection from "@/components/form-sections/ClientSection";
 import CompanySection from "@/components/form-sections/CompanySection";
-import DatePicker from "@/components/form-sections/DatePicker";
 import InvoiceDetails from "@/components/form-sections/InvoiceDetails";
-import ItemsSection from "@/components/form-sections/ItemsSection";
 import InvoiceItemsSection from "@/components/form-sections/InvoiceItemsSection";
 import PaymentSection from "@/components/form-sections/PaymentSection";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
+import { Form } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/use-toast";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useInvoiceStore } from "@/store/invoice-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  Building,
+  Calculator,
+  CheckCircle,
+  Clock,
+  CreditCard,
   FileText,
   Package,
   Sparkles,
-  CheckCircle,
-  Clock,
-  Zap,
-  Building,
   Users,
-  Calculator,
-  CreditCard,
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";

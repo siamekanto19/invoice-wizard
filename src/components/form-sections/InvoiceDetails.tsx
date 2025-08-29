@@ -110,31 +110,31 @@ export default function InvoiceDetails({
                     value={field.value}
                     onValueChange={(v) => field.onChange(v)}
                   >
-                    <SelectTrigger className="!h-10 w-full border-slate-200 focus:border-indigo-400 focus:ring-indigo-400/20 rounded-lg bg-white/80 backdrop-blur-sm transition-all duration-300 group-hover:shadow-md">
+                    <SelectTrigger className="!h-11 w-full border-slate-200 focus:border-indigo-400 focus:ring-indigo-400/20 rounded-lg bg-white/80 backdrop-blur-sm transition-all duration-300 group-hover:shadow-md">
                       <SelectValue placeholder="Select template" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="professional">
                         <div className="flex items-center gap-2">
-                          <div className="w-3 h-3 bg-blue-500 rounded"></div>
+                          <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
                           Professional
                         </div>
                       </SelectItem>
                       <SelectItem value="minimal">
                         <div className="flex items-center gap-2">
-                          <div className="w-3 h-3 bg-gray-500 rounded"></div>
+                          <div className="w-3 h-3 bg-gray-500 rounded-full"></div>
                           Minimal
                         </div>
                       </SelectItem>
                       <SelectItem value="elegant">
                         <div className="flex items-center gap-2">
-                          <div className="w-3 h-3 bg-purple-500 rounded"></div>
+                          <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
                           Elegant
                         </div>
                       </SelectItem>
                       <SelectItem value="playful">
                         <div className="flex items-center gap-2">
-                          <div className="w-3 h-3 bg-orange-500 rounded"></div>
+                          <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
                           Playful
                         </div>
                       </SelectItem>
