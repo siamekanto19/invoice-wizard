@@ -212,10 +212,6 @@ export default function Home() {
                         <CheckCircle className="h-4 w-4 text-emerald-500 flex-shrink-0" />
                         <span>Flexible payment terms and methods</span>
                       </li>
-                      <li className="flex items-center gap-3">
-                        <CheckCircle className="h-4 w-4 text-emerald-500 flex-shrink-0" />
-                        <span>Banking details with SWIFT code support</span>
-                      </li>
                     </ul>
                   </div>
                 </div>

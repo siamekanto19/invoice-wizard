@@ -75,7 +75,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://invoice-wizard.app"),
+  metadataBase: new URL("https://invoicewizard.app"),
   alternates: {
     canonical: "/",
   },
@@ -83,7 +83,7 @@ export const metadata: Metadata = {
     title: "Invoice Wizard - Free Professional Invoice Generator",
     description:
       "Create stunning professional invoices in minutes. Free online invoice maker with PDF export, custom templates, and automated calculations for freelancers and businesses.",
-    url: "https://invoice-wizard.app",
+    url: "https://invoicewizard.app",
     siteName: "Invoice Wizard",
     type: "website",
     locale: "en_US",
@@ -167,7 +167,7 @@ export default function RootLayout({
               name: "Invoice Wizard",
               description:
                 "Free online invoice generator for creating professional invoices with PDF export and custom templates",
-              url: "https://invoice-wizard.app",
+              url: "https://invoicewizard.app",
               applicationCategory: "BusinessApplication",
               operatingSystem: "Any",
               offers: {
