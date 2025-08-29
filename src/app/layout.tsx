@@ -91,7 +91,7 @@ export const metadata: Metadata = {
       {
         url: "/og-image.png",
         width: 1200,
-        height: 630,
+        height: 600,
         alt: "Invoice Wizard - Professional Invoice Generator",
         type: "image/png",
       },
