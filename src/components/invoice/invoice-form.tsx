@@ -29,30 +29,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { useInvoiceStore } from "@/store/invoice-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  Download,
   FileText,
   Package,
-  Save,
-  X,
   Sparkles,
   CheckCircle,
   Clock,
-  AlertTriangle,
-  RefreshCw,
   Zap,
   Building,
   Users,
@@ -116,14 +100,8 @@ const formSchema = z.object({
 });
 
 export default function InvoiceForm() {
-  const {
-    invoiceData,
-    setInvoiceData,
-    addItem,
-    removeItem,
-    updateItem,
-    resetInvoice,
-  } = useInvoiceStore();
+  const { invoiceData, setInvoiceData, addItem, removeItem, updateItem } =
+    useInvoiceStore();
 
   const [newItem, setNewItem] = useState({
     description: "",
@@ -132,7 +110,6 @@ export default function InvoiceForm() {
   });
 
   const [isSaving, setIsSaving] = useState(false);
-  const [isDownloading, setIsDownloading] = useState(false);
   const [formProgress, setFormProgress] = useState(0);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [autoSaveEnabled, setAutoSaveEnabled] = useState(true);
@@ -277,62 +254,6 @@ export default function InvoiceForm() {
     }
   };
 
-  const handleDownloadInvoice = async () => {
-    if (isDownloading) return;
-
-    setIsDownloading(true);
-    try {
-      const isValid = await form.trigger();
-      if (!isValid) {
-        toast({
-          title: "⚠️ Validation Error",
-          description: "Please fix the form errors before downloading.",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      if (invoiceData.items.length === 0) {
-        toast({
-          title: "⚠️ Missing Items",
-          description: "Please add at least one item to the invoice.",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      // Simulate PDF generation
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      toast({
-        title: "🎉 PDF Generated",
-        description: "Your invoice PDF is ready for download!",
-        variant: "default",
-      });
-
-      console.log("Downloading invoice...", invoiceData);
-    } catch (error) {
-      toast({
-        title: "❌ Download Failed",
-        description: "Failed to generate PDF. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsDownloading(false);
-    }
-  };
-  const handleResetForm = () => {
-    resetInvoice();
-    form.reset();
-    setNewItem({ description: "", quantity: 1, unitPrice: 0 });
-    setLastSaved(null);
-    toast({
-      title: "🔄 Form Reset",
-      description: "All form data has been cleared.",
-      variant: "default",
-    });
-  };
-
   const generateInvoiceNumber = () => {
     const date = new Date();
     const year = date.getFullYear();
@@ -475,7 +396,10 @@ export default function InvoiceForm() {
       {/* Enhanced Form Content */}
       <div className="bg-white/95 backdrop-blur-xl rounded-3xl border border-slate-200/60 shadow-xl shadow-slate-900/5">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSaveInvoice)} className="p-8">
+          <form
+            onSubmit={form.handleSubmit(handleSaveInvoice)}
+            className="md:p-4"
+          >
             <div className="space-y-12">
               {/* Invoice Details Section */}
               <Card className="border-0 shadow-none bg-gradient-to-r from-slate-50/50 to-white rounded-2xl">
@@ -582,99 +506,6 @@ export default function InvoiceForm() {
                   <PaymentSection form={form} />
                 </CardContent>
               </Card>
-
-              {/* Enhanced Action Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 pt-8 border-t border-slate-200/50">
-                <div className="flex-1 flex gap-3">
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        className="group border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 rounded-2xl px-6 py-6 h-auto transition-all duration-300"
-                      >
-                        <div className="flex flex-col items-center gap-2">
-                          <X className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
-                          <span className="font-medium">Reset Form</span>
-                        </div>
-                      </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle className="flex items-center gap-2">
-                          <AlertTriangle className="h-5 w-5 text-red-500" />
-                          Reset Form
-                        </AlertDialogTitle>
-                        <AlertDialogDescription>
-                          Are you sure you want to reset the form? All data will
-                          be lost and cannot be recovered.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction
-                          onClick={handleResetForm}
-                          className="bg-red-600 hover:bg-red-700"
-                        >
-                          Reset Form
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
-
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    onClick={handleSaveInvoice}
-                    disabled={isSaving}
-                    className="group flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl px-8 py-6 h-auto transition-all duration-300 hover:scale-[1.02]"
-                  >
-                    <div className="flex items-center justify-center gap-3">
-                      {isSaving ? (
-                        <>
-                          <RefreshCw className="h-5 w-5 animate-spin" />
-                          <span className="font-medium">Saving...</span>
-                        </>
-                      ) : (
-                        <>
-                          <Save className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
-                          <span className="font-medium">Save Draft</span>
-                        </>
-                      )}
-                    </div>
-                  </Button>
-                </div>
-
-                <Button
-                  type="button"
-                  onClick={handleDownloadInvoice}
-                  disabled={isDownloading || formProgress < 100}
-                  className={`group rounded-2xl px-8 py-6 h-auto text-lg font-semibold transition-all duration-300 ${
-                    formProgress === 100
-                      ? "bg-gradient-to-r from-blue-500 via-indigo-600 to-purple-600 hover:from-blue-600 hover:via-indigo-700 hover:to-purple-700 text-white border-0 shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 hover:scale-[1.02]"
-                      : "bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed"
-                  }`}
-                >
-                  <div className="flex items-center justify-center gap-3">
-                    {isDownloading ? (
-                      <>
-                        <RefreshCw className="h-5 w-5 animate-spin" />
-                        <span>Generating PDF...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Download className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
-                        <span>Download PDF</span>
-                        {formProgress === 100 && (
-                          <Badge className="bg-white/20 text-white border-0 ml-2">
-                            Ready!
-                          </Badge>
-                        )}
-                      </>
-                    )}
-                  </div>
-                </Button>
-              </div>
             </div>
           </form>
         </Form>

@@ -14,188 +14,279 @@ interface Props {
   previewMode?: boolean;
 }
 
-const InvoiceDocument = ({ data, previewMode = false }: Props) => {
-  // register fonts only when rendering the PDF (not in previewMode)
+const PlayfulTemplate = ({ data, previewMode = false }: Props) => {
+  // Register playful fonts only when rendering the PDF (not in previewMode)
   if (!previewMode) {
     Font.register({
-      family: "Outfit",
+      family: "Fredoka",
+      src: "/fonts/fredoka/Fredoka-Regular.ttf",
+    });
+
+    Font.register({
+      family: "Nunito",
       fonts: [
-        { src: "/fonts/outfit/Outfit-Thin.ttf", fontWeight: 100 },
-        { src: "/fonts/outfit/Outfit-ExtraLight.ttf", fontWeight: 200 },
-        { src: "/fonts/outfit/Outfit-Light.ttf", fontWeight: 300 },
-        { src: "/fonts/outfit/Outfit-Regular.ttf", fontWeight: 400 },
-        { src: "/fonts/outfit/Outfit-Medium.ttf", fontWeight: 500 },
-        { src: "/fonts/outfit/Outfit-SemiBold.ttf", fontWeight: 600 },
-        { src: "/fonts/outfit/Outfit-Bold.ttf", fontWeight: 700 },
-        { src: "/fonts/outfit/Outfit-ExtraBold.ttf", fontWeight: 800 },
-        { src: "/fonts/outfit/Outfit-Black.ttf", fontWeight: 900 },
+        { src: "/fonts/nunito/Nunito-Light.ttf", fontWeight: 300 },
+        { src: "/fonts/nunito/Nunito-Regular.ttf", fontWeight: 400 },
+        { src: "/fonts/nunito/Nunito-SemiBold.ttf", fontWeight: 600 },
+        { src: "/fonts/nunito/Nunito-Bold.ttf", fontWeight: 700 },
       ],
     });
   }
+
   const fontSizeConfig = {
     small: {
-      base: 10,
-      title: 24,
-      invoiceNumber: 12,
-      dateInfo: 10,
-      sectionTitle: 12,
-      companyName: 11,
-      companyDetail: 10,
-      table: 10,
-      notesTitle: 10,
-      notesText: 10,
-      total: 12,
-    },
-    medium: {
-      base: 12,
+      base: 11,
       title: 28,
       invoiceNumber: 14,
-      dateInfo: 12,
-      sectionTitle: 14,
+      dateInfo: 11,
+      sectionTitle: 16,
       companyName: 13,
-      companyDetail: 12,
-      table: 12,
+      companyDetail: 11,
+      table: 11,
       notesTitle: 12,
-      notesText: 12,
-      total: 14,
+      notesText: 11,
+      total: 16,
+    },
+    medium: {
+      base: 13,
+      title: 34,
+      invoiceNumber: 16,
+      dateInfo: 13,
+      sectionTitle: 18,
+      companyName: 15,
+      companyDetail: 13,
+      table: 13,
+      notesTitle: 14,
+      notesText: 13,
+      total: 18,
     },
     large: {
-      base: 14,
-      title: 32,
-      invoiceNumber: 16,
-      dateInfo: 14,
-      sectionTitle: 16,
-      companyName: 15,
-      companyDetail: 14,
-      table: 14,
-      notesTitle: 14,
-      notesText: 14,
-      total: 16,
+      base: 15,
+      title: 40,
+      invoiceNumber: 18,
+      dateInfo: 15,
+      sectionTitle: 20,
+      companyName: 17,
+      companyDetail: 15,
+      table: 15,
+      notesTitle: 16,
+      notesText: 15,
+      total: 20,
     },
   };
 
   const fontSize = fontSizeConfig["medium"];
-
   const styles = StyleSheet.create({
     page: {
-      fontFamily: "Outfit",
+      fontFamily: "Nunito",
       fontSize: fontSize.base,
-      paddingTop: 20,
-      paddingLeft: 20,
-      paddingRight: 20,
-      paddingBottom: 20,
-      backgroundColor: "#FFFFFF",
+      paddingTop: 30,
+      paddingLeft: 30,
+      paddingRight: 30,
+      paddingBottom: 30,
+      backgroundColor: "#FFF9F2", // Light cream background
+      position: "relative",
+    },
+    decorativeCircle: {
+      position: "absolute",
+      width: 200,
+      height: 200,
+      borderRadius: 100,
+      backgroundColor: "#FFD6E0", // Light pink
+      top: -50,
+      right: -50,
+      opacity: 0.6,
+      zIndex: -1,
+    },
+    decorativeCircle2: {
+      position: "absolute",
+      width: 150,
+      height: 150,
+      borderRadius: 75,
+      backgroundColor: "#C7F9CC", // Light green
+      bottom: 70,
+      left: -50,
+      opacity: 0.6,
+      zIndex: -1,
+    },
+    decorativeCircle3: {
+      position: "absolute",
+      width: 100,
+      height: 100,
+      borderRadius: 50,
+      backgroundColor: "#FFD166", // Light yellow
+      top: 200,
+      left: 40,
+      opacity: 0.5,
+      zIndex: -1,
+    },
+    decorativeTriangle: {
+      position: "absolute",
+      width: 0,
+      height: 0,
+      borderLeft: "60px solid transparent",
+      borderRight: "60px solid transparent",
+      borderBottom: "100px solid #A0D2FF", // Light blue
+      top: 400,
+      right: 60,
+      opacity: 0.5,
+      zIndex: -1,
+      transform: "rotate(30deg)",
     },
     header: {
       flexDirection: "row",
-      marginBottom: 20,
+      marginBottom: 30,
       justifyContent: "space-between",
       alignItems: "center",
-      borderBottomWidth: 2,
-      borderBottomColor: "#000000",
-      paddingBottom: 15,
+    },
+    titleContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+    },
+    titleIcon: {
+      width: 60,
+      height: 60,
+      borderRadius: 30,
+      backgroundColor: "#FF6B6B", // Coral
+      justifyContent: "center",
+      alignItems: "center",
+      marginRight: 15,
+      shadowColor: "#000000",
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.2,
+      shadowRadius: 5,
+    },
+    titleIconText: {
+      fontFamily: "Fredoka",
+      fontSize: 32,
+      color: "#FFFFFF",
     },
     title: {
+      fontFamily: "Fredoka",
       fontSize: fontSize.title,
-      fontWeight: "bold",
-      color: "#000000",
+      color: "#FF6B6B", // Coral
+      letterSpacing: 1.5,
+    },
+    invoiceNumberContainer: {
+      backgroundColor: "#4ECDC4", // Turquoise
+      borderRadius: 25,
+      paddingVertical: 12,
+      paddingHorizontal: 20,
+      shadowColor: "#000000",
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.2,
+      shadowRadius: 5,
+    },
+    invoiceLabel: {
+      fontSize: 11,
+      color: "#FFFFFF",
+      marginBottom: 3,
     },
     invoiceNumber: {
+      fontFamily: "Fredoka",
       fontSize: fontSize.invoiceNumber,
-      color: "#000000",
-      fontWeight: "bold",
+      color: "#FFFFFF",
     },
     addressSection: {
       flexDirection: "row",
-      marginBottom: 20,
+      marginBottom: 25,
       justifyContent: "space-between",
     },
     addressBlock: {
       width: "48%",
+      backgroundColor: "#FFFFFF",
+      borderRadius: 15,
+      padding: 20,
+      shadowColor: "#000000",
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.15,
+      shadowRadius: 6,
     },
     sectionTitle: {
+      fontFamily: "Fredoka",
       fontSize: fontSize.sectionTitle,
-      fontWeight: "bold",
-      marginBottom: 8,
-      color: "#000000",
-      textTransform: "uppercase",
+      marginBottom: 12,
+      color: "#FF9F1C", // Orange
     },
     companyName: {
       fontSize: fontSize.companyName,
-      fontWeight: "bold",
-      color: "#000000",
-      marginBottom: 3,
+      fontWeight: 700,
+      color: "#333333",
+      marginBottom: 5,
     },
     companyDetail: {
       fontSize: fontSize.companyDetail,
-      color: "#333333",
-      marginBottom: 2,
+      color: "#666666",
+      marginBottom: 3,
     },
     dateSection: {
       flexDirection: "row",
-      marginBottom: 18,
+      marginBottom: 25,
       justifyContent: "space-between",
-      paddingTop: 8,
-      paddingBottom: 8,
-      borderTopWidth: 1,
-      borderBottomWidth: 1,
-      borderColor: "#CCCCCC",
     },
     dateBlock: {
       width: "48%",
+      backgroundColor: "#FFFFFF",
+      borderRadius: 15,
+      padding: 20,
+      shadowColor: "#000000",
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.15,
+      shadowRadius: 6,
     },
     dateLabel: {
       fontSize: fontSize.dateInfo,
-      fontWeight: "bold",
-      color: "#666666",
-      marginBottom: 3,
-      textTransform: "uppercase",
+      fontWeight: 700,
+      color: "#4ECDC4", // Turquoise
+      marginBottom: 8,
     },
     dateValue: {
       fontSize: fontSize.dateInfo,
-      color: "#000000",
+      color: "#333333",
     },
     table: {
-      borderWidth: 1,
-      borderColor: "#000000",
-      marginBottom: 20,
-      borderBottomWidth: 0,
+      marginBottom: 25,
+      borderRadius: 15,
+      overflow: "hidden",
+      shadowColor: "#000000",
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.15,
+      shadowRadius: 6,
     },
     tableHeader: {
       flexDirection: "row",
-      backgroundColor: "#F5F5F5",
-      borderBottomWidth: 1,
-      borderBottomColor: "#000000",
+      backgroundColor: "#FF9F1C", // Orange
     },
     tableRow: {
       flexDirection: "row",
+      backgroundColor: "#FFFFFF",
       borderBottomWidth: 1,
-      borderBottomColor: "#000000",
+      borderBottomColor: "#F0F0F0",
     },
     tableCell: {
-      padding: 8,
+      padding: 15,
       fontSize: fontSize.table,
-      color: "#000000",
+      color: "#333333",
     },
     tableCellHeader: {
-      fontWeight: "bold",
-      color: "#000000",
+      fontFamily: "Fredoka",
+      color: "#FFFFFF",
     },
     descriptionCell: {
-      width: "40%",
+      width: "45%",
       borderRightWidth: 1,
-      borderRightColor: "#000000",
+      borderRightColor: "#F0F0F0",
     },
     quantityCell: {
-      width: "20%",
+      width: "15%",
       borderRightWidth: 1,
-      borderRightColor: "#000000",
+      borderRightColor: "#F0F0F0",
       textAlign: "center",
     },
     priceCell: {
       width: "20%",
       borderRightWidth: 1,
-      borderRightColor: "#000000",
+      borderRightColor: "#F0F0F0",
       textAlign: "center",
     },
     totalCell: {
@@ -203,63 +294,102 @@ const InvoiceDocument = ({ data, previewMode = false }: Props) => {
       textAlign: "right",
     },
     summary: {
-      alignItems: "flex-end",
-      marginBottom: 8,
-      minWidth: 240,
+      alignSelf: "flex-end",
+      width: "45%",
+      backgroundColor: "#FFFFFF",
+      borderRadius: 15,
+      padding: 20,
+      marginBottom: 25,
+      shadowColor: "#000000",
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.15,
+      shadowRadius: 6,
+    },
+    summaryRow: {
+      flexDirection: "row",
+      marginBottom: 10,
     },
     summaryLabel: {
-      flex: 1,
+      width: "60%",
       textAlign: "right",
-      marginRight: 15,
+      paddingRight: 15,
+      color: "#666666",
     },
     summaryValue: {
-      flex: 1,
+      width: "40%",
       textAlign: "right",
-      fontWeight: "bold",
+      fontWeight: 700,
+      color: "#333333",
     },
     totalRow: {
-      borderTopColor: "#000000",
-      borderTopWidth: 2,
+      marginTop: 10,
       paddingTop: 12,
-      marginTop: 12,
+      borderTopWidth: 3,
+      borderTopColor: "#FFD6E0", // Light pink
     },
     totalValue: {
+      fontFamily: "Fredoka",
       fontSize: fontSize.total,
-      color: "#000000",
+      color: "#FF6B6B", // Coral
     },
-    bankInfo: {
-      marginTop: 20,
-      paddingTop: 10,
-      borderTopColor: "#CCCCCC",
-      borderTopWidth: 1,
+    paymentInfo: {
+      backgroundColor: "#FFFFFF",
+      borderRadius: 15,
+      padding: 20,
+      marginBottom: 25,
+      shadowColor: "#000000",
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.15,
+      shadowRadius: 6,
     },
-    bankTitle: {
-      fontWeight: "bold",
+    paymentTitle: {
+      fontFamily: "Fredoka",
       fontSize: fontSize.sectionTitle,
-      marginBottom: 10,
-      color: "#000000",
+      marginBottom: 12,
+      color: "#4ECDC4", // Turquoise
     },
-    bankDetail: {
+    paymentDetail: {
       fontSize: fontSize.companyDetail,
-      color: "#333333",
-      marginBottom: 3,
+      color: "#666666",
+      marginBottom: 4,
     },
     notes: {
-      marginTop: 20,
-      paddingTop: 12,
-      borderTopColor: "#CCCCCC",
-      borderTopWidth: 1,
+      backgroundColor: "#FFFFFF",
+      borderRadius: 15,
+      padding: 20,
+      marginBottom: 25,
+      shadowColor: "#000000",
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.15,
+      shadowRadius: 6,
     },
     notesTitle: {
-      fontWeight: "bold",
+      fontFamily: "Fredoka",
       fontSize: fontSize.notesTitle,
-      marginBottom: 5,
-      color: "#000000",
+      marginBottom: 10,
+      color: "#FF9F1C", // Orange
     },
     notesText: {
       fontSize: fontSize.notesText,
-      color: "#333333",
-      lineHeight: 1.5,
+      color: "#666666",
+      lineHeight: 1.6,
+    },
+    footer: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      paddingTop: 20,
+      borderTopWidth: 3,
+      borderTopColor: "#FFD6E0", // Light pink
+    },
+    thankYou: {
+      fontFamily: "Fredoka",
+      fontSize: 18,
+      color: "#FF6B6B", // Coral
+    },
+    contactInfo: {
+      fontSize: 11,
+      color: "#666666",
     },
   });
 
@@ -343,7 +473,6 @@ const InvoiceDocument = ({ data, previewMode = false }: Props) => {
       data.companyZip,
       data.companyCountry,
     ].filter(Boolean);
-
     return addressParts.join(", ");
   };
 
@@ -355,18 +484,16 @@ const InvoiceDocument = ({ data, previewMode = false }: Props) => {
       data.clientZip,
       data.clientCountry,
     ].filter(Boolean);
-
     return addressParts.join(", ");
   };
+
   // helper: convert a react-pdf style object into HTML inline style
   const toCss = (style: any = {}) => {
     const s: Record<string, any> = { ...style };
-
     if (typeof s.fontWeight === "string") {
       if (s.fontWeight.toLowerCase() === "semibold") s.fontWeight = 600;
       if (s.fontWeight.toLowerCase() === "bold") s.fontWeight = 700;
     }
-
     if (s.borderWidth !== undefined && s.borderColor) {
       s.border = `${s.borderWidth}px solid ${s.borderColor}`;
       delete s.borderWidth;
@@ -392,7 +519,6 @@ const InvoiceDocument = ({ data, previewMode = false }: Props) => {
       delete s.borderLeftWidth;
       delete s.borderLeftColor;
     }
-
     // convert padding props
     if (
       s.paddingTop !== undefined ||
@@ -408,13 +534,11 @@ const InvoiceDocument = ({ data, previewMode = false }: Props) => {
       delete s.paddingLeft;
       delete s.paddingRight;
     }
-
     // keep flex-related props but ensure display is set for containers
     if (s.flexDirection) {
       s.display = "flex";
       s.flexDirection = s.flexDirection === "row" ? "row" : "column";
     }
-
     return s;
   };
 
@@ -422,16 +546,24 @@ const InvoiceDocument = ({ data, previewMode = false }: Props) => {
     // HTML preview path — use the same style values converted to inline CSS
     return (
       <div style={toCss(styles.page)}>
+        {/* Decorative Elements */}
+        <div style={toCss(styles.decorativeCircle)}></div>
+        <div style={toCss(styles.decorativeCircle2)}></div>
+        <div style={toCss(styles.decorativeCircle3)}></div>
+        <div style={toCss(styles.decorativeTriangle)}></div>
+
         {/* Header */}
         <div style={toCss(styles.header)}>
           <div style={toCss(styles.title)}>INVOICE</div>
-          <div style={toCss(styles.invoiceNumber)}>#{data.invoiceNumber}</div>
+          <div style={toCss(styles.invoiceNumberContainer)}>
+            <div style={toCss(styles.invoiceNumber)}>#{data.invoiceNumber}</div>
+          </div>
         </div>
 
         {/* Address Section */}
         <div style={toCss(styles.addressSection)}>
           <div style={toCss(styles.addressBlock)}>
-            <div style={toCss(styles.sectionTitle)}>Bill From</div>
+            <div style={toCss(styles.sectionTitle)}>From</div>
             <div style={toCss(styles.companyName)}>
               {data.companyName || "Your Company Name"}
             </div>
@@ -451,9 +583,8 @@ const InvoiceDocument = ({ data, previewMode = false }: Props) => {
               </div>
             )}
           </div>
-
           <div style={toCss(styles.addressBlock)}>
-            <div style={toCss(styles.sectionTitle)}>Bill To</div>
+            <div style={toCss(styles.sectionTitle)}>To</div>
             <div style={toCss(styles.companyName)}>
               {data.clientName || "Client Name"}
             </div>
@@ -510,7 +641,7 @@ const InvoiceDocument = ({ data, previewMode = false }: Props) => {
                 ...toCss(styles.priceCell),
               }}
             >
-              Rate
+              Price
             </div>
             <div
               style={{
@@ -519,7 +650,7 @@ const InvoiceDocument = ({ data, previewMode = false }: Props) => {
                 ...toCss(styles.totalCell),
               }}
             >
-              Amount
+              Total
             </div>
           </div>
 
@@ -563,57 +694,73 @@ const InvoiceDocument = ({ data, previewMode = false }: Props) => {
         </div>
 
         {/* Summary */}
-        <div
-          style={{
-            width: 150,
-            marginLeft: "auto",
-            paddingTop: 10,
-            paddingBottom: 10,
-            display: "flex",
-            justifyContent: "flex-end",
-            border: "1px solid #000",
-            backgroundColor: "#F5F5F5",
-            paddingLeft: 10,
-            paddingRight: 10,
-          }}
-        >
-          <div>
-            <div style={{ fontSize: fontSize.total, fontWeight: "bold" }}>
-              TOTAL AMOUNT
+        <div style={toCss(styles.summary)}>
+          <div style={toCss(styles.summaryRow)}>
+            <div style={toCss(styles.summaryLabel)}>Subtotal:</div>
+            <div style={toCss(styles.summaryValue)}>
+              {currencySymbol} {data.subtotal.toFixed(2)}
             </div>
-            <div style={{ paddingTop: 6, fontWeight: 600, fontSize: 18 }}>
+          </div>
+          {data.taxRate > 0 && (
+            <div style={toCss(styles.summaryRow)}>
+              <div style={toCss(styles.summaryLabel)}>
+                Tax ({data.taxRate}%):
+              </div>
+              <div style={toCss(styles.summaryValue)}>
+                {currencySymbol} {data.taxAmount.toFixed(2)}
+              </div>
+            </div>
+          )}
+          {data.discountAmount > 0 && (
+            <div style={toCss(styles.summaryRow)}>
+              <div style={toCss(styles.summaryLabel)}>Discount:</div>
+              <div style={toCss(styles.summaryValue)}>
+                {currencySymbol} {data.discountAmount.toFixed(2)}
+              </div>
+            </div>
+          )}
+          <div
+            style={{ ...toCss(styles.summaryRow), ...toCss(styles.totalRow) }}
+          >
+            <div style={toCss(styles.summaryLabel)}>Total:</div>
+            <div
+              style={{
+                ...toCss(styles.summaryValue),
+                ...toCss(styles.totalValue),
+              }}
+            >
               {currencySymbol} {data.total.toFixed(2)}
             </div>
           </div>
         </div>
 
-        {/* Bank Information */}
+        {/* Payment Information */}
         {(data.bankName || data.bankAccount) && (
-          <div style={toCss(styles.bankInfo)}>
-            <div style={toCss(styles.bankTitle)}>Bank Information</div>
+          <div style={toCss(styles.paymentInfo)}>
+            <div style={toCss(styles.paymentTitle)}>Payment Details</div>
             {data.bankAccount && (
-              <div style={toCss(styles.bankDetail)}>
-                Account Number : {data.bankAccount}
+              <div style={toCss(styles.paymentDetail)}>
+                Account: {data.bankAccount}
               </div>
             )}
             {data.bankName && (
-              <div style={toCss(styles.bankDetail)}>
-                Bank Name : {data.bankName}
+              <div style={toCss(styles.paymentDetail)}>
+                Bank: {data.bankName}
               </div>
             )}
             {data.bankBranch && (
-              <div style={toCss(styles.bankDetail)}>
-                Branch Name : {data.bankBranch}
+              <div style={toCss(styles.paymentDetail)}>
+                Branch: {data.bankBranch}
               </div>
             )}
             {data.bankRouting && (
-              <div style={toCss(styles.bankDetail)}>
-                Routing Number : {data.bankRouting}
+              <div style={toCss(styles.paymentDetail)}>
+                Routing: {data.bankRouting}
               </div>
             )}
             {data.bankSwift && (
-              <div style={toCss(styles.bankDetail)}>
-                SWIFT Code : {data.bankSwift}
+              <div style={toCss(styles.paymentDetail)}>
+                SWIFT: {data.bankSwift}
               </div>
             )}
           </div>
@@ -622,7 +769,7 @@ const InvoiceDocument = ({ data, previewMode = false }: Props) => {
         {/* Notes */}
         {data.notes && (
           <div style={toCss(styles.notes)}>
-            <div style={toCss(styles.notesTitle)}>Notes:</div>
+            <div style={toCss(styles.notesTitle)}>Notes</div>
             <div style={toCss(styles.notesText)}>{data.notes}</div>
           </div>
         )}
@@ -630,10 +777,18 @@ const InvoiceDocument = ({ data, previewMode = false }: Props) => {
         {/* Terms */}
         {data.terms && (
           <div style={toCss(styles.notes)}>
-            <div style={toCss(styles.notesTitle)}>Terms & Conditions:</div>
+            <div style={toCss(styles.notesTitle)}>Terms & Conditions</div>
             <div style={toCss(styles.notesText)}>{data.terms}</div>
           </div>
         )}
+
+        {/* Footer */}
+        <div style={toCss(styles.footer)}>
+          <div style={toCss(styles.thankYou)}>Thanks for your support! 🎉</div>
+          <div style={toCss(styles.contactInfo)}>
+            {data.companyEmail} | {data.companyPhone}
+          </div>
+        </div>
       </div>
     );
   }
@@ -641,16 +796,24 @@ const InvoiceDocument = ({ data, previewMode = false }: Props) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
+        {/* Decorative Elements */}
+        <View style={styles.decorativeCircle} />
+        <View style={styles.decorativeCircle2} />
+        <View style={styles.decorativeCircle3} />
+        <View style={styles.decorativeTriangle} />
+
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.title}>INVOICE</Text>
-          <Text style={styles.invoiceNumber}>#{data.invoiceNumber}</Text>
+          <View style={styles.invoiceNumberContainer}>
+            <Text style={styles.invoiceNumber}>#{data.invoiceNumber}</Text>
+          </View>
         </View>
 
         {/* Address Section */}
         <View style={styles.addressSection}>
           <View style={styles.addressBlock}>
-            <Text style={styles.sectionTitle}>Bill From</Text>
+            <Text style={styles.sectionTitle}>From</Text>
             <Text style={styles.companyName}>
               {data.companyName || "Your Company Name"}
             </Text>
@@ -664,9 +827,8 @@ const InvoiceDocument = ({ data, previewMode = false }: Props) => {
               <Text style={styles.companyDetail}>Tax ID: {data.taxId}</Text>
             )}
           </View>
-
           <View style={styles.addressBlock}>
-            <Text style={styles.sectionTitle}>Bill To</Text>
+            <Text style={styles.sectionTitle}>To</Text>
             <Text style={styles.companyName}>
               {data.clientName || "Client Name"}
             </Text>
@@ -721,7 +883,7 @@ const InvoiceDocument = ({ data, previewMode = false }: Props) => {
                 styles.priceCell,
               ]}
             >
-              Rate
+              Price
             </Text>
             <Text
               style={[
@@ -730,7 +892,7 @@ const InvoiceDocument = ({ data, previewMode = false }: Props) => {
                 styles.totalCell,
               ]}
             >
-              Amount
+              Total
             </Text>
           </View>
 
@@ -754,70 +916,61 @@ const InvoiceDocument = ({ data, previewMode = false }: Props) => {
         </View>
 
         {/* Summary */}
-        <View
-          style={{
-            width: 150,
-            marginLeft: "auto",
-            paddingTop: 10,
-            paddingBottom: 10,
-            display: "flex",
-            justifyContent: "flex-end",
-            borderWidth: 1,
-            borderColor: "#000000",
-            backgroundColor: "#F5F5F5",
-            paddingLeft: 10,
-            paddingRight: 10,
-          }}
-        >
-          <View>
-            <Text
-              style={[
-                {
-                  fontSize: fontSize.total,
-                  fontWeight: "bold",
-                },
-              ]}
-            >
-              TOTAL AMOUNT
+        <View style={styles.summary}>
+          <View style={styles.summaryRow}>
+            <Text style={styles.summaryLabel}>Subtotal:</Text>
+            <Text style={styles.summaryValue}>
+              {currencySymbol} {data.subtotal.toFixed(2)}
             </Text>
-            <Text
-              style={{
-                paddingTop: 6,
-                fontWeight: "semibold",
-                fontSize: 18,
-              }}
-            >
+          </View>
+          {data.taxRate > 0 && (
+            <View style={styles.summaryRow}>
+              <Text style={styles.summaryLabel}>Tax ({data.taxRate}%):</Text>
+              <Text style={styles.summaryValue}>
+                {currencySymbol} {data.taxAmount.toFixed(2)}
+              </Text>
+            </View>
+          )}
+          {data.discountAmount > 0 && (
+            <View style={styles.summaryRow}>
+              <Text style={styles.summaryLabel}>Discount:</Text>
+              <Text style={styles.summaryValue}>
+                {currencySymbol} {data.discountAmount.toFixed(2)}
+              </Text>
+            </View>
+          )}
+          <View style={[styles.summaryRow, styles.totalRow]}>
+            <Text style={styles.summaryLabel}>Total:</Text>
+            <Text style={[styles.summaryValue, styles.totalValue]}>
               {currencySymbol} {data.total.toFixed(2)}
             </Text>
           </View>
         </View>
 
-        {/* Bank Information */}
+        {/* Payment Information */}
         {(data.bankName || data.bankAccount) && (
-          <View wrap={false} style={styles.bankInfo}>
-            <Text style={styles.bankTitle}>Bank Information</Text>
+          <View wrap={false} style={styles.paymentInfo}>
+            <Text style={styles.paymentTitle}>Payment Details</Text>
             {data.bankAccount && (
-              <Text style={styles.bankDetail}>
-                Account Number : {data.bankAccount}
+              <Text style={styles.paymentDetail}>
+                Account: {data.bankAccount}
               </Text>
             )}
             {data.bankName && (
-              <Text style={styles.bankDetail}>Bank Name : {data.bankName}</Text>
+              <Text style={styles.paymentDetail}>Bank: {data.bankName}</Text>
             )}
             {data.bankBranch && (
-              <Text style={styles.bankDetail}>
-                Branch Name : {data.bankBranch}
+              <Text style={styles.paymentDetail}>
+                Branch: {data.bankBranch}
               </Text>
             )}
             {data.bankRouting && (
-              <Text style={styles.bankDetail}>
-                Routing Number : {data.bankRouting}
+              <Text style={styles.paymentDetail}>
+                Routing: {data.bankRouting}
               </Text>
             )}
             {data.bankSwift && (
-              <Text style={styles.bankDetail}>
-                SWIFT Code : {data.bankSwift}
-              </Text>
+              <Text style={styles.paymentDetail}>SWIFT: {data.bankSwift}</Text>
             )}
           </View>
         )}
@@ -825,7 +978,7 @@ const InvoiceDocument = ({ data, previewMode = false }: Props) => {
         {/* Notes */}
         {data.notes && (
           <View wrap={false} style={styles.notes}>
-            <Text style={styles.notesTitle}>Notes:</Text>
+            <Text style={styles.notesTitle}>Notes</Text>
             <Text style={styles.notesText}>{data.notes}</Text>
           </View>
         )}
@@ -833,13 +986,21 @@ const InvoiceDocument = ({ data, previewMode = false }: Props) => {
         {/* Terms */}
         {data.terms && (
           <View wrap={false} style={styles.notes}>
-            <Text style={styles.notesTitle}>Terms & Conditions:</Text>
+            <Text style={styles.notesTitle}>Terms & Conditions</Text>
             <Text style={styles.notesText}>{data.terms}</Text>
           </View>
         )}
+
+        {/* Footer */}
+        <View style={styles.footer}>
+          <Text style={styles.thankYou}>Thanks for your support! 🎉</Text>
+          <Text style={styles.contactInfo}>
+            {data.companyEmail} | {data.companyPhone}
+          </Text>
+        </View>
       </Page>
     </Document>
   );
 };
 
-export default InvoiceDocument;
+export default PlayfulTemplate;
