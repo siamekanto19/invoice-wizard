@@ -338,7 +338,7 @@ export default function InvoiceForm() {
         </div>
 
         {/* Quick Status Cards */}
-        <div className="grid grid-cols-4 gap-4 mt-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
           <div className="text-center p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50">
             <Package className="h-6 w-6 mx-auto mb-2 text-blue-600" />
             <div className="text-2xl font-bold text-blue-600">
