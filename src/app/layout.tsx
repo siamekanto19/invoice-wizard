@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import {
   Fredoka,
   Geist,
@@ -205,6 +206,19 @@ export default function RootLayout({
       <body
         className={`${outfit.className} ${lato.style} ${playfair.style} ${nunito.style} ${fredoka.style} antialiased bg-background text-foreground`}
       >
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-MBYKZR30ND"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-MBYKZR30ND');
+          `}
+        </Script>
         {children}
         <Toaster />
       </body>
