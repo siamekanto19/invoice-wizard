@@ -330,29 +330,6 @@ function InvoiceSummary() {
             />
           </div>
 
-          {/* Compact Metrics */}
-          <div className="grid grid-cols-2 gap-3 mb-4">
-            <div className="p-3 bg-blue-50 rounded-xl border border-blue-100">
-              <div className="flex items-center justify-between">
-                <Package className="h-5 w-5 text-blue-600" />
-                <span className="text-xs text-blue-600">Items</span>
-              </div>
-              <div className="text-xl font-bold text-blue-700 pt-2">
-                {invoiceData.items.length}
-              </div>
-            </div>
-            <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-100">
-              <div className="flex items-center justify-between">
-                <Wallet className="h-5 w-5 text-emerald-600" />
-                <span className="text-xs text-emerald-600">Total</span>
-              </div>
-              <div className="text-xl font-bold text-emerald-700 pt-2">
-                {currencySymbol}
-                {invoiceData.total.toFixed(2)}
-              </div>
-            </div>
-          </div>
-
           {/* Compact Status */}
           <div
             className={`p-3 rounded-xl border ${
