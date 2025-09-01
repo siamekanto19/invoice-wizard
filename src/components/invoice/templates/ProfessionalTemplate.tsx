@@ -756,7 +756,7 @@ const InvoiceDocument = ({ data, previewMode = false }: Props) => {
         {/* Summary */}
         <View
           style={{
-            width: 140,
+            width: 180,
             marginLeft: "auto",
             paddingTop: 10,
             paddingBottom: 10,
