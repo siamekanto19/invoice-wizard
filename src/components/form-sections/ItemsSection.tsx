@@ -15,7 +15,7 @@ export default function ItemsSection() {
   });
 
   const handleAddItem = () => {
-    if (newItem.description && newItem.quantity > 0 && newItem.unitPrice >= 0) {
+    if (newItem.description && newItem.quantity > 0) {
       addItem(newItem);
       setNewItem({ description: "", quantity: 1, unitPrice: 0 });
     }
@@ -98,7 +98,6 @@ export default function ItemsSection() {
                 })
               }
               onKeyPress={handleItemKeyPress}
-              min="0"
               step="0.01"
               className="h-11 border-slate-200 focus:border-blue-500 focus:ring-blue-500/20"
             />
@@ -192,7 +191,6 @@ export default function ItemsSection() {
                           parseFloat(e.target.value) || 0
                         )
                       }
-                      min="0"
                       step="0.01"
                       className="h-10 border-slate-200 focus:border-blue-500 focus:ring-blue-500/20"
                     />
