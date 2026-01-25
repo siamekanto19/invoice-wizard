@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, FileText, Download, Clock, Check } from "lucide-react";
 
@@ -9,9 +10,13 @@ export default function Home() {
       <header className="border-b border-neutral-100">
         <div className="container mx-auto max-w-6xl px-6 py-5 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-neutral-900 rounded-md flex items-center justify-center shadow-sm">
-              <FileText className="h-4 w-4 text-white" />
-            </div>
+            <Image
+              src="/logo.svg"
+              alt="Invoice Wizard"
+              width={40}
+              height={40}
+              className="rounded-md"
+            />
             <span className="font-semibold tracking-tight text-neutral-900">
               Invoice Wizard
             </span>
@@ -193,7 +198,8 @@ export default function Home() {
               Everything you need
             </h2>
             <p className="text-neutral-600 leading-relaxed mb-8">
-              A simple tool with all the features required for creating clean, professional invoices.
+              A simple tool with all the features required for creating clean,
+              professional invoices.
             </p>
             <Link href="/generate?mode=select">
               <Button variant="outline" className="gap-2 border-neutral-300">
@@ -249,9 +255,13 @@ export default function Home() {
         <div className="container mx-auto max-w-6xl px-6 py-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-neutral-900 rounded flex items-center justify-center">
-                <FileText className="h-3 w-3 text-white" />
-              </div>
+              <Image
+                src="/logo.svg"
+                alt="Invoice Wizard"
+                width={24}
+                height={24}
+                className="rounded"
+              />
               <span className="text-sm text-neutral-600">Invoice Wizard</span>
             </div>
             <p className="text-sm text-neutral-500">

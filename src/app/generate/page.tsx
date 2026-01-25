@@ -16,7 +16,8 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Toaster } from "@/components/ui/toaster";
 import { useInvoiceStore } from "@/store/invoice-store";
-import { ArrowLeft, FileText } from "lucide-react";
+import Image from "next/image";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useMemo, useState } from "react";
@@ -234,9 +235,7 @@ function InvoiceQuestionnaire() {
               <Input
                 placeholder="Client Company"
                 value={invoiceData.clientName}
-                onChange={(e) =>
-                  setInvoiceData({ clientName: e.target.value })
-                }
+                onChange={(e) => setInvoiceData({ clientName: e.target.value })}
               />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -407,9 +406,7 @@ function InvoiceQuestionnaire() {
                 </label>
                 <DatePicker
                   value={invoiceData.dueDate}
-                  onChange={(date: string) =>
-                    setInvoiceData({ dueDate: date })
-                  }
+                  onChange={(date: string) => setInvoiceData({ dueDate: date })}
                   placeholder="Select date"
                 />
               </div>
@@ -432,9 +429,7 @@ function InvoiceQuestionnaire() {
               </label>
               <Select
                 value={invoiceData.template}
-                onValueChange={(value) =>
-                  setInvoiceData({ template: value })
-                }
+                onValueChange={(value) => setInvoiceData({ template: value })}
               >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select template" />
@@ -454,9 +449,7 @@ function InvoiceQuestionnaire() {
               </label>
               <Select
                 value={invoiceData.currency}
-                onValueChange={(value) =>
-                  setInvoiceData({ currency: value })
-                }
+                onValueChange={(value) => setInvoiceData({ currency: value })}
               >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select currency" />
@@ -617,7 +610,7 @@ function InvoiceQuestionnaire() {
         ),
       },
     ],
-    [invoiceData, setInvoiceData]
+    [invoiceData, setInvoiceData],
   );
 
   const currentStep = steps[stepIndex];
@@ -736,9 +729,7 @@ function QuestionnaireLayout() {
       <div className="lg:col-span-2 lg:sticky lg:top-24 space-y-4">
         <div className="rounded-2xl border border-neutral-200 bg-white p-5">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-neutral-900">
-              Preview
-            </h3>
+            <h3 className="text-sm font-semibold text-neutral-900">Preview</h3>
             <span className="text-xs text-neutral-500">
               {isReady ? "Ready" : "Complete steps"}
             </span>
@@ -784,9 +775,13 @@ function GeneratePageContent() {
             </Link>
 
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-neutral-900 rounded-md flex items-center justify-center">
-                <FileText className="h-4 w-4 text-white" />
-              </div>
+              <Image
+                src="/logo.svg"
+                alt="Invoice Wizard"
+                width={40}
+                height={40}
+                className="rounded-md"
+              />
               <div>
                 <h1 className="text-lg font-semibold text-neutral-900">
                   Create Invoice
@@ -820,9 +815,7 @@ function GeneratePageContent() {
               </p>
             </div>
             <LayoutSelector
-              onSelect={(selected) =>
-                router.push(`/generate?mode=${selected}`)
-              }
+              onSelect={(selected) => router.push(`/generate?mode=${selected}`)}
             />
           </div>
         ) : mode === "questionnaire" ? (
