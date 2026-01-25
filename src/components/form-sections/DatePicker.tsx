@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 
 export default function DatePicker({
   value,
@@ -22,38 +22,52 @@ export default function DatePicker({
 }) {
   const [open, setOpen] = useState(false);
 
+  // Parse the date string as local date (not UTC)
+  const parseLocalDate = (dateStr: string): Date | undefined => {
+    if (!dateStr) return undefined;
+    // Split the date string and create a local date
+    const [year, month, day] = dateStr.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  };
+
+  // Format date to YYYY-MM-DD without timezone issues
+  const formatLocalDate = (date: Date): string => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const selectedDate = parseLocalDate(value);
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className="w-full h-11 justify-start text-left font-normal border-slate-200 hover:bg-slate-50 focus:border-blue-500 focus:ring-blue-500/20"
+          className="w-full h-9 justify-start text-left font-normal"
         >
-          <CalendarIcon className="mr-3 h-4 w-4 text-slate-500" />
-          {value ? (
-            <span className="text-slate-900">
-              {format(new Date(value), "PPP")}
+          <CalendarIcon className="mr-3 h-4 w-4 text-neutral-500" />
+          {selectedDate ? (
+            <span className="text-neutral-900">
+              {format(selectedDate, "PPP")}
             </span>
           ) : (
-            <span className="text-slate-500">{placeholder}</span>
+            <span className="text-neutral-500">{placeholder}</span>
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent
-        className="w-auto p-0 border-slate-200 shadow-lg"
-        align="start"
-      >
+      <PopoverContent className="w-auto p-0" align="start">
         <CalendarComponent
           mode="single"
-          selected={value ? new Date(value) : undefined}
+          selected={selectedDate}
           onSelect={(date) => {
             if (date) {
-              onChange(date.toISOString().split("T")[0]);
+              onChange(formatLocalDate(date));
               setOpen(false);
             }
           }}
           initialFocus
-          className="rounded-lg"
         />
       </PopoverContent>
     </Popover>

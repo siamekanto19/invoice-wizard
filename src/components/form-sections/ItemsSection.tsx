@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Plus, Trash2, Package } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 import { useInvoiceStore } from "@/store/invoice-store";
 
 export default function ItemsSection() {
@@ -37,36 +37,26 @@ export default function ItemsSection() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Add New Item Section */}
-      <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
-        <div className="flex items-center gap-2 mb-4">
-          <Plus className="h-4 w-4 text-slate-600" />
-          <span className="text-sm font-medium text-slate-700">
-            Add New Item
-          </span>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
-          <div className="md:col-span-5">
-            <label className="text-xs font-medium text-slate-600 uppercase tracking-wide block mb-2">
-              Description *
+    <div className="space-y-4">
+      {/* Add New Item */}
+      <div className="bg-neutral-50 rounded-lg p-4 border border-neutral-200">
+        <div className="grid grid-cols-12 gap-3 items-end">
+          <div className="col-span-12 md:col-span-5">
+            <label className="text-sm text-neutral-600 block mb-1.5">
+              Description
             </label>
             <Input
-              placeholder="Product or service description"
+              placeholder="Product or service"
               value={newItem.description}
               onChange={(e) =>
                 setNewItem({ ...newItem, description: e.target.value })
               }
               onKeyPress={handleItemKeyPress}
-              className="h-11 border-slate-200 focus:border-blue-500 focus:ring-blue-500/20"
             />
           </div>
 
-          <div className="md:col-span-2">
-            <label className="text-xs font-medium text-slate-600 uppercase tracking-wide block mb-2">
-              Quantity
-            </label>
+          <div className="col-span-4 md:col-span-2">
+            <label className="text-sm text-neutral-600 block mb-1.5">Qty</label>
             <Input
               type="number"
               placeholder="1"
@@ -79,13 +69,12 @@ export default function ItemsSection() {
               }
               onKeyPress={handleItemKeyPress}
               min="1"
-              className="h-11 border-slate-200 focus:border-blue-500 focus:ring-blue-500/20"
             />
           </div>
 
-          <div className="md:col-span-2">
-            <label className="text-xs font-medium text-slate-600 uppercase tracking-wide block mb-2">
-              Unit Price
+          <div className="col-span-4 md:col-span-2">
+            <label className="text-sm text-neutral-600 block mb-1.5">
+              Price
             </label>
             <Input
               type="number"
@@ -99,24 +88,23 @@ export default function ItemsSection() {
               }
               onKeyPress={handleItemKeyPress}
               step="0.01"
-              className="h-11 border-slate-200 focus:border-blue-500 focus:ring-blue-500/20"
             />
           </div>
 
-          <div className="md:col-span-2">
-            <label className="text-xs font-medium text-slate-600 uppercase tracking-wide block mb-2">
+          <div className="col-span-4 md:col-span-2">
+            <label className="text-sm text-neutral-600 block mb-1.5">
               Total
             </label>
-            <div className="h-11 flex items-center justify-center font-bold text-slate-900 bg-white px-4 border border-slate-200 rounded-lg">
+            <div className="h-9 flex items-center px-3 bg-white border border-neutral-200 rounded-md text-sm font-medium">
               ${(newItem.quantity * newItem.unitPrice).toFixed(2)}
             </div>
           </div>
 
-          <div className="md:col-span-1">
+          <div className="col-span-12 md:col-span-1">
             <Button
               type="button"
               onClick={handleAddItem}
-              className="h-11 w-full bg-blue-600 hover:bg-blue-700 text-white"
+              className="w-full"
               disabled={!newItem.description || newItem.quantity <= 0}
             >
               <Plus className="h-4 w-4" />
@@ -126,97 +114,90 @@ export default function ItemsSection() {
       </div>
 
       {/* Items List */}
-      <div className="space-y-3">
-        {invoiceData.items.length === 0 ? (
-          <div className="text-center py-12 border-2 border-dashed border-slate-200 rounded-xl">
-            <div className="p-3 bg-slate-100 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-              <Package className="h-8 w-8 text-slate-400" />
-            </div>
-            <p className="text-slate-500 font-medium">No items added yet</p>
-            <p className="text-sm text-slate-400">
-              Add your first item above to get started
-            </p>
+      {invoiceData.items.length === 0 ? (
+        <div className="text-center py-8 border border-dashed border-neutral-200 rounded-lg">
+          <p className="text-neutral-500 text-sm">No items added yet</p>
+          <p className="text-neutral-400 text-xs mt-1">
+            Add your first item above
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-2">
+          {/* Header */}
+          <div className="hidden md:grid grid-cols-12 gap-3 px-3 py-2 text-xs text-neutral-500 font-medium">
+            <div className="col-span-5">Description</div>
+            <div className="col-span-2">Qty</div>
+            <div className="col-span-2">Price</div>
+            <div className="col-span-2">Total</div>
+            <div className="col-span-1"></div>
           </div>
-        ) : (
-          <>
-            {/* Table Header */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 px-4 py-3 bg-slate-50 rounded-lg text-xs font-medium text-slate-600 uppercase tracking-wide">
-              <div className="md:col-span-5">Description</div>
-              <div className="md:col-span-2">Quantity</div>
-              <div className="md:col-span-2">Unit Price</div>
-              <div className="md:col-span-2">Total</div>
-              <div className="md:col-span-1">Action</div>
-            </div>
 
-            {/* Items */}
-            <div className="space-y-2">
-              {invoiceData.items.map((item, index) => (
-                <div
-                  key={item.id}
-                  className="grid grid-cols-1 md:grid-cols-12 gap-4 p-4 bg-white border border-slate-200 rounded-lg hover:border-slate-300 transition-colors"
-                >
-                  <div className="md:col-span-5">
-                    <Input
-                      value={item.description}
-                      onChange={(e) =>
-                        handleUpdateItem(item.id, "description", e.target.value)
-                      }
-                      placeholder="Item description"
-                      className="h-10 border-slate-200 focus:border-blue-500 focus:ring-blue-500/20"
-                    />
-                  </div>
-                  <div className="md:col-span-2">
-                    <Input
-                      type="number"
-                      value={item.quantity}
-                      onChange={(e) =>
-                        handleUpdateItem(
-                          item.id,
-                          "quantity",
-                          parseInt(e.target.value) || 0
-                        )
-                      }
-                      min="1"
-                      className="h-10 border-slate-200 focus:border-blue-500 focus:ring-blue-500/20"
-                    />
-                  </div>
-                  <div className="md:col-span-2">
-                    <Input
-                      type="number"
-                      value={item.unitPrice}
-                      onChange={(e) =>
-                        handleUpdateItem(
-                          item.id,
-                          "unitPrice",
-                          parseFloat(e.target.value) || 0
-                        )
-                      }
-                      step="0.01"
-                      className="h-10 border-slate-200 focus:border-blue-500 focus:ring-blue-500/20"
-                    />
-                  </div>
-                  <div className="md:col-span-2">
-                    <div className="h-10 flex items-center justify-center font-semibold text-slate-900 bg-slate-50 px-3 border border-slate-200 rounded-lg">
-                      ${item.total.toFixed(2)}
-                    </div>
-                  </div>
-                  <div className="md:col-span-1">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={() => removeItem(item.id)}
-                      className="h-10 w-full border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
+          {/* Rows */}
+          {invoiceData.items.map((item) => (
+            <div
+              key={item.id}
+              className="grid grid-cols-12 gap-3 p-3 bg-white border border-neutral-200 rounded-lg items-center"
+            >
+              <div className="col-span-12 md:col-span-5">
+                <Input
+                  value={item.description}
+                  onChange={(e) =>
+                    handleUpdateItem(item.id, "description", e.target.value)
+                  }
+                  placeholder="Description"
+                  className="h-9"
+                />
+              </div>
+              <div className="col-span-4 md:col-span-2">
+                <Input
+                  type="number"
+                  value={item.quantity}
+                  onChange={(e) =>
+                    handleUpdateItem(
+                      item.id,
+                      "quantity",
+                      parseInt(e.target.value) || 0
+                    )
+                  }
+                  min="1"
+                  className="h-9"
+                />
+              </div>
+              <div className="col-span-4 md:col-span-2">
+                <Input
+                  type="number"
+                  value={item.unitPrice}
+                  onChange={(e) =>
+                    handleUpdateItem(
+                      item.id,
+                      "unitPrice",
+                      parseFloat(e.target.value) || 0
+                    )
+                  }
+                  step="0.01"
+                  className="h-9"
+                />
+              </div>
+              <div className="col-span-2 md:col-span-2">
+                <div className="h-9 flex items-center px-3 bg-neutral-50 border border-neutral-200 rounded-md text-sm font-medium">
+                  ${item.total.toFixed(2)}
                 </div>
-              ))}
+              </div>
+              <div className="col-span-2 md:col-span-1">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => removeItem(item.id)}
+                  className="w-full h-9 text-neutral-400 hover:text-red-600 hover:bg-red-50"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
-          </>
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
