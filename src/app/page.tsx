@@ -195,7 +195,7 @@ export default function Home() {
             <p className="text-neutral-600 leading-relaxed mb-8">
               A simple tool with all the features required for creating clean, professional invoices.
             </p>
-            <Link href="/generate">
+            <Link href="/generate?mode=select">
               <Button variant="outline" className="gap-2 border-neutral-300">
                 Get Started
                 <ArrowRight className="h-4 w-4" />
@@ -235,7 +235,7 @@ export default function Home() {
               takes less than two minutes.
             </p>
           </div>
-          <Link href="/generate">
+          <Link href="/generate?mode=select">
             <Button size="lg" className="gap-2">
               Create Invoice
               <ArrowRight className="h-4 w-4" />
