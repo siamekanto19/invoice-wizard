@@ -228,19 +228,27 @@ export default function InvoiceForm() {
   };
 
   return (
-    <div className="w-full space-y-8">
+    <div className="w-full space-y-6">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSaveInvoice)}
-          className="space-y-8"
+          className="space-y-6"
         >
-          {/* Invoice Details Section */}
-          <section className="space-y-4">
-            <div className="flex items-center gap-3 pb-2 border-b border-neutral-100">
-              <div className="w-8 h-8 bg-neutral-100 rounded-lg flex items-center justify-center">
-                <FileText className="h-4 w-4 text-neutral-600" />
+          <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04)] space-y-5">
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 bg-neutral-100 rounded-lg flex items-center justify-center">
+                  <FileText className="h-4 w-4 text-neutral-600" />
+                </div>
+                <div>
+                  <h2 className="text-sm font-semibold text-neutral-900">
+                    Invoice Details
+                  </h2>
+                  <p className="text-xs text-neutral-500">
+                    Number, dates, and template
+                  </p>
+                </div>
               </div>
-              <h2 className="font-medium text-neutral-900">Invoice Details</h2>
             </div>
             <InvoiceDetails
               form={form}
@@ -250,35 +258,59 @@ export default function InvoiceForm() {
             />
           </section>
 
-          {/* Company Information Section */}
-          <section className="space-y-4">
-            <div className="flex items-center gap-3 pb-2 border-b border-neutral-100">
-              <div className="w-8 h-8 bg-neutral-100 rounded-lg flex items-center justify-center">
-                <Building className="h-4 w-4 text-neutral-600" />
+          <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04)] space-y-5">
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 bg-neutral-100 rounded-lg flex items-center justify-center">
+                  <Building className="h-4 w-4 text-neutral-600" />
+                </div>
+                <div>
+                  <h2 className="text-sm font-semibold text-neutral-900">
+                    Your Business
+                  </h2>
+                  <p className="text-xs text-neutral-500">
+                    Company name and contact
+                  </p>
+                </div>
               </div>
-              <h2 className="font-medium text-neutral-900">Your Business</h2>
             </div>
             <CompanySection form={form} />
           </section>
 
-          {/* Client Information Section */}
-          <section className="space-y-4">
-            <div className="flex items-center gap-3 pb-2 border-b border-neutral-100">
-              <div className="w-8 h-8 bg-neutral-100 rounded-lg flex items-center justify-center">
-                <Users className="h-4 w-4 text-neutral-600" />
+          <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04)] space-y-5">
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 bg-neutral-100 rounded-lg flex items-center justify-center">
+                  <Users className="h-4 w-4 text-neutral-600" />
+                </div>
+                <div>
+                  <h2 className="text-sm font-semibold text-neutral-900">
+                    Bill To
+                  </h2>
+                  <p className="text-xs text-neutral-500">
+                    Client name and contact
+                  </p>
+                </div>
               </div>
-              <h2 className="font-medium text-neutral-900">Bill To</h2>
             </div>
             <ClientSection form={form} />
           </section>
 
-          {/* Invoice Items Section */}
-          <section className="space-y-4">
-            <div className="flex items-center gap-3 pb-2 border-b border-neutral-100">
-              <div className="w-8 h-8 bg-neutral-100 rounded-lg flex items-center justify-center">
-                <Package className="h-4 w-4 text-neutral-600" />
+          <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04)] space-y-5">
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 bg-neutral-100 rounded-lg flex items-center justify-center">
+                  <Package className="h-4 w-4 text-neutral-600" />
+                </div>
+                <div>
+                  <h2 className="text-sm font-semibold text-neutral-900">
+                    Line Items
+                  </h2>
+                  <p className="text-xs text-neutral-500">
+                    Services, quantities, and rates
+                  </p>
+                </div>
               </div>
-              <h2 className="font-medium text-neutral-900">Line Items</h2>
             </div>
             <InvoiceItemsSection
               form={form}
@@ -287,14 +319,24 @@ export default function InvoiceForm() {
             />
           </section>
 
-          {/* Payment Section */}
-          <section className="space-y-4">
-            <div className="flex items-center gap-3 pb-2 border-b border-neutral-100">
-              <div className="w-8 h-8 bg-neutral-100 rounded-lg flex items-center justify-center">
-                <CreditCard className="h-4 w-4 text-neutral-600" />
+          <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04)] space-y-5">
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 bg-neutral-100 rounded-lg flex items-center justify-center">
+                  <CreditCard className="h-4 w-4 text-neutral-600" />
+                </div>
+                <div>
+                  <h2 className="text-sm font-semibold text-neutral-900">
+                    Payment Details
+                  </h2>
+                  <p className="text-xs text-neutral-500">
+                    Terms and payment method
+                  </p>
+                </div>
               </div>
-              <h2 className="font-medium text-neutral-900">Payment Details</h2>
-              <span className="text-sm text-neutral-400">Optional</span>
+              <span className="text-xs font-medium text-neutral-400">
+                Optional
+              </span>
             </div>
             <PaymentSection form={form} />
           </section>
