@@ -19,7 +19,7 @@ import { useInvoiceStore } from "@/store/invoice-store";
 import { ArrowLeft, FileText } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 
 const templateOptions = [
   { value: "professional", label: "Professional" },
@@ -758,7 +758,7 @@ function QuestionnaireLayout() {
   );
 }
 
-export default function GeneratePage() {
+function GeneratePageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const mode = searchParams.get("mode");
@@ -834,5 +834,13 @@ export default function GeneratePage() {
 
       <Toaster />
     </div>
+  );
+}
+
+export default function GeneratePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-neutral-50" />}>
+      <GeneratePageContent />
+    </Suspense>
   );
 }
