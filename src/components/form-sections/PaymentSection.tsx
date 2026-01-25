@@ -23,7 +23,6 @@ export default function PaymentSection({ form }: { form: any }) {
 
   return (
     <div className="space-y-6">
-      {/* Currency & Terms */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <FormField
           control={form.control}
@@ -33,6 +32,9 @@ export default function PaymentSection({ form }: { form: any }) {
               <FormLabel className="text-sm text-neutral-600">
                 Currency
               </FormLabel>
+              <p className="text-xs text-neutral-500 mb-2">
+                Used across totals and exports
+              </p>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl className="w-full">
                   <SelectTrigger className="h-9 w-full">
@@ -64,6 +66,9 @@ export default function PaymentSection({ form }: { form: any }) {
               <FormLabel className="text-sm text-neutral-600">
                 Payment Terms
               </FormLabel>
+              <p className="text-xs text-neutral-500 mb-2">
+                Determines the due date expectation
+              </p>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl className="w-full">
                   <SelectTrigger className="h-9 w-full">
@@ -84,11 +89,11 @@ export default function PaymentSection({ form }: { form: any }) {
         />
       </div>
 
-      {/* Bank Details */}
       <div className="pt-4 border-t border-neutral-100">
-        <p className="text-sm text-neutral-500 mb-4">
-          Bank Details (Optional)
-        </p>
+        <div className="flex items-center justify-between mb-3">
+          <p className="text-sm font-medium text-neutral-800">Bank Details</p>
+          <span className="text-xs text-neutral-400">Optional</span>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormField
@@ -99,6 +104,9 @@ export default function PaymentSection({ form }: { form: any }) {
                 <FormLabel className="text-sm text-neutral-600">
                   Bank Name
                 </FormLabel>
+                <p className="text-xs text-neutral-500 mb-2">
+                  For wire or ACH payments
+                </p>
                 <FormControl>
                   <Input placeholder="Bank of America" {...field} />
                 </FormControl>
@@ -115,6 +123,9 @@ export default function PaymentSection({ form }: { form: any }) {
                 <FormLabel className="text-sm text-neutral-600">
                   Account Number
                 </FormLabel>
+                <p className="text-xs text-neutral-500 mb-2">
+                  Digits only
+                </p>
                 <FormControl>
                   <Input placeholder="123456789" {...field} />
                 </FormControl>
@@ -131,6 +142,7 @@ export default function PaymentSection({ form }: { form: any }) {
                 <FormLabel className="text-sm text-neutral-600">
                   Routing Number
                 </FormLabel>
+                <p className="text-xs text-neutral-500 mb-2">US banks only</p>
                 <FormControl>
                   <Input placeholder="021000021" {...field} />
                 </FormControl>
@@ -143,6 +155,9 @@ export default function PaymentSection({ form }: { form: any }) {
             <FormLabel className="text-sm text-neutral-600">
               SWIFT Code
             </FormLabel>
+            <p className="text-xs text-neutral-500 mb-2">
+              For international payments
+            </p>
             <Input
               placeholder="BOFAUS3N"
               value={invoiceData.bankSwift}
@@ -156,9 +171,13 @@ export default function PaymentSection({ form }: { form: any }) {
         </div>
       </div>
 
-      {/* Notes & Terms */}
       <div className="pt-4 border-t border-neutral-100">
-        <p className="text-sm text-neutral-500 mb-4">Additional Notes</p>
+        <p className="text-sm font-medium text-neutral-800 mb-1">
+          Notes and terms
+        </p>
+        <p className="text-xs text-neutral-500 mb-4">
+          Included at the bottom of the invoice
+        </p>
 
         <div className="space-y-4">
           <FormField
@@ -169,6 +188,9 @@ export default function PaymentSection({ form }: { form: any }) {
                 <FormLabel className="text-sm text-neutral-600">
                   Notes
                 </FormLabel>
+                <p className="text-xs text-neutral-500 mb-2">
+                  A short message to your client
+                </p>
                 <FormControl>
                   <Textarea
                     placeholder="Thank you for your business!"
@@ -189,6 +211,9 @@ export default function PaymentSection({ form }: { form: any }) {
                 <FormLabel className="text-sm text-neutral-600">
                   Terms & Conditions
                 </FormLabel>
+                <p className="text-xs text-neutral-500 mb-2">
+                  Late fees, payment methods, or policies
+                </p>
                 <FormControl>
                   <Textarea
                     placeholder="Payment terms, late fees, etc."

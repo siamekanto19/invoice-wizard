@@ -38,8 +38,7 @@ export default function ItemsSection() {
 
   return (
     <div className="space-y-4">
-      {/* Add New Item */}
-      <div className="bg-neutral-50 rounded-lg p-4 border border-neutral-200">
+      <div className="bg-neutral-50 rounded-xl p-4 border border-neutral-200">
         <div className="grid grid-cols-12 gap-3 items-end">
           <div className="col-span-12 md:col-span-5">
             <label className="text-sm text-neutral-600 block mb-1.5">
@@ -74,7 +73,7 @@ export default function ItemsSection() {
 
           <div className="col-span-4 md:col-span-2">
             <label className="text-sm text-neutral-600 block mb-1.5">
-              Price
+              Unit Price
             </label>
             <Input
               type="number"
@@ -95,7 +94,7 @@ export default function ItemsSection() {
             <label className="text-sm text-neutral-600 block mb-1.5">
               Total
             </label>
-            <div className="h-9 flex items-center px-3 bg-white border border-neutral-200 rounded-md text-sm font-medium">
+            <div className="h-9 flex items-center px-3 bg-white border border-neutral-200 rounded-md text-sm font-medium text-neutral-700">
               ${(newItem.quantity * newItem.unitPrice).toFixed(2)}
             </div>
           </div>
@@ -104,10 +103,11 @@ export default function ItemsSection() {
             <Button
               type="button"
               onClick={handleAddItem}
-              className="w-full"
+              className="w-full gap-2"
               disabled={!newItem.description || newItem.quantity <= 0}
             >
               <Plus className="h-4 w-4" />
+              <span className="md:hidden">Add Item</span>
             </Button>
           </div>
         </div>
@@ -115,15 +115,14 @@ export default function ItemsSection() {
 
       {/* Items List */}
       {invoiceData.items.length === 0 ? (
-        <div className="text-center py-8 border border-dashed border-neutral-200 rounded-lg">
-          <p className="text-neutral-500 text-sm">No items added yet</p>
+        <div className="text-center py-10 border border-dashed border-neutral-200 rounded-xl bg-white">
+          <p className="text-neutral-600 text-sm">No items yet</p>
           <p className="text-neutral-400 text-xs mt-1">
-            Add your first item above
+            Add your first item to calculate totals
           </p>
         </div>
       ) : (
         <div className="space-y-2">
-          {/* Header */}
           <div className="hidden md:grid grid-cols-12 gap-3 px-3 py-2 text-xs text-neutral-500 font-medium">
             <div className="col-span-5">Description</div>
             <div className="col-span-2">Qty</div>
@@ -132,11 +131,10 @@ export default function ItemsSection() {
             <div className="col-span-1"></div>
           </div>
 
-          {/* Rows */}
           {invoiceData.items.map((item) => (
             <div
               key={item.id}
-              className="grid grid-cols-12 gap-3 p-3 bg-white border border-neutral-200 rounded-lg items-center"
+              className="grid grid-cols-12 gap-3 p-3 bg-white border border-neutral-200 rounded-xl items-center"
             >
               <div className="col-span-12 md:col-span-5">
                 <Input
@@ -179,7 +177,7 @@ export default function ItemsSection() {
                 />
               </div>
               <div className="col-span-2 md:col-span-2">
-                <div className="h-9 flex items-center px-3 bg-neutral-50 border border-neutral-200 rounded-md text-sm font-medium">
+                <div className="h-9 flex items-center px-3 bg-neutral-50 border border-neutral-200 rounded-md text-sm font-medium text-neutral-700">
                   ${item.total.toFixed(2)}
                 </div>
               </div>

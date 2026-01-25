@@ -14,8 +14,7 @@ export default function CompanySection({ form }: { form: any }) {
   const { invoiceData, setInvoiceData } = useInvoiceStore();
 
   return (
-    <div className="space-y-4">
-      {/* Company Name */}
+    <div className="space-y-5">
       <FormField
         control={form.control}
         name="companyName"
@@ -24,6 +23,9 @@ export default function CompanySection({ form }: { form: any }) {
             <FormLabel className="text-sm text-neutral-600">
               Company Name
             </FormLabel>
+            <p className="text-xs text-neutral-500 mb-2">
+              This appears on the invoice header
+            </p>
             <FormControl>
               <Input placeholder="Your Company" {...field} />
             </FormControl>
@@ -39,6 +41,9 @@ export default function CompanySection({ form }: { form: any }) {
           render={({ field }: any) => (
             <FormItem>
               <FormLabel className="text-sm text-neutral-600">Email</FormLabel>
+              <p className="text-xs text-neutral-500 mb-2">
+                Invoices and payment confirmations
+              </p>
               <FormControl>
                 <Input
                   placeholder="company@example.com"
@@ -52,7 +57,10 @@ export default function CompanySection({ form }: { form: any }) {
         />
 
         <FormItem>
-          <FormLabel className="text-sm text-neutral-600">Phone</FormLabel>
+          <FormLabel className="text-sm text-neutral-600">
+            Phone
+          </FormLabel>
+          <p className="text-xs text-neutral-500 mb-2">Optional</p>
           <FormControl>
             <Input
               placeholder="+1 (555) 123-4567"
@@ -67,6 +75,7 @@ export default function CompanySection({ form }: { form: any }) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <FormItem>
           <FormLabel className="text-sm text-neutral-600">Website</FormLabel>
+          <p className="text-xs text-neutral-500 mb-2">Optional</p>
           <FormControl>
             <Input
               placeholder="https://example.com"
@@ -81,6 +90,7 @@ export default function CompanySection({ form }: { form: any }) {
 
         <FormItem>
           <FormLabel className="text-sm text-neutral-600">Tax ID</FormLabel>
+          <p className="text-xs text-neutral-500 mb-2">Optional</p>
           <FormControl>
             <Input
               placeholder="Tax ID / VAT Number"
@@ -91,9 +101,11 @@ export default function CompanySection({ form }: { form: any }) {
         </FormItem>
       </div>
 
-      {/* Address Section */}
       <div className="pt-4 border-t border-neutral-100">
-        <p className="text-sm text-neutral-500 mb-4">Address</p>
+        <p className="text-sm font-medium text-neutral-800 mb-1">Address</p>
+        <p className="text-xs text-neutral-500 mb-4">
+          Used for the sender address on the invoice
+        </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormItem>

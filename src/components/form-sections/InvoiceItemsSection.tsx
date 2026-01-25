@@ -85,11 +85,15 @@ export default function InvoiceItemsSection({
 
   return (
     <div className="space-y-6">
-      {/* Items List */}
       <ItemsSection />
 
-      {/* Tax and Discount */}
       <div className="pt-4 border-t border-neutral-100">
+        <div className="flex items-center justify-between mb-3">
+          <p className="text-sm font-medium text-neutral-800">
+            Taxes and discounts
+          </p>
+          <span className="text-xs text-neutral-400">Optional</span>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormField
             control={form.control}
@@ -99,6 +103,9 @@ export default function InvoiceItemsSection({
                 <FormLabel className="text-sm text-neutral-600">
                   Tax Rate (%)
                 </FormLabel>
+                <p className="text-xs text-neutral-500 mb-2">
+                  Percentage added to the subtotal
+                </p>
                 <FormControl>
                   <Input
                     type="number"
@@ -124,6 +131,9 @@ export default function InvoiceItemsSection({
                 <FormLabel className="text-sm text-neutral-600">
                   Discount (%)
                 </FormLabel>
+                <p className="text-xs text-neutral-500 mb-2">
+                  Percentage subtracted from the subtotal
+                </p>
                 <FormControl>
                   <Input
                     type="number"
@@ -143,18 +153,17 @@ export default function InvoiceItemsSection({
         </div>
       </div>
 
-      {/* Totals */}
       <div className="pt-4 border-t border-neutral-100">
-        <div className="space-y-2 max-w-xs ml-auto text-sm">
-          <div className="flex justify-between">
+        <div className="max-w-sm ml-auto space-y-2 text-sm">
+          <div className="flex items-center justify-between">
             <span className="text-neutral-500">Subtotal</span>
-            <span className="text-neutral-900">
+            <span className="text-neutral-900 font-medium">
               {currencySymbol}
               {invoiceData.subtotal.toFixed(2)}
             </span>
           </div>
           {invoiceData.taxRate > 0 && (
-            <div className="flex justify-between">
+            <div className="flex items-center justify-between">
               <span className="text-neutral-500">
                 Tax ({invoiceData.taxRate}%)
               </span>
@@ -165,7 +174,7 @@ export default function InvoiceItemsSection({
             </div>
           )}
           {invoiceData.discountRate > 0 && (
-            <div className="flex justify-between">
+            <div className="flex items-center justify-between">
               <span className="text-neutral-500">
                 Discount ({invoiceData.discountRate}%)
               </span>
@@ -175,9 +184,9 @@ export default function InvoiceItemsSection({
               </span>
             </div>
           )}
-          <div className="flex justify-between pt-2 border-t border-neutral-200 font-medium">
-            <span className="text-neutral-900">Total</span>
-            <span className="text-neutral-900 text-base">
+          <div className="flex items-center justify-between pt-3 mt-3 border-t border-neutral-200">
+            <span className="text-sm text-neutral-700">Total</span>
+            <span className="text-lg font-semibold text-neutral-900">
               {currencySymbol}
               {invoiceData.total.toFixed(2)}
             </span>

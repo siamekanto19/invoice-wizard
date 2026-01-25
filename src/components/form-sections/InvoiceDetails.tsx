@@ -35,8 +35,7 @@ export default function InvoiceDetails({
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Invoice Number */}
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-end">
           <FormField
             control={form.control}
             name="invoiceNumber"
@@ -46,26 +45,23 @@ export default function InvoiceDetails({
                   Invoice Number
                 </FormLabel>
                 <FormControl>
-                  <Input placeholder="INV-001" {...field} />
+                  <Input placeholder="INV-2026-001" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <div className="flex items-end">
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={generateInvoiceNumber}
-              className="h-9"
-            >
-              Generate
-            </Button>
-          </div>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={generateInvoiceNumber}
+            className="h-9 px-3 text-xs"
+          >
+            Auto
+          </Button>
         </div>
 
-        {/* Template */}
         <FormField
           control={form.control}
           name="template"
@@ -74,6 +70,9 @@ export default function InvoiceDetails({
               <FormLabel className="text-sm text-neutral-600">
                 Template
               </FormLabel>
+              <p className="text-xs text-neutral-500 mb-2">
+                Choose a layout for the PDF
+              </p>
               <FormControl className="w-full">
                 <Select
                   value={field.value}
@@ -97,7 +96,6 @@ export default function InvoiceDetails({
           )}
         />
 
-        {/* Invoice Date */}
         <FormField
           control={form.control}
           name="invoiceDate"
@@ -106,6 +104,9 @@ export default function InvoiceDetails({
               <FormLabel className="text-sm text-neutral-600">
                 Invoice Date
               </FormLabel>
+              <p className="text-xs text-neutral-500 mb-2">
+                Date the invoice is issued
+              </p>
               <FormControl>
                 <DatePicker
                   value={field.value}
@@ -121,7 +122,6 @@ export default function InvoiceDetails({
           )}
         />
 
-        {/* Due Date */}
         <FormField
           control={form.control}
           name="dueDate"
@@ -130,6 +130,9 @@ export default function InvoiceDetails({
               <FormLabel className="text-sm text-neutral-600">
                 Due Date
               </FormLabel>
+              <p className="text-xs text-neutral-500 mb-2">
+                When payment is expected
+              </p>
               <FormControl>
                 <DatePicker
                   value={field.value}

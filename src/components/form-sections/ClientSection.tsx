@@ -14,8 +14,7 @@ export default function ClientSection({ form }: { form: any }) {
   const { invoiceData, setInvoiceData } = useInvoiceStore();
 
   return (
-    <div className="space-y-4">
-      {/* Client Name */}
+    <div className="space-y-5">
       <FormField
         control={form.control}
         name="clientName"
@@ -24,6 +23,9 @@ export default function ClientSection({ form }: { form: any }) {
             <FormLabel className="text-sm text-neutral-600">
               Client Name
             </FormLabel>
+            <p className="text-xs text-neutral-500 mb-2">
+              The person or company being billed
+            </p>
             <FormControl>
               <Input placeholder="Client Company" {...field} />
             </FormControl>
@@ -39,6 +41,7 @@ export default function ClientSection({ form }: { form: any }) {
           render={({ field }: any) => (
             <FormItem>
               <FormLabel className="text-sm text-neutral-600">Email</FormLabel>
+              <p className="text-xs text-neutral-500 mb-2">Optional</p>
               <FormControl>
                 <Input
                   placeholder="client@example.com"
@@ -53,6 +56,7 @@ export default function ClientSection({ form }: { form: any }) {
 
         <FormItem>
           <FormLabel className="text-sm text-neutral-600">Phone</FormLabel>
+          <p className="text-xs text-neutral-500 mb-2">Optional</p>
           <FormControl>
             <Input
               placeholder="+1 (555) 987-6543"
@@ -68,9 +72,13 @@ export default function ClientSection({ form }: { form: any }) {
         </FormItem>
       </div>
 
-      {/* Address Section */}
       <div className="pt-4 border-t border-neutral-100">
-        <p className="text-sm text-neutral-500 mb-4">Billing Address</p>
+        <p className="text-sm font-medium text-neutral-800 mb-1">
+          Billing Address
+        </p>
+        <p className="text-xs text-neutral-500 mb-4">
+          Used for client records and invoice delivery
+        </p>
 
         <FormItem className="mb-4">
           <FormLabel className="text-sm text-neutral-600">Street</FormLabel>
