@@ -20,10 +20,10 @@ export default function ClientSection({ form }: { form: any }) {
         name="clientName"
         render={({ field }: any) => (
           <FormItem>
-            <FormLabel className="text-sm text-neutral-600">
+            <FormLabel className="text-xs font-medium text-stone-600">
               Client Name
             </FormLabel>
-            <p className="text-xs text-neutral-500 mb-2">
+            <p className="text-xs text-stone-500 mb-2">
               The person or company being billed
             </p>
             <FormControl>
@@ -40,8 +40,8 @@ export default function ClientSection({ form }: { form: any }) {
           name="clientEmail"
           render={({ field }: any) => (
             <FormItem>
-              <FormLabel className="text-sm text-neutral-600">Email</FormLabel>
-              <p className="text-xs text-neutral-500 mb-2">Optional</p>
+              <FormLabel className="text-xs font-medium text-stone-600">Email</FormLabel>
+              <p className="text-xs text-stone-500 mb-2">Optional</p>
               <FormControl>
                 <Input
                   placeholder="client@example.com"
@@ -55,8 +55,8 @@ export default function ClientSection({ form }: { form: any }) {
         />
 
         <FormItem>
-          <FormLabel className="text-sm text-neutral-600">Phone</FormLabel>
-          <p className="text-xs text-neutral-500 mb-2">Optional</p>
+          <FormLabel className="text-xs font-medium text-stone-600">Phone</FormLabel>
+          <p className="text-xs text-stone-500 mb-2">Optional</p>
           <FormControl>
             <Input
               placeholder="+1 (555) 987-6543"
@@ -72,16 +72,11 @@ export default function ClientSection({ form }: { form: any }) {
         </FormItem>
       </div>
 
-      <div className="pt-4 border-t border-neutral-100">
-        <p className="text-sm font-medium text-neutral-800 mb-1">
-          Billing Address
-        </p>
-        <p className="text-xs text-neutral-500 mb-4">
-          Used for client records and invoice delivery
-        </p>
+      <div className="pt-4 border-t border-stone-100">
+        <p className="text-[10px] uppercase tracking-widest text-stone-400 font-medium mb-4">Billing Address</p>
 
         <FormItem className="mb-4">
-          <FormLabel className="text-sm text-neutral-600">Street</FormLabel>
+          <FormLabel className="text-xs font-medium text-stone-600">Street</FormLabel>
           <FormControl>
             <Input
               placeholder="456 Oak Avenue"
@@ -97,7 +92,7 @@ export default function ClientSection({ form }: { form: any }) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormItem>
-            <FormLabel className="text-sm text-neutral-600">City</FormLabel>
+            <FormLabel className="text-xs font-medium text-stone-600">City</FormLabel>
             <FormControl>
               <Input
                 placeholder="Los Angeles"
@@ -112,7 +107,7 @@ export default function ClientSection({ form }: { form: any }) {
           </FormItem>
 
           <FormItem>
-            <FormLabel className="text-sm text-neutral-600">
+            <FormLabel className="text-xs font-medium text-stone-600">
               State/Province
             </FormLabel>
             <FormControl>
@@ -131,7 +126,7 @@ export default function ClientSection({ form }: { form: any }) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
           <FormItem>
-            <FormLabel className="text-sm text-neutral-600">
+            <FormLabel className="text-xs font-medium text-stone-600">
               ZIP/Postal Code
             </FormLabel>
             <FormControl>
@@ -148,7 +143,7 @@ export default function ClientSection({ form }: { form: any }) {
           </FormItem>
 
           <FormItem>
-            <FormLabel className="text-sm text-neutral-600">Country</FormLabel>
+            <FormLabel className="text-xs font-medium text-stone-600">Country</FormLabel>
             <FormControl>
               <Input
                 placeholder="United States"

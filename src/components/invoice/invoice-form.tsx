@@ -9,13 +9,7 @@ import { Form } from "@/components/ui/form";
 import { toast } from "@/hooks/use-toast";
 import { useInvoiceStore } from "@/store/invoice-store";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Building,
-  CreditCard,
-  FileText,
-  Package,
-  Users,
-} from "lucide-react";
+
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -228,117 +222,94 @@ export default function InvoiceForm() {
   };
 
   return (
-    <div className="w-full space-y-6">
+    <div className="w-full space-y-4">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSaveInvoice)}
-          className="space-y-6"
+          className="space-y-4"
         >
-          <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04)] space-y-5">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 bg-neutral-100 rounded-lg flex items-center justify-center">
-                  <FileText className="h-4 w-4 text-neutral-600" />
-                </div>
-                <div>
-                  <h2 className="text-sm font-semibold text-neutral-900">
-                    Invoice Details
-                  </h2>
-                  <p className="text-xs text-neutral-500">
-                    Number, dates, and template
-                  </p>
-                </div>
-              </div>
+          <section className="rounded-xl border border-stone-200 bg-white overflow-hidden">
+            <div className="px-6 py-4 border-b border-stone-100">
+              <p className="text-[10px] uppercase tracking-widest text-stone-400 font-medium">
+                Invoice Details
+              </p>
+              <p className="text-sm font-semibold text-stone-900 mt-0.5">
+                Number, dates &amp; template
+              </p>
             </div>
-            <InvoiceDetails
-              form={form}
-              invoiceData={invoiceData}
-              debouncedUpdateField={debouncedUpdateField}
-              generateInvoiceNumber={generateInvoiceNumber}
-            />
+            <div className="p-6">
+              <InvoiceDetails
+                form={form}
+                invoiceData={invoiceData}
+                debouncedUpdateField={debouncedUpdateField}
+                generateInvoiceNumber={generateInvoiceNumber}
+              />
+            </div>
           </section>
 
-          <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04)] space-y-5">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 bg-neutral-100 rounded-lg flex items-center justify-center">
-                  <Building className="h-4 w-4 text-neutral-600" />
-                </div>
-                <div>
-                  <h2 className="text-sm font-semibold text-neutral-900">
-                    Your Business
-                  </h2>
-                  <p className="text-xs text-neutral-500">
-                    Company name and contact
-                  </p>
-                </div>
-              </div>
+          <section className="rounded-xl border border-stone-200 bg-white overflow-hidden">
+            <div className="px-6 py-4 border-b border-stone-100">
+              <p className="text-[10px] uppercase tracking-widest text-stone-400 font-medium">
+                Your Business
+              </p>
+              <p className="text-sm font-semibold text-stone-900 mt-0.5">
+                Company name &amp; contact
+              </p>
             </div>
-            <CompanySection form={form} />
+            <div className="p-6">
+              <CompanySection form={form} />
+            </div>
           </section>
 
-          <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04)] space-y-5">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 bg-neutral-100 rounded-lg flex items-center justify-center">
-                  <Users className="h-4 w-4 text-neutral-600" />
-                </div>
-                <div>
-                  <h2 className="text-sm font-semibold text-neutral-900">
-                    Bill To
-                  </h2>
-                  <p className="text-xs text-neutral-500">
-                    Client name and contact
-                  </p>
-                </div>
-              </div>
+          <section className="rounded-xl border border-stone-200 bg-white overflow-hidden">
+            <div className="px-6 py-4 border-b border-stone-100">
+              <p className="text-[10px] uppercase tracking-widest text-stone-400 font-medium">
+                Bill To
+              </p>
+              <p className="text-sm font-semibold text-stone-900 mt-0.5">
+                Client name &amp; contact
+              </p>
             </div>
-            <ClientSection form={form} />
+            <div className="p-6">
+              <ClientSection form={form} />
+            </div>
           </section>
 
-          <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04)] space-y-5">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 bg-neutral-100 rounded-lg flex items-center justify-center">
-                  <Package className="h-4 w-4 text-neutral-600" />
-                </div>
-                <div>
-                  <h2 className="text-sm font-semibold text-neutral-900">
-                    Line Items
-                  </h2>
-                  <p className="text-xs text-neutral-500">
-                    Services, quantities, and rates
-                  </p>
-                </div>
-              </div>
+          <section className="rounded-xl border border-stone-200 bg-white overflow-hidden">
+            <div className="px-6 py-4 border-b border-stone-100">
+              <p className="text-[10px] uppercase tracking-widest text-stone-400 font-medium">
+                Line Items
+              </p>
+              <p className="text-sm font-semibold text-stone-900 mt-0.5">
+                Services, quantities &amp; rates
+              </p>
             </div>
-            <InvoiceItemsSection
-              form={form}
-              debouncedUpdateField={debouncedUpdateField}
-              invoiceData={invoiceData}
-            />
+            <div className="p-6">
+              <InvoiceItemsSection
+                form={form}
+                debouncedUpdateField={debouncedUpdateField}
+                invoiceData={invoiceData}
+              />
+            </div>
           </section>
 
-          <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04)] space-y-5">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 bg-neutral-100 rounded-lg flex items-center justify-center">
-                  <CreditCard className="h-4 w-4 text-neutral-600" />
-                </div>
-                <div>
-                  <h2 className="text-sm font-semibold text-neutral-900">
-                    Payment Details
-                  </h2>
-                  <p className="text-xs text-neutral-500">
-                    Terms and payment method
-                  </p>
-                </div>
+          <section className="rounded-xl border border-stone-200 bg-white overflow-hidden">
+            <div className="px-6 py-4 border-b border-stone-100 flex items-center justify-between">
+              <div>
+                <p className="text-[10px] uppercase tracking-widest text-stone-400 font-medium">
+                  Payment Details
+                </p>
+                <p className="text-sm font-semibold text-stone-900 mt-0.5">
+                  Terms, currency &amp; bank info
+                </p>
               </div>
-              <span className="text-xs font-medium text-neutral-400">
+              <span className="text-[10px] uppercase tracking-widest text-stone-400 font-medium">
                 Optional
               </span>
             </div>
-            <PaymentSection form={form} />
+            <div className="p-6">
+              <PaymentSection form={form} />
+            </div>
           </section>
         </form>
       </Form>

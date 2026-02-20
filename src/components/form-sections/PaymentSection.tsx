@@ -29,10 +29,10 @@ export default function PaymentSection({ form }: { form: any }) {
           name="currency"
           render={({ field }: any) => (
             <FormItem>
-              <FormLabel className="text-sm text-neutral-600">
+              <FormLabel className="text-xs font-medium text-stone-600">
                 Currency
               </FormLabel>
-              <p className="text-xs text-neutral-500 mb-2">
+              <p className="text-xs text-stone-500 mb-2">
                 Used across totals and exports
               </p>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
@@ -63,10 +63,10 @@ export default function PaymentSection({ form }: { form: any }) {
           name="paymentTerms"
           render={({ field }: any) => (
             <FormItem className="w-full">
-              <FormLabel className="text-sm text-neutral-600">
+              <FormLabel className="text-xs font-medium text-stone-600">
                 Payment Terms
               </FormLabel>
-              <p className="text-xs text-neutral-500 mb-2">
+              <p className="text-xs text-stone-500 mb-2">
                 Determines the due date expectation
               </p>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
@@ -89,11 +89,8 @@ export default function PaymentSection({ form }: { form: any }) {
         />
       </div>
 
-      <div className="pt-4 border-t border-neutral-100">
-        <div className="flex items-center justify-between mb-3">
-          <p className="text-sm font-medium text-neutral-800">Bank Details</p>
-          <span className="text-xs text-neutral-400">Optional</span>
-        </div>
+      <div className="pt-4 border-t border-stone-100">
+        <p className="text-[10px] uppercase tracking-widest text-stone-400 font-medium mb-4">Bank Details</p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormField
@@ -101,10 +98,10 @@ export default function PaymentSection({ form }: { form: any }) {
             name="bankName"
             render={({ field }: any) => (
               <FormItem>
-                <FormLabel className="text-sm text-neutral-600">
+                <FormLabel className="text-xs font-medium text-stone-600">
                   Bank Name
                 </FormLabel>
-                <p className="text-xs text-neutral-500 mb-2">
+                <p className="text-xs text-stone-500 mb-2">
                   For wire or ACH payments
                 </p>
                 <FormControl>
@@ -120,10 +117,10 @@ export default function PaymentSection({ form }: { form: any }) {
             name="bankAccount"
             render={({ field }: any) => (
               <FormItem>
-                <FormLabel className="text-sm text-neutral-600">
+                <FormLabel className="text-xs font-medium text-stone-600">
                   Account Number
                 </FormLabel>
-                <p className="text-xs text-neutral-500 mb-2">
+                <p className="text-xs text-stone-500 mb-2">
                   Digits only
                 </p>
                 <FormControl>
@@ -139,10 +136,10 @@ export default function PaymentSection({ form }: { form: any }) {
             name="bankRouting"
             render={({ field }: any) => (
               <FormItem>
-                <FormLabel className="text-sm text-neutral-600">
+                <FormLabel className="text-xs font-medium text-stone-600">
                   Routing Number
                 </FormLabel>
-                <p className="text-xs text-neutral-500 mb-2">US banks only</p>
+                <p className="text-xs text-stone-500 mb-2">US banks only</p>
                 <FormControl>
                   <Input placeholder="021000021" {...field} />
                 </FormControl>
@@ -152,10 +149,10 @@ export default function PaymentSection({ form }: { form: any }) {
           />
 
           <FormItem>
-            <FormLabel className="text-sm text-neutral-600">
+            <FormLabel className="text-xs font-medium text-stone-600">
               SWIFT Code
             </FormLabel>
-            <p className="text-xs text-neutral-500 mb-2">
+            <p className="text-xs text-stone-500 mb-2">
               For international payments
             </p>
             <Input
@@ -171,13 +168,8 @@ export default function PaymentSection({ form }: { form: any }) {
         </div>
       </div>
 
-      <div className="pt-4 border-t border-neutral-100">
-        <p className="text-sm font-medium text-neutral-800 mb-1">
-          Notes and terms
-        </p>
-        <p className="text-xs text-neutral-500 mb-4">
-          Included at the bottom of the invoice
-        </p>
+      <div className="pt-4 border-t border-stone-100">
+        <p className="text-[10px] uppercase tracking-widest text-stone-400 font-medium mb-4">Notes &amp; Terms</p>
 
         <div className="space-y-4">
           <FormField
@@ -185,10 +177,10 @@ export default function PaymentSection({ form }: { form: any }) {
             name="notes"
             render={({ field }: any) => (
               <FormItem>
-                <FormLabel className="text-sm text-neutral-600">
+                <FormLabel className="text-xs font-medium text-stone-600">
                   Notes
                 </FormLabel>
-                <p className="text-xs text-neutral-500 mb-2">
+                <p className="text-xs text-stone-500 mb-2">
                   A short message to your client
                 </p>
                 <FormControl>
@@ -208,10 +200,10 @@ export default function PaymentSection({ form }: { form: any }) {
             name="terms"
             render={({ field }: any) => (
               <FormItem>
-                <FormLabel className="text-sm text-neutral-600">
+                <FormLabel className="text-xs font-medium text-stone-600">
                   Terms & Conditions
                 </FormLabel>
-                <p className="text-xs text-neutral-500 mb-2">
+                <p className="text-xs text-stone-500 mb-2">
                   Late fees, payment methods, or policies
                 </p>
                 <FormControl>

@@ -4,7 +4,6 @@ import DatePicker from "@/components/form-sections/DatePicker";
 import ItemsSection from "@/components/form-sections/ItemsSection";
 import InvoiceForm from "@/components/invoice/invoice-form";
 import InvoicePreview from "@/components/invoice/invoice-preview";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -17,7 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Toaster } from "@/components/ui/toaster";
 import { useInvoiceStore } from "@/store/invoice-store";
 import Image from "next/image";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useMemo, useState } from "react";
@@ -53,34 +52,44 @@ const paymentTermsOptions = [
 
 function LayoutSelector({ onSelect }: { onSelect: (mode: string) => void }) {
   return (
-    <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div className="rounded-2xl border border-neutral-200 bg-white p-6 flex flex-col gap-4">
-        <div>
-          <p className="text-xs font-medium text-neutral-500">Recommended</p>
-          <h2 className="text-lg font-semibold text-neutral-900 mt-1">
-            Traditional form
-          </h2>
-          <p className="text-sm text-neutral-600 mt-2">
-            Fill everything at once with sections and a live preview.
-          </p>
+    <div className="max-w-2xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
+      <button
+        onClick={() => onSelect("form")}
+        className="group text-left rounded-2xl border border-stone-200 bg-white p-7 hover:border-stone-400 transition-colors duration-150 cursor-pointer"
+      >
+        <p className="text-[10px] uppercase tracking-widest text-stone-400 font-medium mb-3">
+          Recommended
+        </p>
+        <h2 className="text-base font-semibold text-stone-900 mb-2">
+          Full form
+        </h2>
+        <p className="text-sm text-stone-500 leading-relaxed">
+          All sections visible at once with a live invoice preview panel.
+        </p>
+        <div className="mt-6 inline-flex items-center gap-1.5 text-xs font-medium text-stone-900 group-hover:gap-2.5 transition-all duration-150">
+          Choose this
+          <ArrowRight className="h-3 w-3" />
         </div>
-        <Button onClick={() => onSelect("form")}>Use Form Layout</Button>
-      </div>
+      </button>
 
-      <div className="rounded-2xl border border-neutral-200 bg-white p-6 flex flex-col gap-4">
-        <div>
-          <p className="text-xs font-medium text-neutral-500">Guided</p>
-          <h2 className="text-lg font-semibold text-neutral-900 mt-1">
-            Questionnaire
-          </h2>
-          <p className="text-sm text-neutral-600 mt-2">
-            Answer short questions step by step to build the invoice.
-          </p>
+      <button
+        onClick={() => onSelect("questionnaire")}
+        className="group text-left rounded-2xl border border-stone-200 bg-white p-7 hover:border-stone-400 transition-colors duration-150 cursor-pointer"
+      >
+        <p className="text-[10px] uppercase tracking-widest text-stone-400 font-medium mb-3">
+          Guided
+        </p>
+        <h2 className="text-base font-semibold text-stone-900 mb-2">
+          Step by step
+        </h2>
+        <p className="text-sm text-stone-500 leading-relaxed">
+          Answer questions one at a time to build the invoice.
+        </p>
+        <div className="mt-6 inline-flex items-center gap-1.5 text-xs font-medium text-stone-900 group-hover:gap-2.5 transition-all duration-150">
+          Choose this
+          <ArrowRight className="h-3 w-3" />
         </div>
-        <Button variant="outline" onClick={() => onSelect("questionnaire")}>
-          Use Questionnaire
-        </Button>
-      </div>
+      </button>
     </div>
   );
 }
@@ -101,7 +110,7 @@ function InvoiceQuestionnaire() {
         content: (
           <div className="space-y-4">
             <div>
-              <label className="text-sm text-neutral-600 block mb-2">
+              <label className="text-xs font-medium text-stone-600 block mb-1.5">
                 Business name
               </label>
               <Input
@@ -114,7 +123,7 @@ function InvoiceQuestionnaire() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="text-sm text-neutral-600 block mb-2">
+                <label className="text-xs font-medium text-stone-600 block mb-1.5">
                   Business email
                 </label>
                 <Input
@@ -127,7 +136,7 @@ function InvoiceQuestionnaire() {
                 />
               </div>
               <div>
-                <label className="text-sm text-neutral-600 block mb-2">
+                <label className="text-xs font-medium text-stone-600 block mb-1.5">
                   Phone (optional)
                 </label>
                 <Input
@@ -153,7 +162,7 @@ function InvoiceQuestionnaire() {
         content: (
           <div className="space-y-4">
             <div>
-              <label className="text-sm text-neutral-600 block mb-2">
+              <label className="text-xs font-medium text-stone-600 block mb-1.5">
                 Street address
               </label>
               <Input
@@ -166,7 +175,7 @@ function InvoiceQuestionnaire() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="text-sm text-neutral-600 block mb-2">
+                <label className="text-xs font-medium text-stone-600 block mb-1.5">
                   City
                 </label>
                 <Input
@@ -178,7 +187,7 @@ function InvoiceQuestionnaire() {
                 />
               </div>
               <div>
-                <label className="text-sm text-neutral-600 block mb-2">
+                <label className="text-xs font-medium text-stone-600 block mb-1.5">
                   State / Province
                 </label>
                 <Input
@@ -192,7 +201,7 @@ function InvoiceQuestionnaire() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="text-sm text-neutral-600 block mb-2">
+                <label className="text-xs font-medium text-stone-600 block mb-1.5">
                   ZIP / Postal code
                 </label>
                 <Input
@@ -204,7 +213,7 @@ function InvoiceQuestionnaire() {
                 />
               </div>
               <div>
-                <label className="text-sm text-neutral-600 block mb-2">
+                <label className="text-xs font-medium text-stone-600 block mb-1.5">
                   Country
                 </label>
                 <Input
@@ -229,7 +238,7 @@ function InvoiceQuestionnaire() {
         content: (
           <div className="space-y-4">
             <div>
-              <label className="text-sm text-neutral-600 block mb-2">
+              <label className="text-xs font-medium text-stone-600 block mb-1.5">
                 Client name
               </label>
               <Input
@@ -240,7 +249,7 @@ function InvoiceQuestionnaire() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="text-sm text-neutral-600 block mb-2">
+                <label className="text-xs font-medium text-stone-600 block mb-1.5">
                   Client email
                 </label>
                 <Input
@@ -253,7 +262,7 @@ function InvoiceQuestionnaire() {
                 />
               </div>
               <div>
-                <label className="text-sm text-neutral-600 block mb-2">
+                <label className="text-xs font-medium text-stone-600 block mb-1.5">
                   Phone (optional)
                 </label>
                 <Input
@@ -279,7 +288,7 @@ function InvoiceQuestionnaire() {
         content: (
           <div className="space-y-4">
             <div>
-              <label className="text-sm text-neutral-600 block mb-2">
+              <label className="text-xs font-medium text-stone-600 block mb-1.5">
                 Street address
               </label>
               <Input
@@ -292,7 +301,7 @@ function InvoiceQuestionnaire() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="text-sm text-neutral-600 block mb-2">
+                <label className="text-xs font-medium text-stone-600 block mb-1.5">
                   City
                 </label>
                 <Input
@@ -304,7 +313,7 @@ function InvoiceQuestionnaire() {
                 />
               </div>
               <div>
-                <label className="text-sm text-neutral-600 block mb-2">
+                <label className="text-xs font-medium text-stone-600 block mb-1.5">
                   State / Province
                 </label>
                 <Input
@@ -318,7 +327,7 @@ function InvoiceQuestionnaire() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="text-sm text-neutral-600 block mb-2">
+                <label className="text-xs font-medium text-stone-600 block mb-1.5">
                   ZIP / Postal code
                 </label>
                 <Input
@@ -330,7 +339,7 @@ function InvoiceQuestionnaire() {
                 />
               </div>
               <div>
-                <label className="text-sm text-neutral-600 block mb-2">
+                <label className="text-xs font-medium text-stone-600 block mb-1.5">
                   Country
                 </label>
                 <Input
@@ -356,7 +365,7 @@ function InvoiceQuestionnaire() {
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-3 items-end">
               <div>
-                <label className="text-sm text-neutral-600 block mb-2">
+                <label className="text-xs font-medium text-stone-600 block mb-1.5">
                   Invoice number
                 </label>
                 <Input
@@ -367,10 +376,9 @@ function InvoiceQuestionnaire() {
                   }
                 />
               </div>
-              <Button
+              <button
                 type="button"
-                variant="outline"
-                className="h-9"
+                className="h-9 px-3 rounded-md border border-stone-200 text-xs font-medium text-stone-700 hover:border-stone-400 transition-colors cursor-pointer"
                 onClick={() => {
                   const date = new Date();
                   const year = date.getFullYear();
@@ -384,12 +392,12 @@ function InvoiceQuestionnaire() {
                   });
                 }}
               >
-                Auto-generate
-              </Button>
+                Auto
+              </button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="text-sm text-neutral-600 block mb-2">
+                <label className="text-xs font-medium text-stone-600 block mb-1.5">
                   Invoice date
                 </label>
                 <DatePicker
@@ -401,7 +409,7 @@ function InvoiceQuestionnaire() {
                 />
               </div>
               <div>
-                <label className="text-sm text-neutral-600 block mb-2">
+                <label className="text-xs font-medium text-stone-600 block mb-1.5">
                   Due date
                 </label>
                 <DatePicker
@@ -424,7 +432,7 @@ function InvoiceQuestionnaire() {
         content: (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="text-sm text-neutral-600 block mb-2">
+              <label className="text-xs font-medium text-stone-600 block mb-1.5">
                 Template
               </label>
               <Select
@@ -444,7 +452,7 @@ function InvoiceQuestionnaire() {
               </Select>
             </div>
             <div>
-              <label className="text-sm text-neutral-600 block mb-2">
+              <label className="text-xs font-medium text-stone-600 block mb-1.5">
                 Currency
               </label>
               <Select
@@ -464,7 +472,7 @@ function InvoiceQuestionnaire() {
               </Select>
             </div>
             <div className="md:col-span-2">
-              <label className="text-sm text-neutral-600 block mb-2">
+              <label className="text-xs font-medium text-stone-600 block mb-1.5">
                 Payment terms
               </label>
               <Select
@@ -507,7 +515,7 @@ function InvoiceQuestionnaire() {
         content: (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="text-sm text-neutral-600 block mb-2">
+              <label className="text-xs font-medium text-stone-600 block mb-1.5">
                 Tax rate (%)
               </label>
               <Input
@@ -522,7 +530,7 @@ function InvoiceQuestionnaire() {
               />
             </div>
             <div>
-              <label className="text-sm text-neutral-600 block mb-2">
+              <label className="text-xs font-medium text-stone-600 block mb-1.5">
                 Discount (%)
               </label>
               <Input
@@ -549,7 +557,7 @@ function InvoiceQuestionnaire() {
         content: (
           <div className="space-y-4">
             <div>
-              <label className="text-sm text-neutral-600 block mb-2">
+              <label className="text-xs font-medium text-stone-600 block mb-1.5">
                 Notes
               </label>
               <Textarea
@@ -560,7 +568,7 @@ function InvoiceQuestionnaire() {
               />
             </div>
             <div>
-              <label className="text-sm text-neutral-600 block mb-2">
+              <label className="text-xs font-medium text-stone-600 block mb-1.5">
                 Terms & Conditions
               </label>
               <Textarea
@@ -581,31 +589,18 @@ function InvoiceQuestionnaire() {
         required: false,
         isComplete: true,
         content: (
-          <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-4 space-y-2 text-sm">
-            <div className="flex items-center justify-between">
-              <span className="text-neutral-500">Invoice number</span>
-              <span className="text-neutral-900">
-                {invoiceData.invoiceNumber || "Not set"}
-              </span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-neutral-500">Business</span>
-              <span className="text-neutral-900">
-                {invoiceData.companyName || "Not set"}
-              </span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-neutral-500">Client</span>
-              <span className="text-neutral-900">
-                {invoiceData.clientName || "Not set"}
-              </span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-neutral-500">Items</span>
-              <span className="text-neutral-900">
-                {invoiceData.items.length}
-              </span>
-            </div>
+          <div className="rounded-lg border border-stone-200 bg-stone-50 p-4 space-y-3">
+            {[
+              { label: "Invoice number", value: invoiceData.invoiceNumber || "Not set" },
+              { label: "Business", value: invoiceData.companyName || "Not set" },
+              { label: "Client", value: invoiceData.clientName || "Not set" },
+              { label: "Items", value: String(invoiceData.items.length) },
+            ].map((row) => (
+              <div key={row.label} className="flex items-center justify-between text-sm">
+                <span className="text-stone-500">{row.label}</span>
+                <span className="font-medium text-stone-900">{row.value}</span>
+              </div>
+            ))}
           </div>
         ),
       },
@@ -618,61 +613,67 @@ function InvoiceQuestionnaire() {
   const canContinue = currentStep.required ? currentStep.isComplete : true;
 
   return (
-    <div className="space-y-6">
-      <div className="rounded-2xl border border-neutral-200 bg-white p-6 space-y-4">
-        <div className="flex items-center justify-between text-xs text-neutral-500">
-          <span>
-            Step {stepIndex + 1} of {steps.length}
-          </span>
-          <span>{progress}% complete</span>
+    <div className="space-y-5">
+      <div className="rounded-xl border border-stone-200 bg-white overflow-hidden">
+        <div className="px-6 py-4 border-b border-stone-100">
+          <div className="flex items-center justify-between mb-3">
+            <p className="text-[10px] uppercase tracking-widest text-stone-400 font-medium">
+              Step {stepIndex + 1} of {steps.length}
+            </p>
+            <p className="text-[10px] text-stone-400">{progress}%</p>
+          </div>
+          <div className="h-0.5 rounded-full bg-stone-100">
+            <div
+              className="h-0.5 rounded-full bg-stone-900 transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
         </div>
-        <div className="h-1 rounded-full bg-neutral-100">
-          <div
-            className="h-1 rounded-full bg-neutral-900"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-        <div>
-          <p className="text-xs font-medium text-neutral-500">
+        <div className="px-6 py-5">
+          <p className="text-[10px] uppercase tracking-widest text-stone-400 font-medium mb-1.5">
             {currentStep.title}
           </p>
-          <h2 className="text-xl font-semibold text-neutral-900 mt-2">
+          <h2 className="text-base font-semibold text-stone-900">
             {currentStep.question}
           </h2>
-          <p className="text-sm text-neutral-600 mt-2">
-            {currentStep.description}
-          </p>
+          {currentStep.description && (
+            <p className="text-xs text-stone-500 mt-1">
+              {currentStep.description}
+            </p>
+          )}
         </div>
       </div>
 
-      <div className="rounded-2xl border border-neutral-200 bg-white p-6">
+      <div className="rounded-xl border border-stone-200 bg-white p-6">
         {currentStep.content}
       </div>
 
       <div className="flex items-center justify-between">
-        <Button
-          variant="outline"
+        <button
           onClick={() => setStepIndex((prev) => Math.max(0, prev - 1))}
           disabled={stepIndex === 0}
+          className="h-9 px-4 rounded-full border border-stone-200 text-sm font-medium text-stone-700 hover:border-stone-400 disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
         >
           Back
-        </Button>
+        </button>
         {stepIndex < steps.length - 1 ? (
-          <Button
+          <button
             onClick={() =>
               setStepIndex((prev) => Math.min(steps.length - 1, prev + 1))
             }
             disabled={!canContinue}
+            className="h-9 px-5 rounded-full bg-stone-900 text-white text-sm font-medium hover:bg-stone-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors inline-flex items-center gap-2 cursor-pointer"
           >
-            Next
-          </Button>
+            Continue
+            <ArrowRight className="h-3.5 w-3.5" />
+          </button>
         ) : (
-          <Button
-            onClick={() => setStepIndex(steps.length - 1)}
+          <button
             disabled={!canContinue}
+            className="h-9 px-5 rounded-full bg-stone-900 text-white text-sm font-medium hover:bg-stone-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
           >
             Finish
-          </Button>
+          </button>
         )}
       </div>
     </div>
@@ -682,31 +683,17 @@ function InvoiceQuestionnaire() {
 function FormLayout() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
-      <div className="lg:col-span-3 space-y-6">
-        <div className="rounded-2xl border border-neutral-200 bg-white p-6">
-          <div className="flex flex-col gap-2">
-            <p className="text-xs font-medium text-neutral-500">Step 1 of 2</p>
-            <h2 className="text-xl font-semibold text-neutral-900">
-              Invoice details
-            </h2>
-            <p className="text-sm text-neutral-600">
-              Fill out each section below. The preview updates as you type.
-            </p>
-          </div>
-        </div>
+      <div className="lg:col-span-3">
         <InvoiceForm />
       </div>
-      <div className="lg:col-span-2 lg:sticky lg:top-24 space-y-4">
-        <div className="rounded-2xl border border-neutral-200 bg-white p-5">
-          <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-neutral-900">
-              Live Preview
-            </h3>
-            <span className="text-xs text-neutral-500">PDF ready</span>
+      <div className="lg:col-span-2 lg:sticky lg:top-[4.5rem]">
+        <div className="rounded-xl border border-stone-200 bg-white overflow-hidden">
+          <div className="px-5 py-4 border-b border-stone-100">
+            <p className="text-[10px] uppercase tracking-widest text-stone-400 font-medium">Live Preview</p>
           </div>
-        </div>
-        <div className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
-          <InvoicePreview />
+          <div className="p-5">
+            <InvoicePreview />
+          </div>
         </div>
       </div>
     </div>
@@ -723,26 +710,26 @@ function QuestionnaireLayout() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
-      <div className="lg:col-span-3 space-y-6">
+      <div className="lg:col-span-3">
         <InvoiceQuestionnaire />
       </div>
-      <div className="lg:col-span-2 lg:sticky lg:top-24 space-y-4">
-        <div className="rounded-2xl border border-neutral-200 bg-white p-5">
-          <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-neutral-900">Preview</h3>
-            <span className="text-xs text-neutral-500">
+      <div className="lg:col-span-2 lg:sticky lg:top-[4.5rem]">
+        <div className="rounded-xl border border-stone-200 bg-white overflow-hidden">
+          <div className="px-5 py-4 border-b border-stone-100 flex items-center justify-between">
+            <p className="text-[10px] uppercase tracking-widest text-stone-400 font-medium">Preview</p>
+            <span className="text-[10px] text-stone-400">
               {isReady ? "Ready" : "Complete steps"}
             </span>
           </div>
-        </div>
-        <div className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
-          {isReady ? (
-            <InvoicePreview />
-          ) : (
-            <div className="rounded-xl border border-dashed border-neutral-200 bg-neutral-50 px-4 py-8 text-center text-sm text-neutral-500">
-              Complete the required questions to unlock the preview.
-            </div>
-          )}
+          <div className="p-5">
+            {isReady ? (
+              <InvoicePreview />
+            ) : (
+              <div className="rounded-lg border border-dashed border-stone-200 bg-stone-50 px-4 py-10 text-center">
+                <p className="text-xs text-stone-400">Complete the required steps to unlock preview.</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -762,56 +749,52 @@ function GeneratePageContent() {
       : "Complete each section and preview instantly";
 
   return (
-    <div className="min-h-screen bg-neutral-50">
-      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-neutral-200">
-        <div className="container mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
+    <div className="min-h-screen bg-[#F9F8F6]">
+      <header className="sticky top-0 z-50 bg-[#F9F8F6]/90 backdrop-blur-sm border-b border-stone-200/70">
+        <div className="container mx-auto max-w-7xl px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-sm text-neutral-500 hover:text-neutral-900"
+              className="inline-flex items-center gap-1.5 text-xs text-stone-500 hover:text-stone-900 transition-colors duration-150"
             >
-              <ArrowLeft className="h-4 w-4" />
+              <ArrowLeft className="h-3.5 w-3.5" />
               Back
             </Link>
-
-            <div className="flex items-center gap-3">
+            <div className="w-px h-4 bg-stone-200" />
+            <div className="flex items-center gap-2">
               <Image
                 src="/logo.svg"
                 alt="Invoice Wizard"
-                width={40}
-                height={40}
-                className="rounded-md"
+                width={24}
+                height={24}
+                className="rounded"
               />
-              <div>
-                <h1 className="text-lg font-semibold text-neutral-900">
-                  Create Invoice
-                </h1>
-                <p className="text-xs text-neutral-500">{headerSubtitle}</p>
-              </div>
+              <span className="text-sm font-semibold text-stone-900">
+                Invoice Wizard
+              </span>
             </div>
           </div>
           {!needsSelection && (
-            <Button
-              variant="ghost"
-              className="text-sm text-neutral-600"
+            <button
+              className="text-xs text-stone-500 hover:text-stone-900 transition-colors duration-150 cursor-pointer"
               onClick={() => router.push("/generate?mode=select")}
             >
               Change layout
-            </Button>
+            </button>
           )}
         </div>
       </header>
 
       <main className="container mx-auto max-w-7xl px-6 py-10">
         {needsSelection ? (
-          <div className="space-y-6">
-            <div className="rounded-2xl border border-neutral-200 bg-white p-6">
-              <h2 className="text-xl font-semibold text-neutral-900">
+          <div className="space-y-8">
+            <div>
+              <p className="text-[10px] uppercase tracking-widest text-stone-400 font-medium mb-2">Get started</p>
+              <h2 className="text-xl font-bold text-stone-900 tracking-tight">
                 Choose your layout
               </h2>
-              <p className="text-sm text-neutral-600 mt-2">
-                Pick the experience that fits how you want to create your
-                invoice.
+              <p className="text-sm text-stone-500 mt-1">
+                Pick the experience that fits how you work.
               </p>
             </div>
             <LayoutSelector
@@ -832,7 +815,7 @@ function GeneratePageContent() {
 
 export default function GeneratePage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-neutral-50" />}>
+    <Suspense fallback={<div className="min-h-screen bg-stone-50" />}>
       <GeneratePageContent />
     </Suspense>
   );

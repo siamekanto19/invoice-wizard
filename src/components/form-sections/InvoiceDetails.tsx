@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { Button } from "@/components/ui/button";
 import {
   FormField,
   FormItem,
@@ -41,7 +40,7 @@ export default function InvoiceDetails({
             name="invoiceNumber"
             render={({ field }: any) => (
               <FormItem className="flex-1">
-                <FormLabel className="text-sm text-neutral-600">
+                <FormLabel className="text-xs font-medium text-stone-600">
                   Invoice Number
                 </FormLabel>
                 <FormControl>
@@ -51,26 +50,23 @@ export default function InvoiceDetails({
               </FormItem>
             )}
           />
-          <Button
+          <button
             type="button"
-            variant="outline"
-            size="sm"
             onClick={generateInvoiceNumber}
-            className="h-9 px-3 text-xs"
+            className="h-9 px-3 rounded-md border border-stone-200 text-xs font-medium text-stone-700 hover:border-stone-400 transition-colors duration-150 cursor-pointer shrink-0"
           >
             Auto
-          </Button>
-        </div>
+          </button>        </div>
 
         <FormField
           control={form.control}
           name="template"
           render={({ field }: any) => (
             <FormItem className="w-full">
-              <FormLabel className="text-sm text-neutral-600">
+              <FormLabel className="text-xs font-medium text-stone-600">
                 Template
               </FormLabel>
-              <p className="text-xs text-neutral-500 mb-2">
+              <p className="text-xs text-stone-500 mb-2">
                 Choose a layout for the PDF
               </p>
               <FormControl className="w-full">
@@ -101,10 +97,10 @@ export default function InvoiceDetails({
           name="invoiceDate"
           render={({ field }: any) => (
             <FormItem>
-              <FormLabel className="text-sm text-neutral-600">
+              <FormLabel className="text-xs font-medium text-stone-600">
                 Invoice Date
               </FormLabel>
-              <p className="text-xs text-neutral-500 mb-2">
+              <p className="text-xs text-stone-500 mb-2">
                 Date the invoice is issued
               </p>
               <FormControl>
@@ -127,10 +123,10 @@ export default function InvoiceDetails({
           name="dueDate"
           render={({ field }: any) => (
             <FormItem>
-              <FormLabel className="text-sm text-neutral-600">
+              <FormLabel className="text-xs font-medium text-stone-600">
                 Due Date
               </FormLabel>
-              <p className="text-xs text-neutral-500 mb-2">
+              <p className="text-xs text-stone-500 mb-2">
                 When payment is expected
               </p>
               <FormControl>

@@ -87,23 +87,18 @@ export default function InvoiceItemsSection({
     <div className="space-y-6">
       <ItemsSection />
 
-      <div className="pt-4 border-t border-neutral-100">
-        <div className="flex items-center justify-between mb-3">
-          <p className="text-sm font-medium text-neutral-800">
-            Taxes and discounts
-          </p>
-          <span className="text-xs text-neutral-400">Optional</span>
-        </div>
+      <div className="pt-4 border-t border-stone-100">
+        <p className="text-[10px] uppercase tracking-widest text-stone-400 font-medium mb-4">Taxes &amp; Discounts</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormField
             control={form.control}
             name="taxRate"
             render={({ field }: any) => (
               <FormItem>
-                <FormLabel className="text-sm text-neutral-600">
+                <FormLabel className="text-xs font-medium text-stone-600">
                   Tax Rate (%)
                 </FormLabel>
-                <p className="text-xs text-neutral-500 mb-2">
+                <p className="text-xs text-stone-500 mb-2">
                   Percentage added to the subtotal
                 </p>
                 <FormControl>
@@ -128,10 +123,10 @@ export default function InvoiceItemsSection({
             name="discountRate"
             render={({ field }: any) => (
               <FormItem>
-                <FormLabel className="text-sm text-neutral-600">
+                <FormLabel className="text-xs font-medium text-stone-600">
                   Discount (%)
                 </FormLabel>
-                <p className="text-xs text-neutral-500 mb-2">
+                <p className="text-xs text-stone-500 mb-2">
                   Percentage subtracted from the subtotal
                 </p>
                 <FormControl>
@@ -153,42 +148,34 @@ export default function InvoiceItemsSection({
         </div>
       </div>
 
-      <div className="pt-4 border-t border-neutral-100">
-        <div className="max-w-sm ml-auto space-y-2 text-sm">
-          <div className="flex items-center justify-between">
-            <span className="text-neutral-500">Subtotal</span>
-            <span className="text-neutral-900 font-medium">
-              {currencySymbol}
-              {invoiceData.subtotal.toFixed(2)}
+      <div className="pt-4 border-t border-stone-100">
+        <div className="max-w-xs ml-auto space-y-2">
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-stone-400">Subtotal</span>
+            <span className="font-medium text-stone-700 tabular-nums">
+              {currencySymbol}{invoiceData.subtotal.toFixed(2)}
             </span>
           </div>
           {invoiceData.taxRate > 0 && (
-            <div className="flex items-center justify-between">
-              <span className="text-neutral-500">
-                Tax ({invoiceData.taxRate}%)
-              </span>
-              <span className="text-neutral-900">
-                {currencySymbol}
-                {invoiceData.taxAmount.toFixed(2)}
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-stone-400">Tax ({invoiceData.taxRate}%)</span>
+              <span className="text-stone-700 tabular-nums">
+                {currencySymbol}{invoiceData.taxAmount.toFixed(2)}
               </span>
             </div>
           )}
           {invoiceData.discountRate > 0 && (
-            <div className="flex items-center justify-between">
-              <span className="text-neutral-500">
-                Discount ({invoiceData.discountRate}%)
-              </span>
-              <span className="text-neutral-900">
-                -{currencySymbol}
-                {invoiceData.discountAmount.toFixed(2)}
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-stone-400">Discount ({invoiceData.discountRate}%)</span>
+              <span className="text-stone-700 tabular-nums">
+                −{currencySymbol}{invoiceData.discountAmount.toFixed(2)}
               </span>
             </div>
           )}
-          <div className="flex items-center justify-between pt-3 mt-3 border-t border-neutral-200">
-            <span className="text-sm text-neutral-700">Total</span>
-            <span className="text-lg font-semibold text-neutral-900">
-              {currencySymbol}
-              {invoiceData.total.toFixed(2)}
+          <div className="flex items-center justify-between pt-2 border-t border-stone-200">
+            <span className="text-xs font-semibold text-stone-900">Total</span>
+            <span className="text-base font-bold text-stone-900 tabular-nums">
+              {currencySymbol}{invoiceData.total.toFixed(2)}
             </span>
           </div>
         </div>

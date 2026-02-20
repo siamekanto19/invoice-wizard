@@ -1,270 +1,418 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, FileText, Download, Clock, Check } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white text-neutral-900">
+    <div className="min-h-screen bg-[#F9F8F6] text-stone-900 font-sans">
       {/* Navigation */}
-      <header className="border-b border-neutral-100">
-        <div className="container mx-auto max-w-6xl px-6 py-5 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+      <header className="sticky top-0 z-50 bg-[#F9F8F6]/90 backdrop-blur-sm border-b border-stone-200/70">
+        <div className="container mx-auto max-w-6xl px-6 h-14 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
             <Image
               src="/logo.svg"
               alt="Invoice Wizard"
-              width={40}
-              height={40}
+              width={28}
+              height={28}
               className="rounded-md"
             />
-            <span className="font-semibold tracking-tight text-neutral-900">
+            <span className="font-semibold text-sm tracking-tight text-stone-900">
               Invoice Wizard
             </span>
           </div>
-          <Link href="/generate">
-            <Button
-              variant="ghost"
-              className="text-sm text-neutral-700 hover:text-neutral-900"
+          <nav className="hidden md:flex items-center gap-7">
+            <a
+              href="#how-it-works"
+              className="text-sm text-stone-500 hover:text-stone-900 transition-colors duration-150"
             >
+              How it works
+            </a>
+            <a
+              href="#features"
+              className="text-sm text-stone-500 hover:text-stone-900 transition-colors duration-150"
+            >
+              Features
+            </a>
+          </nav>
+          <Link href="/generate">
+            <button className="h-8 px-4 rounded-full bg-stone-900 text-white text-sm font-medium hover:bg-stone-800 transition-colors duration-150 cursor-pointer">
               Create Invoice
-            </Button>
+            </button>
           </Link>
         </div>
       </header>
 
       {/* Hero */}
-      <section className="container mx-auto max-w-6xl px-6 pt-20 pb-16">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1 text-xs font-medium text-neutral-600">
-              Free Invoice Generator
+      <section className="container mx-auto max-w-6xl px-6 pt-20 pb-16 lg:pt-28 lg:pb-24">
+        <div className="grid lg:grid-cols-[1fr_1fr] gap-14 lg:gap-20 items-start">
+          {/* Left: Copy */}
+          <div className="pt-2">
+            <div className="inline-flex items-center gap-2 mb-7">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
+              <span className="text-xs font-medium text-stone-500 tracking-wide">
+                Free · No account needed
+              </span>
             </div>
-            <h1 className="mt-6 text-4xl md:text-5xl font-semibold text-neutral-900 tracking-tight leading-[1.1]">
-              Create professional invoices in seconds
+
+            <h1 className="text-[2.75rem] lg:text-[3.25rem] leading-[1.07] font-bold text-stone-900 tracking-tight">
+              Invoice like a pro.
+              <br />
+              <span className="text-stone-400">In under two minutes.</span>
             </h1>
-            <p className="mt-5 text-lg text-neutral-600 leading-relaxed max-w-xl">
-              No account required. Fill in your details, preview your invoice,
-              and download a PDF. It&apos;s that simple.
+
+            <p className="mt-6 text-[0.9375rem] text-stone-500 leading-relaxed max-w-[22rem]">
+              Fill in your details, pick a template, and download a
+              pixel-perfect PDF — all in your browser.
             </p>
-            <div className="mt-8 flex flex-col sm:flex-row gap-3">
+
+            <div className="mt-9 flex items-center gap-5">
               <Link href="/generate">
-                <Button size="lg" className="w-full sm:w-auto gap-2">
-                  Start Creating
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
+                <button className="h-11 px-6 rounded-full bg-stone-900 text-white text-sm font-medium hover:bg-stone-800 transition-colors duration-150 inline-flex items-center gap-2 cursor-pointer">
+                  Start for free
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </button>
               </Link>
-              <div className="text-sm text-neutral-500 flex items-center">
-                No sign-up required
-              </div>
+              <span className="text-xs text-stone-400">
+                No sign-up · Works offline
+              </span>
+            </div>
+
+            <div className="mt-12 pt-10 border-t border-stone-200 grid grid-cols-3 gap-4">
+              {[
+                { value: "6", label: "Templates" },
+                { value: "1-click", label: "PDF export" },
+                { value: "0", label: "Data stored" },
+              ].map((stat) => (
+                <div key={stat.label}>
+                  <p className="text-xl font-bold text-stone-900 tracking-tight">
+                    {stat.value}
+                  </p>
+                  <p className="text-xs text-stone-400 mt-0.5">{stat.label}</p>
+                </div>
+              ))}
             </div>
           </div>
-          <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-xs font-medium text-neutral-500">Invoice</p>
-                <p className="text-lg font-semibold text-neutral-900">
-                  #INV-0248
-                </p>
-              </div>
-              <div className="rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-600">
-                Draft
-              </div>
-            </div>
-            <div className="mt-6 space-y-4 text-sm">
-              <div className="flex items-center justify-between text-neutral-600">
-                <span>Client</span>
-                <span className="font-medium text-neutral-900">
-                  Acme Studio
-                </span>
-              </div>
-              <div className="flex items-center justify-between text-neutral-600">
-                <span>Due date</span>
-                <span className="font-medium text-neutral-900">
-                  Apr 12, 2026
-                </span>
-              </div>
-              <div className="flex items-center justify-between text-neutral-600">
-                <span>Items</span>
-                <span className="font-medium text-neutral-900">4</span>
-              </div>
-            </div>
-            <div className="mt-6 border-t border-neutral-200 pt-4">
-              <div className="flex items-center justify-between text-sm text-neutral-600">
-                <span>Total</span>
-                <span className="text-base font-semibold text-neutral-900">
-                  $1,240.00
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Features */}
-      <section className="container mx-auto max-w-6xl px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="rounded-xl border border-neutral-200 bg-white p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
-            <div className="w-10 h-10 bg-neutral-100 rounded-lg flex items-center justify-center">
-              <FileText className="h-5 w-5 text-neutral-700" />
-            </div>
-            <h3 className="mt-4 font-medium text-neutral-900">Live Preview</h3>
-            <p className="mt-2 text-sm text-neutral-600 leading-relaxed">
-              See your invoice update in real-time as you type. What you see is
-              what you get.
-            </p>
-          </div>
+          {/* Right: Invoice card mock */}
+          <div className="relative select-none">
+            {/* Shadow cards */}
+            <div className="absolute inset-x-4 -bottom-3 h-full rounded-2xl bg-stone-300/40 border border-stone-300/60" />
+            <div className="absolute inset-x-2 -bottom-1.5 h-full rounded-2xl bg-stone-200/60 border border-stone-300/40" />
 
-          <div className="rounded-xl border border-neutral-200 bg-white p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
-            <div className="w-10 h-10 bg-neutral-100 rounded-lg flex items-center justify-center">
-              <Download className="h-5 w-5 text-neutral-700" />
-            </div>
-            <h3 className="mt-4 font-medium text-neutral-900">PDF Export</h3>
-            <p className="mt-2 text-sm text-neutral-600 leading-relaxed">
-              Download a professionally formatted PDF ready to send to your
-              clients.
-            </p>
-          </div>
+            {/* Main invoice card */}
+            <div className="relative bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden">
+              {/* Top bar */}
+              <div className="border-b border-stone-100 px-7 py-4 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 rounded bg-stone-900 flex items-center justify-center">
+                    <span className="text-white text-[9px] font-bold">IW</span>
+                  </div>
+                  <span className="text-xs font-semibold text-stone-700">
+                    Acme Studio LLC
+                  </span>
+                </div>
+                <div className="flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
+                  <span className="text-[10px] text-emerald-700 font-semibold">
+                    Sent
+                  </span>
+                </div>
+              </div>
 
-          <div className="rounded-xl border border-neutral-200 bg-white p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
-            <div className="w-10 h-10 bg-neutral-100 rounded-lg flex items-center justify-center">
-              <Clock className="h-5 w-5 text-neutral-700" />
-            </div>
-            <h3 className="mt-4 font-medium text-neutral-900">No Sign-up</h3>
-            <p className="mt-2 text-sm text-neutral-600 leading-relaxed">
-              Start immediately. Your data stays in your browser—nothing is
-              stored on our servers.
-            </p>
-          </div>
-        </div>
-      </section>
+              <div className="px-7 py-6">
+                {/* Invoice number + meta */}
+                <div className="flex items-start justify-between mb-7">
+                  <div>
+                    <p className="text-[10px] uppercase tracking-widest text-stone-400 font-medium mb-1">
+                      Invoice
+                    </p>
+                    <p className="text-2xl font-bold text-stone-900 tracking-tight">
+                      #INV-0248
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-[10px] uppercase tracking-widest text-stone-400 font-medium mb-1">
+                      Due date
+                    </p>
+                    <p className="text-sm font-semibold text-stone-900">
+                      Apr 12, 2026
+                    </p>
+                    <p className="text-[10px] text-stone-400 mt-0.5">Net 30</p>
+                  </div>
+                </div>
 
-      {/* How it works */}
-      <section className="bg-neutral-50 border-y border-neutral-100">
-        <div className="container mx-auto max-w-6xl px-6 py-16">
-          <h2 className="text-xl font-semibold text-neutral-900 mb-10">
-            How it works
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="flex gap-4">
-              <div className="h-8 w-8 rounded-full border border-neutral-200 bg-white flex items-center justify-center text-xs font-semibold text-neutral-500 shrink-0">
-                01
-              </div>
-              <div>
-                <h3 className="font-medium text-neutral-900 mb-2">
-                  Add your details
-                </h3>
-                <p className="text-sm text-neutral-600 leading-relaxed">
-                  Enter your business info, client details, and line items.
-                </p>
-              </div>
-            </div>
+                {/* Bill info */}
+                <div className="grid grid-cols-2 gap-5 mb-7 p-4 rounded-xl bg-stone-50 border border-stone-100">
+                  <div>
+                    <p className="text-[10px] uppercase tracking-widest text-stone-400 font-medium mb-1.5">
+                      From
+                    </p>
+                    <p className="text-xs font-semibold text-stone-900">
+                      Acme Studio LLC
+                    </p>
+                    <p className="text-[10px] text-stone-400 mt-0.5">
+                      SF, California
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] uppercase tracking-widest text-stone-400 font-medium mb-1.5">
+                      Bill to
+                    </p>
+                    <p className="text-xs font-semibold text-stone-900">
+                      Pixel Works Co.
+                    </p>
+                    <p className="text-[10px] text-stone-400 mt-0.5">
+                      hello@pixelworks.co
+                    </p>
+                  </div>
+                </div>
 
-            <div className="flex gap-4">
-              <div className="h-8 w-8 rounded-full border border-neutral-200 bg-white flex items-center justify-center text-xs font-semibold text-neutral-500 shrink-0">
-                02
-              </div>
-              <div>
-                <h3 className="font-medium text-neutral-900 mb-2">
-                  Preview your invoice
-                </h3>
-                <p className="text-sm text-neutral-600 leading-relaxed">
-                  Review the live preview and make adjustments as needed.
-                </p>
-              </div>
-            </div>
+                {/* Line items */}
+                <div className="space-y-2.5 mb-6">
+                  <div className="flex items-center justify-between pb-2 border-b border-stone-100">
+                    <p className="text-[10px] uppercase tracking-widest text-stone-400 font-medium">
+                      Description
+                    </p>
+                    <p className="text-[10px] uppercase tracking-widest text-stone-400 font-medium">
+                      Amount
+                    </p>
+                  </div>
+                  {[
+                    { name: "Brand Identity Design", price: "$800.00" },
+                    { name: "UI Component Library", price: "$320.00" },
+                    { name: "Revision Rounds ×4", price: "$120.00" },
+                  ].map((item) => (
+                    <div
+                      key={item.name}
+                      className="flex items-center justify-between py-1.5"
+                    >
+                      <p className="text-xs text-stone-700">{item.name}</p>
+                      <p className="text-xs font-medium text-stone-900">
+                        {item.price}
+                      </p>
+                    </div>
+                  ))}
+                </div>
 
-            <div className="flex gap-4">
-              <div className="h-8 w-8 rounded-full border border-neutral-200 bg-white flex items-center justify-center text-xs font-semibold text-neutral-500 shrink-0">
-                03
-              </div>
-              <div>
-                <h3 className="font-medium text-neutral-900 mb-2">
-                  Download & send
-                </h3>
-                <p className="text-sm text-neutral-600 leading-relaxed">
-                  Export as PDF and send directly to your client.
-                </p>
+                {/* Total */}
+                <div className="flex items-center justify-between pt-4 border-t-2 border-stone-900">
+                  <p className="text-xs font-semibold text-stone-500 uppercase tracking-wide">
+                    Total due
+                  </p>
+                  <p className="text-xl font-bold text-stone-900">$1,240.00</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Features list */}
-      <section className="container mx-auto max-w-6xl px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-          <div>
-            <h2 className="text-xl font-semibold text-neutral-900 mb-6">
-              Everything you need
-            </h2>
-            <p className="text-neutral-600 leading-relaxed mb-8">
-              A simple tool with all the features required for creating clean,
-              professional invoices.
-            </p>
-            <Link href="/generate?mode=select">
-              <Button variant="outline" className="gap-2 border-neutral-300">
-                Get Started
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
+      {/* Thin trust bar */}
+      <div className="border-y border-stone-200/70 bg-white">
+        <div className="container mx-auto max-w-6xl px-6 py-4">
+          <div className="flex flex-wrap items-center justify-center sm:justify-between gap-y-3 gap-x-8 text-xs text-stone-500">
             {[
-              "Company & client details",
-              "Multiple line items",
-              "Tax calculation",
-              "Discount support",
-              "Multiple templates",
-              "Custom notes",
-              "Payment terms",
-              "Currency selection",
-            ].map((feature) => (
-              <div key={feature} className="flex items-center gap-3">
-                <Check className="h-4 w-4 text-neutral-400" />
-                <span className="text-sm text-neutral-700">{feature}</span>
+              "Runs entirely in your browser",
+              "Zero data stored on servers",
+              "6 professional templates",
+              "PDF export in one click",
+              "Open source & free forever",
+            ].map((item) => (
+              <div key={item} className="flex items-center gap-1.5">
+                <Check className="h-3 w-3 text-emerald-500 shrink-0" />
+                <span>{item}</span>
               </div>
             ))}
+          </div>
+        </div>
+      </div>
+
+      {/* How it works */}
+      <section
+        id="how-it-works"
+        className="container mx-auto max-w-6xl px-6 py-20 lg:py-28"
+      >
+        <div className="mb-12">
+          <p className="text-[10px] uppercase tracking-widest text-stone-400 font-semibold mb-3">
+            Process
+          </p>
+          <h2 className="text-2xl font-bold text-stone-900 tracking-tight">
+            Three steps from blank to sent.
+          </h2>
+        </div>
+
+        <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-stone-200 border border-stone-200 rounded-2xl overflow-hidden bg-white">
+          {[
+            {
+              step: "01",
+              title: "Add your details",
+              desc: "Enter your business info, client details, and line items. Upload a logo if you have one.",
+              cta: null,
+            },
+            {
+              step: "02",
+              title: "Pick a template",
+              desc: "Choose from 6 professionally designed templates. Your invoice preview updates live as you type.",
+              cta: null,
+            },
+            {
+              step: "03",
+              title: "Download & send",
+              desc: "Export a pixel-perfect PDF and send it directly to your client. Done.",
+              cta: "/generate",
+            },
+          ].map((item) => (
+            <div key={item.step} className="p-8 flex flex-col gap-4">
+              <p className="text-4xl font-black text-stone-100 leading-none select-none">
+                {item.step}
+              </p>
+              <div>
+                <h3 className="font-semibold text-stone-900 mb-2">
+                  {item.title}
+                </h3>
+                <p className="text-sm text-stone-500 leading-relaxed">
+                  {item.desc}
+                </p>
+              </div>
+              {item.cta && (
+                <Link href={item.cta} className="mt-auto">
+                  <button className="text-xs font-medium text-stone-900 inline-flex items-center gap-1.5 group cursor-pointer">
+                    Get started
+                    <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+                  </button>
+                </Link>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Features — dark section */}
+      <section id="features" className="bg-stone-900">
+        <div className="container mx-auto max-w-6xl px-6 py-20 lg:py-28">
+          <div className="grid lg:grid-cols-[1fr_1.6fr] gap-14 lg:gap-20 items-start">
+            <div>
+              <p className="text-[10px] uppercase tracking-widest text-stone-500 font-semibold mb-3">
+                Features
+              </p>
+              <h2 className="text-2xl font-bold text-white tracking-tight leading-snug">
+                Everything you need.
+                <br />
+                <span className="text-stone-400">Nothing you don&apos;t.</span>
+              </h2>
+              <p className="mt-4 text-stone-400 text-sm leading-relaxed max-w-xs">
+                Built for freelancers and small businesses who just want to get
+                paid.
+              </p>
+              <Link href="/generate" className="mt-8 inline-block">
+                <button className="h-9 px-5 rounded-full border border-stone-700 text-white text-sm font-medium hover:bg-stone-800 transition-colors duration-150 inline-flex items-center gap-2 cursor-pointer">
+                  Try it now
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </button>
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-2 gap-px bg-stone-700/40 rounded-xl overflow-hidden border border-stone-700/40">
+              {[
+                {
+                  label: "Live preview",
+                  desc: "See changes instantly as you type",
+                  symbol: "↳",
+                },
+                {
+                  label: "6 templates",
+                  desc: "Minimal to corporate, your choice",
+                  symbol: "▨",
+                },
+                {
+                  label: "Tax & discounts",
+                  desc: "Automatic line-item calculations",
+                  symbol: "%",
+                },
+                {
+                  label: "PDF export",
+                  desc: "One-click pixel-perfect export",
+                  symbol: "↓",
+                },
+                {
+                  label: "Logo upload",
+                  desc: "Brand your invoices immediately",
+                  symbol: "◈",
+                },
+                {
+                  label: "Custom notes",
+                  desc: "Add payment terms or a thank-you",
+                  symbol: "≡",
+                },
+                {
+                  label: "Multi-currency",
+                  desc: "Support for global currencies",
+                  symbol: "¥",
+                },
+                {
+                  label: "Zero friction",
+                  desc: "No sign-up. Start in seconds.",
+                  symbol: "✓",
+                },
+              ].map((f) => (
+                <div key={f.label} className="bg-stone-900 p-5 lg:p-6">
+                  <p className="text-stone-600 text-lg font-mono mb-3 leading-none select-none">
+                    {f.symbol}
+                  </p>
+                  <p className="text-sm font-semibold text-white mb-1">
+                    {f.label}
+                  </p>
+                  <p className="text-xs text-stone-500 leading-relaxed">
+                    {f.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="container mx-auto max-w-6xl px-6 py-16">
-        <div className="rounded-2xl border border-neutral-200 bg-neutral-50 p-8 md:p-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-          <div className="max-w-2xl">
-            <h2 className="text-2xl font-semibold text-neutral-900">
-              Ready to create your invoice?
+      <section className="container mx-auto max-w-6xl px-6 py-20 lg:py-28">
+        <div className="rounded-3xl border border-stone-200 bg-white px-10 py-14 md:py-16 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold text-stone-900 tracking-tight leading-snug">
+              Ready to create
+              <br />
+              your first invoice?
             </h2>
-            <p className="text-neutral-600 mt-3">
-              No account needed. Start creating your first invoice right now—it
-              takes less than two minutes.
+            <p className="text-stone-500 mt-3 text-sm max-w-sm">
+              No account. No credit card. No nonsense. Your data stays entirely
+              in your browser.
             </p>
           </div>
-          <Link href="/generate?mode=select">
-            <Button size="lg" className="gap-2">
+          <Link href="/generate" className="shrink-0">
+            <button className="h-12 px-8 rounded-full bg-stone-900 text-white text-sm font-semibold hover:bg-stone-800 transition-colors duration-150 inline-flex items-center gap-2.5 cursor-pointer whitespace-nowrap">
               Create Invoice
               <ArrowRight className="h-4 w-4" />
-            </Button>
+            </button>
           </Link>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-neutral-100">
-        <div className="container mx-auto max-w-6xl px-6 py-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <footer className="border-t border-stone-200/70">
+        <div className="container mx-auto max-w-6xl px-6 py-7">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
             <div className="flex items-center gap-2">
               <Image
                 src="/logo.svg"
                 alt="Invoice Wizard"
-                width={24}
-                height={24}
+                width={20}
+                height={20}
                 className="rounded"
               />
-              <span className="text-sm text-neutral-600">Invoice Wizard</span>
+              <span className="text-sm font-medium text-stone-700">
+                Invoice Wizard
+              </span>
             </div>
-            <p className="text-sm text-neutral-500">
+            <p className="text-xs text-stone-400">
               Free and open source invoice generator
             </p>
           </div>

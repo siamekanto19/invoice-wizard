@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Plus, Trash2 } from "lucide-react";
 import { useInvoiceStore } from "@/store/invoice-store";
 
@@ -37,104 +36,28 @@ export default function ItemsSection() {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="bg-neutral-50 rounded-xl p-4 border border-neutral-200">
-        <div className="grid grid-cols-12 gap-3 items-end">
-          <div className="col-span-12 md:col-span-5">
-            <label className="text-sm text-neutral-600 block mb-1.5">
-              Description
-            </label>
-            <Input
-              placeholder="Product or service"
-              value={newItem.description}
-              onChange={(e) =>
-                setNewItem({ ...newItem, description: e.target.value })
-              }
-              onKeyPress={handleItemKeyPress}
-            />
-          </div>
-
-          <div className="col-span-4 md:col-span-2">
-            <label className="text-sm text-neutral-600 block mb-1.5">Qty</label>
-            <Input
-              type="number"
-              placeholder="1"
-              value={newItem.quantity}
-              onChange={(e) =>
-                setNewItem({
-                  ...newItem,
-                  quantity: parseInt(e.target.value) || 0,
-                })
-              }
-              onKeyPress={handleItemKeyPress}
-              min="1"
-            />
-          </div>
-
-          <div className="col-span-4 md:col-span-2">
-            <label className="text-sm text-neutral-600 block mb-1.5">
-              Unit Price
-            </label>
-            <Input
-              type="number"
-              placeholder="0.00"
-              value={newItem.unitPrice}
-              onChange={(e) =>
-                setNewItem({
-                  ...newItem,
-                  unitPrice: parseFloat(e.target.value) || 0,
-                })
-              }
-              onKeyPress={handleItemKeyPress}
-              step="0.01"
-            />
-          </div>
-
-          <div className="col-span-4 md:col-span-2">
-            <label className="text-sm text-neutral-600 block mb-1.5">
-              Total
-            </label>
-            <div className="h-9 flex items-center px-3 bg-white border border-neutral-200 rounded-md text-sm font-medium text-neutral-700">
-              ${(newItem.quantity * newItem.unitPrice).toFixed(2)}
-            </div>
-          </div>
-
-          <div className="col-span-12 md:col-span-1">
-            <Button
-              type="button"
-              onClick={handleAddItem}
-              className="w-full gap-2"
-              disabled={!newItem.description || newItem.quantity <= 0}
-            >
-              <Plus className="h-4 w-4" />
-              <span className="md:hidden">Add Item</span>
-            </Button>
-          </div>
-        </div>
+    <div className="space-y-3">
+      {/* Column headers */}
+      <div className="hidden md:grid grid-cols-12 gap-2 px-1 pb-1">
+        <p className="col-span-5 text-[10px] uppercase tracking-widest text-stone-400 font-medium">Description</p>
+        <p className="col-span-2 text-[10px] uppercase tracking-widest text-stone-400 font-medium">Qty</p>
+        <p className="col-span-2 text-[10px] uppercase tracking-widest text-stone-400 font-medium">Unit price</p>
+        <p className="col-span-2 text-[10px] uppercase tracking-widest text-stone-400 font-medium">Total</p>
+        <p className="col-span-1" />
       </div>
 
-      {/* Items List */}
+      {/* Existing items */}
       {invoiceData.items.length === 0 ? (
-        <div className="text-center py-10 border border-dashed border-neutral-200 rounded-xl bg-white">
-          <p className="text-neutral-600 text-sm">No items yet</p>
-          <p className="text-neutral-400 text-xs mt-1">
-            Add your first item to calculate totals
-          </p>
+        <div className="rounded-lg border border-dashed border-stone-200 bg-stone-50 py-8 text-center">
+          <p className="text-xs font-medium text-stone-400">No items yet</p>
+          <p className="text-xs text-stone-300 mt-0.5">Add your first item below</p>
         </div>
       ) : (
         <div className="space-y-2">
-          <div className="hidden md:grid grid-cols-12 gap-3 px-3 py-2 text-xs text-neutral-500 font-medium">
-            <div className="col-span-5">Description</div>
-            <div className="col-span-2">Qty</div>
-            <div className="col-span-2">Price</div>
-            <div className="col-span-2">Total</div>
-            <div className="col-span-1"></div>
-          </div>
-
           {invoiceData.items.map((item) => (
             <div
               key={item.id}
-              className="grid grid-cols-12 gap-3 p-3 bg-white border border-neutral-200 rounded-xl items-center"
+              className="grid grid-cols-12 gap-2 p-3 bg-white border border-stone-200 rounded-lg items-center"
             >
               <div className="col-span-12 md:col-span-5">
                 <Input
@@ -143,7 +66,7 @@ export default function ItemsSection() {
                     handleUpdateItem(item.id, "description", e.target.value)
                   }
                   placeholder="Description"
-                  className="h-9"
+                  className="h-8 text-sm border-stone-200 focus-visible:ring-stone-300"
                 />
               </div>
               <div className="col-span-4 md:col-span-2">
@@ -151,14 +74,10 @@ export default function ItemsSection() {
                   type="number"
                   value={item.quantity}
                   onChange={(e) =>
-                    handleUpdateItem(
-                      item.id,
-                      "quantity",
-                      parseInt(e.target.value) || 0
-                    )
+                    handleUpdateItem(item.id, "quantity", parseInt(e.target.value) || 0)
                   }
                   min="1"
-                  className="h-9"
+                  className="h-8 text-sm border-stone-200 focus-visible:ring-stone-300"
                 />
               </div>
               <div className="col-span-4 md:col-span-2">
@@ -166,36 +85,90 @@ export default function ItemsSection() {
                   type="number"
                   value={item.unitPrice}
                   onChange={(e) =>
-                    handleUpdateItem(
-                      item.id,
-                      "unitPrice",
-                      parseFloat(e.target.value) || 0
-                    )
+                    handleUpdateItem(item.id, "unitPrice", parseFloat(e.target.value) || 0)
                   }
                   step="0.01"
-                  className="h-9"
+                  className="h-8 text-sm border-stone-200 focus-visible:ring-stone-300"
                 />
               </div>
-              <div className="col-span-2 md:col-span-2">
-                <div className="h-9 flex items-center px-3 bg-neutral-50 border border-neutral-200 rounded-md text-sm font-medium text-neutral-700">
+              <div className="col-span-3 md:col-span-2">
+                <div className="h-8 flex items-center px-3 rounded-md bg-stone-50 border border-stone-200 text-xs font-medium text-stone-700 tabular-nums">
                   ${item.total.toFixed(2)}
                 </div>
               </div>
-              <div className="col-span-2 md:col-span-1">
-                <Button
+              <div className="col-span-1">
+                <button
                   type="button"
-                  variant="ghost"
-                  size="sm"
                   onClick={() => removeItem(item.id)}
-                  className="w-full h-9 text-neutral-400 hover:text-red-600 hover:bg-red-50"
+                  className="w-full h-8 flex items-center justify-center text-stone-300 hover:text-red-500 transition-colors duration-150 cursor-pointer rounded-md hover:bg-red-50"
                 >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
+                  <Trash2 className="h-3.5 w-3.5" />
+                </button>
               </div>
             </div>
           ))}
         </div>
       )}
+
+      {/* Add new item row */}
+      <div className="grid grid-cols-12 gap-2 p-3 bg-stone-50 border border-dashed border-stone-300 rounded-lg items-end">
+        <div className="col-span-12 md:col-span-5">
+          <label className="text-[10px] uppercase tracking-widest text-stone-400 font-medium block mb-1.5 md:hidden">
+            Description
+          </label>
+          <Input
+            placeholder="Product or service"
+            value={newItem.description}
+            onChange={(e) => setNewItem({ ...newItem, description: e.target.value })}
+            onKeyDown={handleItemKeyPress}
+            className="h-8 text-sm bg-white border-stone-200 focus-visible:ring-stone-300"
+          />
+        </div>
+        <div className="col-span-4 md:col-span-2">
+          <label className="text-[10px] uppercase tracking-widest text-stone-400 font-medium block mb-1.5 md:hidden">
+            Qty
+          </label>
+          <Input
+            type="number"
+            placeholder="1"
+            value={newItem.quantity}
+            onChange={(e) => setNewItem({ ...newItem, quantity: parseInt(e.target.value) || 0 })}
+            onKeyDown={handleItemKeyPress}
+            min="1"
+            className="h-8 text-sm bg-white border-stone-200 focus-visible:ring-stone-300"
+          />
+        </div>
+        <div className="col-span-4 md:col-span-2">
+          <label className="text-[10px] uppercase tracking-widest text-stone-400 font-medium block mb-1.5 md:hidden">
+            Price
+          </label>
+          <Input
+            type="number"
+            placeholder="0.00"
+            value={newItem.unitPrice}
+            onChange={(e) => setNewItem({ ...newItem, unitPrice: parseFloat(e.target.value) || 0 })}
+            onKeyDown={handleItemKeyPress}
+            step="0.01"
+            className="h-8 text-sm bg-white border-stone-200 focus-visible:ring-stone-300"
+          />
+        </div>
+        <div className="col-span-3 md:col-span-2">
+          <div className="h-8 flex items-center px-3 rounded-md bg-white border border-stone-200 text-xs text-stone-400 tabular-nums">
+            ${(newItem.quantity * newItem.unitPrice).toFixed(2)}
+          </div>
+        </div>
+        <div className="col-span-1">
+          <button
+            type="button"
+            onClick={handleAddItem}
+            disabled={!newItem.description || newItem.quantity <= 0}
+            className="w-full h-8 flex items-center justify-center bg-stone-900 text-white rounded-md hover:bg-stone-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors duration-150 cursor-pointer"
+          >
+            <Plus className="h-3.5 w-3.5" />
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
+
